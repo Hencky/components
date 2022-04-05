@@ -13,3 +13,13 @@ subGroup: 展示组件
 ## demos
 
 <Demo src="./demos/demo1.tsx" />
+
+## API
+
+基于antd的`Typography`封装，更多api请参考[Typography.Paragraph](https://ant.design/components/typography-cn/#Typography.Paragraph)。
+
+| 字段名 |  说明 |类型 | 默认值 |
+| :-----| :---- | :---- | :----: |
+| type |  类型 |`'description'` `'title'` `'text'` `'primary'` `AParagraphProps['type']`  | `text` |
+| rows | 文本行数，超出设置行数显示省略号 | `number` | 1 |
+| children | 文本内容 | `string`|  - |
