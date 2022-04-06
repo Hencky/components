@@ -6,7 +6,7 @@ import type { RopeContainerProps } from '../RopeContainer';
 export interface BaseActionProps extends RopeContainerProps {}
 
 export const BaseAction = (props: React.PropsWithChildren<BaseActionProps>) => {
-  const { tooltip, confirm, container, disabled, render, onClick, children, ...rest } = props;
+  const { tooltip, confirm, container, disabled, render, onClick, children, onStatusChange, ...rest } = props;
 
   return (
     <RopeContainer
@@ -16,6 +16,7 @@ export const BaseAction = (props: React.PropsWithChildren<BaseActionProps>) => {
       onClick={onClick}
       render={render}
       container={container}
+      onStatusChange={onStatusChange}
     >
       {React.cloneElement(children, rest)}
     </RopeContainer>
