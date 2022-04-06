@@ -11,6 +11,11 @@ subGroup: 行为组件
 2. 内置loading、disabled状态，Tooltip 和 Popconfirm 
 3. 一般用于表格操作栏等需要`onClick`事件交互的地方
 
+特点：
+> 1. 自动感知点击事件Promise状态，判断组件是否需要进入loading
+> 2. Tooltip和Popconfirm不会相互遮挡
+
+
 ## demos
 
 <Demo src="./demos/buttonaction.tsx" />
