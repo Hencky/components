@@ -9,7 +9,13 @@ subGroup: 展示组件
 
 ## demos
 
+- 一般使用
+
 <Demo src="./demos/tree1.tsx" />
+
+
+- 新增按钮 和 划入展开的渲染按钮
+
 <Demo src="./demos/tree2.tsx" />
 
 
