@@ -10,7 +10,7 @@ const defaultGetPrefixCls = (
 ) => {
   if (customizePrefixCls) return customizePrefixCls;
 
-  return suffixCls ? `pm-group6-${suffixCls}` : 'pm-group6';
+  return suffixCls ? `pms-ui-${suffixCls}` : 'pms-ui';
 };
 
 export const ConfigContext = React.createContext<IConfigContext>({
