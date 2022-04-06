@@ -1,12 +1,10 @@
 {
-  "name": "group6-components",
+  "name": "@pms/ui",
   "description": "基于antd封装的组件",
-  "author": "Hencky",
-  "version": "1.0.0-alpha.2",
+  "author": "hencky, jax",
+  "version": "1.0.0-alpha.0",
   "main": "lib/index.js",
-  "files": [
-    "lib", "es"
-  ],
+  "files": ["lib", "es"],
   "scripts": {
     "dev": "SHOW_ALL_COMPONENT_DEMOS=true vite serve docs",
     "compile": "father-build",
