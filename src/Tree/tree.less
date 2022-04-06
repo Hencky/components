@@ -1,0 +1,36 @@
+@import '../style/index.less';
+
+@tree-prefix-cls: ~'@{group6-prefix}-tree';
+
+.@{tree-prefix-cls} {
+  &-treenode {
+    display: flex;
+    justify-content: space-between;
+
+    &-highlight-text {
+      color: @error-color;
+    }
+
+    &-operator {
+      margin-right: 8px;
+      margin-left: 16px;
+      opacity: 0;
+      transition: all 0.3s ease-in-out;
+      &-show {
+        opacity: 1;
+      }
+    }
+
+    &:hover &-operator-showonhover {
+      opacity: 1;
+    }
+  }
+
+  &-search {
+    display: flex;
+  }
+
+  &-extra {
+    margin-left: 8px;
+  }
+}
