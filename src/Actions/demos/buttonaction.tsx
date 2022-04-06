@@ -5,8 +5,8 @@
 
 import React from 'react';
 import { ConfigProvider, message } from 'antd';
-import { ButtonActions } from 'group6-components';
-import type { ButtonActionsProps } from 'group6-components';
+import { ButtonActions } from '@pms/ui';
+import type { ButtonActionsProps } from '@pms/ui';
 import zhCH from 'antd/lib/locale/zh_CN';
 
 export default () => {

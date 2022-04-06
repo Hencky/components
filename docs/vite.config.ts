@@ -60,7 +60,7 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      'group6-components': path.join(__dirname, '../src'),
+      '@pms/ui': path.join(__dirname, '../src'),
     },
   },
 } as UserConfig

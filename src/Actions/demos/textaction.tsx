@@ -5,8 +5,8 @@
 
 import React from 'react';
 import { ConfigProvider, message } from 'antd';
-import { TextActions } from 'group6-components';
-import type { TextActionsProps } from 'group6-components';
+import { TextActions } from '@pms/ui';
+import type { TextActionsProps } from '@pms/ui';
 import zhCH from 'antd/lib/locale/zh_CN';
 
 export default () => {

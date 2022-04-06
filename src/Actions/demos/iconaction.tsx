@@ -6,8 +6,8 @@
 import React from 'react';
 import { ConfigProvider, message, Space, Row, Col } from 'antd';
 import { CopyOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { BaseIcon, IconActions } from 'group6-components';
-import type { IconActionsProps } from 'group6-components';
+import { BaseIcon, IconActions } from '@pms/ui';
+import type { IconActionsProps } from '@pms/ui';
 import zhCH from 'antd/lib/locale/zh_CN';
 
 export default () => {

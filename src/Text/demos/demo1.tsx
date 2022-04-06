@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { Divider, Space } from 'antd';
-import { Text } from 'group6-components';
+import { Text } from '@pms/ui';
 
 export default () => {
   return (

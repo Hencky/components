@@ -10,7 +10,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "paths": {
-      "group6-components": ["./src"]
+      "@pms/ui": ["./src"]
     },
     "outDir": "./lib"
   }
