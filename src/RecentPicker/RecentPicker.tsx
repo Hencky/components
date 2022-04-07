@@ -6,9 +6,11 @@ import type { RangePickerProps } from 'antd/lib/date-picker';
 
 const { RangePicker } = DatePicker;
 
-interface RecentPickerProps<T extends { label: string; value: any }> {
-  onChange?: (value: T['value'] | RangeValue<Moment>) => void;
-  value?: T['value'] | RangeValue<Moment>;
+export type RecentPickerValue<T> = T | RangeValue<Moment>;
+
+export interface RecentPickerProps<T extends { label: string; value: any }> {
+  onChange?: (value: RecentPickerValue<T['value']>) => void;
+  value?: RecentPickerValue<T['value']>;
   defaultValue?: RangeValue<Moment>;
   options?: T[];
   rangePickerProps?: RangePickerProps;

@@ -4,6 +4,7 @@ import moment from 'moment';
 import { RecentPicker } from '@pms/ui';
 import type { Moment } from 'moment';
 import type { RangeValue } from 'rc-picker/lib/interface';
+import { RecentPickerValue } from '@pms/ui';
 
 export default () => {
   return (
@@ -17,7 +18,7 @@ export default () => {
           { label: '今年', value: 'year' },
         ]}
         onChange={(val) => {
-          let finalValue: moment.unitOfTime.StartOf | RangeValue<Moment> = val;
+          let finalValue: RecentPickerValue<moment.unitOfTime.StartOf> = val;
           if (typeof val === 'string') {
             finalValue = [moment().startOf(val), moment()];
           }
