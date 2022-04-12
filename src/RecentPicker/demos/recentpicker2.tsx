@@ -12,6 +12,7 @@ export default () => {
       <div>一般使用：</div>
 
       <RecentPicker<{ label: string; value: moment.unitOfTime.StartOf }>
+        showRangePicker
         options={[
           { label: '本周', value: 'week' },
           { label: '本月', value: 'month' },
@@ -22,7 +23,7 @@ export default () => {
           if (typeof val === 'string') {
             finalValue = [moment().startOf(val), moment()];
           }
-          const result = (finalValue as RangeValue<Moment>).map((val) => val?.format('YYYY-MM-DD HH:mm:ss'));
+          const result = (finalValue as RangeValue<Moment>)?.map((val) => val?.format('YYYY-MM-DD HH:mm:ss'));
           console.log('val', result);
         }}
       />
@@ -31,6 +32,7 @@ export default () => {
 
       <div>切换到自定义默认显示当前月：</div>
       <RecentPicker
+        showRangePicker
         options={[
           { label: '近一周', value: 'week' },
           { label: '近一月', value: 'month' },
@@ -46,6 +48,7 @@ export default () => {
 
       <div>回显：</div>
       <RecentPicker
+        showRangePicker
         options={[
           { label: '近一周', value: 'week' },
           { label: '近一月', value: 'month' },
@@ -62,6 +65,7 @@ export default () => {
 
       <div>回显：</div>
       <RecentPicker
+        showRangePicker
         options={[
           { label: '近一周', value: 'week' },
           { label: '近一月', value: 'month' },
