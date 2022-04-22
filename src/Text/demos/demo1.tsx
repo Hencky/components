@@ -7,7 +7,7 @@ import React from 'react';
 import { Divider, Space } from 'antd';
 import { Text } from '@pms/ui';
 
-export default () => {
+const Demo = () => {
   return (
     <div>
       <Text>文本组件</Text>
@@ -46,3 +46,5 @@ export default () => {
     </div>
   );
 };
+
+export default Demo;

@@ -65,7 +65,7 @@ export const RopeContainer: React.FC<RopeContainerProps> = (props) => {
     (visible) => {
       setTooltipVisible(popconfirmVisible ? false : visible);
     },
-    [popconfirmVisible],
+    [popconfirmVisible]
   );
 
   const onPopconfirmVisibleChange = useCallback((visible) => {
@@ -85,7 +85,7 @@ export const RopeContainer: React.FC<RopeContainerProps> = (props) => {
         visible: tooltipVisible,
         onVisibleChange: onToolVisibleChange,
       },
-      element,
+      element
     );
   };
 
@@ -102,7 +102,7 @@ export const RopeContainer: React.FC<RopeContainerProps> = (props) => {
         visible: popconfirmVisible,
         onVisibleChange: onPopconfirmVisibleChange,
       },
-      element,
+      element
     );
   };
 

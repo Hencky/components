@@ -9,7 +9,7 @@ import { ButtonActions } from '@pms/ui';
 import type { ButtonActionsProps } from '@pms/ui';
 import zhCH from 'antd/lib/locale/zh_CN';
 
-export default () => {
+const ButtonAction = () => {
   const buttonActions: ButtonActionsProps['actions'] = [
     {
       children: '新增',
@@ -60,3 +60,5 @@ export default () => {
     </ConfigProvider>
   );
 };
+
+export default ButtonAction;

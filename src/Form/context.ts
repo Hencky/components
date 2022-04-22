@@ -13,6 +13,6 @@ export interface IFormGroupContext {
   wrapperCol?: ColProps;
 }
 
-export const FormContext = createContext<{}>(null);
+export const FormContext = createContext({});
 
-export const FormGroupText = createContext<IFormGroupContext>(null);
+export const FormGroupText = createContext({} as IFormGroupContext);

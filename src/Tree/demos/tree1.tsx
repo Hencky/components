@@ -34,7 +34,7 @@ const treeData = [
   },
 ];
 
-export default () => {
+const Demo = () => {
   return (
     <Tree
       searchProps={{
@@ -50,3 +50,5 @@ export default () => {
     />
   );
 };
+
+export default Demo;

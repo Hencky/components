@@ -4,13 +4,13 @@
  */
 
 import React from 'react';
-import { ConfigProvider, message, Space, Row, Col } from 'antd';
+import { ConfigProvider, message, Space, Row } from 'antd';
 import { CopyOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { BaseIcon, IconActions } from '@pms/ui';
 import type { IconActionsProps } from '@pms/ui';
 import zhCH from 'antd/lib/locale/zh_CN';
 
-export default () => {
+const IconAction = () => {
   const iconActions: IconActionsProps['actions'] = [
     {
       icon: EditOutlined,
@@ -115,3 +115,5 @@ export default () => {
     </ConfigProvider>
   );
 };
+
+export default IconAction;

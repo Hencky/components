@@ -45,7 +45,7 @@ const actions: DropdownButtonProps['actions'] = [
   },
 ];
 
-export default () => {
+const Demo = () => {
   return (
     <ConfigProvider locale={zhCN}>
       <DropdownButton actions={actions}>
@@ -54,3 +54,5 @@ export default () => {
     </ConfigProvider>
   );
 };
+
+export default Demo;

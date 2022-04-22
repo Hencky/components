@@ -9,7 +9,7 @@ import { TextActions } from '@pms/ui';
 import type { TextActionsProps } from '@pms/ui';
 import zhCH from 'antd/lib/locale/zh_CN';
 
-export default () => {
+const Demo = () => {
   const textActions: TextActionsProps['actions'] = [
     {
       render: false,
@@ -73,3 +73,5 @@ export default () => {
     </ConfigProvider>
   );
 };
+
+export default Demo;

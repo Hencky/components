@@ -54,9 +54,8 @@ export const FormGroup: React.FC<FormGroupProps> = (props) => {
 
   const renderFields = (fields) => {
     return fields.map((item) => {
-
       if (item.fields) {
-        return <FormGroup key={item.name} {...item} />
+        return <FormGroup key={item.name} {...item} />;
       }
 
       return <FormItem key={toArray(item.name).join('-')} {...item} />;

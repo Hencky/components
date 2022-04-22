@@ -3,7 +3,7 @@ import { Space } from 'antd';
 import { RopeContainer } from '../RopeContainer';
 import type { RopeContainerProps } from '../RopeContainer';
 
-export interface BaseActionProps extends RopeContainerProps {}
+export type BaseActionProps = RopeContainerProps;
 
 export const BaseAction = (props: React.PropsWithChildren<BaseActionProps>) => {
   const { tooltip, confirm, container, disabled, render, onClick, children, onStatusChange, ...rest } = props;

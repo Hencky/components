@@ -2,7 +2,7 @@ import React from 'react';
 import { Form } from '@pms/ui';
 import { Input, Card } from 'antd';
 
-export default () => {
+const Demo = () => {
   return (
     <Card title="嵌套容器">
       <Form
@@ -12,7 +12,7 @@ export default () => {
         labelCol={{
           span: 4,
         }}
-        container={<Card title={"包裹一层容器"} />}
+        container={<Card title={'包裹一层容器'} />}
         fields={[
           {
             name: 'x1',
@@ -43,3 +43,5 @@ export default () => {
     </Card>
   );
 };
+
+export default Demo;

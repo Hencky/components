@@ -14,7 +14,7 @@ export interface FormListProps {
   form: FormInstance;
   name: NamePath;
   containerRender?: (
-    props: { index: number; form: FormInstance; values: Record<string, any> } & FormListOperation,
+    props: { index: number; form: FormInstance; values: Record<string, any> } & FormListOperation
   ) => React.ReactElement;
 }
 
@@ -33,7 +33,7 @@ export const FormList = (props: React.PropsWithChildren<FormListProps>) => {
                 ...field,
                 render: (p) => {
                   const values = form.getFieldValue([...toArray(name), index]);
-                  return (f.render as Function)?.({ values, name: f.name }) ?? true;
+                  return (f.render as (...arg: any[]) => any)?.({ values, name: f.name }) ?? true;
                 },
                 name: [...toArray(field.name), ...toArray(f.name)],
               }))}

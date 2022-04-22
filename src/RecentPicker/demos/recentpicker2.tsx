@@ -6,7 +6,7 @@ import type { Moment } from 'moment';
 import type { RangeValue } from 'rc-picker/lib/interface';
 import { RecentPickerValue } from '@pms/ui';
 
-export default () => {
+const Demo = () => {
   return (
     <Card>
       <div>一般使用：</div>
@@ -80,3 +80,5 @@ export default () => {
     </Card>
   );
 };
+
+export default Demo;

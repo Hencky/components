@@ -37,7 +37,7 @@ const treeData = [
   },
 ];
 
-export default () => {
+const Demo = () => {
   const extraRender = () => {
     return (
       <ButtonAction
@@ -95,7 +95,12 @@ export default () => {
 
     return (
       <DropdownButton actions={actions}>
-        <IconAction icon={EllipsisOutlined} onClick={() => {}} />
+        <IconAction
+          icon={EllipsisOutlined}
+          onClick={() => {
+            console.log('operatorRender', dataNode);
+          }}
+        />
       </DropdownButton>
     );
   };
@@ -114,3 +119,5 @@ export default () => {
     />
   );
 };
+
+export default Demo;

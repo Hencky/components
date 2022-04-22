@@ -87,7 +87,7 @@ export const Tree: React.FC<TreeProps> = (props) => {
       setExpandedKeys(expKeys);
       setAutoExpandParent(true);
     },
-    [treeData],
+    [treeData]
   );
 
   const onExpand: ATreeProps['onExpand'] = useCallback((keys) => {
@@ -134,7 +134,7 @@ export const Tree: React.FC<TreeProps> = (props) => {
 
       return title;
     },
-    [operatorRender],
+    [operatorRender]
   );
 
   return (

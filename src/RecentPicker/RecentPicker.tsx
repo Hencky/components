@@ -32,7 +32,7 @@ function getTotalValue(value, format = 'YYYY-MM-DD HH:mm:ss') {
 }
 
 export const RecentPicker: <T extends { label: string; value: any }>(
-  props: React.PropsWithChildren<RecentPickerProps<T>>,
+  props: React.PropsWithChildren<RecentPickerProps<T>>
 ) => React.ReactElement = (props) => {
   const { onChange, value, options = [], defaultValue, rangePickerProps = {}, showRangePicker = false } = props;
 

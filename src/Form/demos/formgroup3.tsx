@@ -2,7 +2,7 @@ import React from 'react';
 import { Form } from '@pms/ui';
 import { Input, Card } from 'antd';
 
-export default () => {
+const Demo = () => {
   return (
     <Card title="容器嵌套">
       <Form
@@ -47,3 +47,5 @@ export default () => {
     </Card>
   );
 };
+
+export default Demo;
