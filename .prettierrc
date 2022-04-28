@@ -5,11 +5,5 @@
   "printWidth": 120,
   "semi": true,
   "trailingComma": "es5",
-  "bracketSpacing": true,
-  "overrides": [
-    {
-      "files": ".prettierrc",
-      "options": { "parser": "json" }
-    }
-  ]
+  "bracketSpacing": true
 }

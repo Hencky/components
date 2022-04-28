@@ -18,8 +18,6 @@ module.exports = {
   plugins: [
     reactRefresh(),
     mdx(),
-    // react(),
-    // viteEslint(),
     pages({
       pagesDir: path.join(__dirname, 'pages'),
       pageStrategy: new DefaultPageStrategy({
