@@ -16,24 +16,28 @@ const Demo = () => {
         fields={[
           {
             name: 'x1',
+            // @ts-ignore
             label: 'x1',
             span: 8,
             children: <Input placeholder="请输入" />,
           },
           {
             name: 'x2',
+            // @ts-ignore
             label: 'x2',
             span: 8,
             children: <Input placeholder="请输入" />,
           },
           {
             name: 'x3',
+            // @ts-ignore
             label: 'x3',
             span: 8,
             children: <Input placeholder="请输入" />,
           },
           {
             name: 'x4',
+            // @ts-ignore
             label: 'x4',
             span: 8,
             children: <Input placeholder="请输入" />,

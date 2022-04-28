@@ -28,15 +28,17 @@ export const FormList = (props: React.PropsWithChildren<FormListProps>) => {
           const ele = (
             <FormGroup
               key={toArray(field.name).join('-')}
-              fields={fields.map((f) => ({
-                ...f,
-                ...field,
-                render: (p) => {
-                  const values = form.getFieldValue([...toArray(name), index]);
-                  return (f.render as (...arg: any[]) => any)?.({ values, name: f.name }) ?? true;
-                },
-                name: [...toArray(field.name), ...toArray(f.name)],
-              }))}
+              fields={
+                fields.map((f) => ({
+                  ...f,
+                  ...field,
+                  render: (p) => {
+                    const values = form.getFieldValue([...toArray(name), index]);
+                    return (f.render as (...arg: any[]) => any)?.({ values, name: f.name }) ?? true;
+                  },
+                  name: [...toArray(field.name), ...toArray(f.name)],
+                })) as any
+              }
             />
           );
 

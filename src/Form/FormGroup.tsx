@@ -65,7 +65,7 @@ export const FormGroup: React.FC<FormGroupProps> = (props) => {
   const ele = renderFields(fields);
 
   if (container) {
-    return React.cloneElement(container, null, <Row>{ele}</Row>);
+    return React.cloneElement(container, {}, <Row>{ele}</Row>);
   }
 
   return <Row>{ele}</Row>;

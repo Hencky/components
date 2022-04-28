@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "jsx": "react-jsx",
+    "declaration": true,
+    "jsx": "preserve",
     "composite": true,
     "types": ["node", "vite/client"],
     "target": "ESNext",
@@ -8,7 +9,7 @@
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": false,
@@ -17,13 +18,16 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "strict": true,
+    // TODO: 打包组件要设置成false
     "isolatedModules": true,
+    // TODO: 打包组件要设置成false
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
       "@pms/ui": ["./src"]
-    }
+    },
+    "outDir": "es"
   },
   "include": ["src", "vite.config.ts", "package.json"]
 }

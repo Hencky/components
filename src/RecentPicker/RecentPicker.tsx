@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Radio, Space, DatePicker } from 'antd';
-import moment, { type Moment } from 'moment';
+import moment, { Moment } from 'moment';
 import { isEqual } from 'lodash';
+// @ts-ignore
 import type { RangeValue } from 'rc-picker/lib/interface';
 import type { RangePickerProps } from 'antd/lib/date-picker';
 

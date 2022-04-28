@@ -19,7 +19,7 @@ export const Form: React.FC<FormProps> = (props) => {
 
   return (
     <FormContext.Provider value={{}}>
-      <AForm {...rest}>{<FormGroup fields={fields} container={container} />}</AForm>
+      <AForm {...rest}>{<FormGroup fields={fields as any} container={container} />}</AForm>
     </FormContext.Provider>
   );
 };

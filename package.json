@@ -4,6 +4,7 @@
   "author": "hencky, jax",
   "version": "1.0.0-alpha.2",
   "main": "lib/index.js",
+  "module": "lib/index.js",
   "files": [
     "lib",
     "es"
@@ -17,6 +18,10 @@
     "lint": "npm run lint:script",
     "lint:script": "eslint --ext .js,.jsx,.ts,.tsx --fix --quiet ./src",
     "lint:style": "stylelint --fix \"src/**/*.less\" --custom-syntax postcss-less"
+  },
+  "peerDependencies": {
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
@@ -42,6 +47,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.4",
+    "father-build": "^1.22.1",
     "husky": "^7.0.4",
     "less": "^3.13.1",
     "postcss-less": "^6.0.0",

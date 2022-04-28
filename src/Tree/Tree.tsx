@@ -64,7 +64,7 @@ export const Tree: React.FC<TreeProps> = (props) => {
   const prefix = usePrefix('tree');
 
   useEffect(() => {
-    generateList(treeData);
+    generateList(treeData as any);
     return () => {
       dataList.length = 0;
     };
