@@ -19,9 +19,9 @@
     "resolveJsonModule": true,
     "strict": true,
     // TODO: 打包组件要设置成false
-    "isolatedModules": true,
+    "isolatedModules": false,
     // TODO: 打包组件要设置成false
-    "noEmit": true,
+    "noEmit": false,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],

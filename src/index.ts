@@ -1,4 +1,4 @@
-import './style';
+// import './style/index.less';
 
 export * from './Text';
 export * from './Actions';
