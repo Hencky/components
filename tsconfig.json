@@ -23,7 +23,6 @@
     "paths": {
       "@/*": ["src/*"],
       "@pms/ui": ["./src"]
-
     }
   },
   "include": ["src", "vite.config.ts", "package.json"]

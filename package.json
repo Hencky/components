@@ -19,8 +19,8 @@
     "lint:style": "stylelint --fix \"src/**/*.{css,less}\""
   },
   "peerDependencies": {
-    "react": ">=16.9.0",
-    "react-dom": ">=16.9.0"
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0"
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
