@@ -18,10 +18,8 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "strict": true,
-    // TODO: 打包组件要设置成false
-    "isolatedModules": false,
-    // TODO: 打包组件要设置成false
-    "noEmit": false,
+    // "isolatedModules": true,
+    // "noEmit": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],

@@ -18,7 +18,8 @@
     "lint": "npm run lint:script && npm run lint:style",
     "lint:script": "tsc && eslint --ext .js,.jsx,.ts,.tsx --fix ./",
     "lint:style": "stylelint --fix \"src/**/*.less\" --custom-syntax postcss-less",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "pretty-quick": "pretty-quick"
   },
   "peerDependencies": {
     "react": ">=16.9.0",
@@ -52,11 +53,12 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.4",
     "father-build": "^1.22.1",
-    "husky": "^7.0.4",
+    "husky": "^6.0.0",
     "less": "^3.13.1",
     "lint-staged": "^12.4.1",
     "postcss-less": "^6.0.0",
     "prettier": "^2.6.2",
+    "pretty-quick": "3",
     "serve": "^12.0.1",
     "stylelint": "^14.8.0",
     "stylelint-config-prettier": "^9.0.3",
@@ -74,15 +76,5 @@
   "publishConfig": {
     "registry": "http://172.16.9.19:4873/",
     "access": "public"
-  },
-  "lint-staged": {
-    "**/*.{js,jsx,tsx,ts}": [
-      "pnpm run lint:script",
-      "git add --force"
-    ],
-    "**/*.less": [
-      "pnpm run lint:style",
-      "git add --force"
-    ]
   }
 }
