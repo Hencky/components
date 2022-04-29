@@ -16,7 +16,7 @@
     "build": "rm -rf docs/dist && vite build docs && serve -s docs/dist",
     "ssr": "rm -rf docs/dist && vite-pages ssr docs && serve docs/dist",
     "lint": "npm run lint:script && npm run lint:style",
-    "lint:script": "eslint --ext .js,.jsx,.ts,.tsx --fix ./src",
+    "lint:script": "tsc && eslint --ext .js,.jsx,.ts,.tsx --fix ./",
     "lint:style": "stylelint --fix \"src/**/*.less\" --custom-syntax postcss-less",
     "postinstall": "husky install"
   },
@@ -76,16 +76,13 @@
     "access": "public"
   },
   "lint-staged": {
-    "**/*.{js,jsx,tsx,ts,json}": [
-      "npm run lint:script",
+    "**/*.{js,jsx,tsx,ts}": [
+      "pnpm run lint:script",
       "git add --force"
     ],
-    "**/*.{less}": [
-      "npm run lint:style",
+    "**/*.less": [
+      "pnpm run lint:style",
       "git add --force"
     ]
-  },
-  "husky": {
-    "pre-commit": "npm run lint"
   }
 }
