@@ -1,5 +1,3 @@
-// import './style/index.less';
-
 export * from './Text';
 export * from './Actions';
 export * from './Dropdown';

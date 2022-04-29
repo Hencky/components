@@ -2,7 +2,7 @@
   "name": "@pms/ui",
   "description": "基于antd封装的组件",
   "author": "hencky, jax",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0-alpha.8",
   "main": "es/index.js",
   "module": "es/index.js",
   "types": "es/index.d.ts",
