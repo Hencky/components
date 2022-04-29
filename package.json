@@ -7,7 +7,6 @@
   "module": "es/index.js",
   "types": "es/index.d.ts",
   "files": [
-    "lib",
     "es"
   ],
   "license": "MIT",
@@ -16,9 +15,10 @@
     "compile": "father-build",
     "build": "rm -rf docs/dist && vite build docs && serve -s docs/dist",
     "ssr": "rm -rf docs/dist && vite-pages ssr docs && serve docs/dist",
-    "lint": "npm run lint:script",
-    "lint:script": "eslint --ext .js,.jsx,.ts,.tsx --fix --quiet ./src",
-    "lint:style": "stylelint --fix \"src/**/*.less\" --custom-syntax postcss-less"
+    "lint": "npm run lint:script && npm run lint:style",
+    "lint:script": "eslint --ext .js,.jsx,.ts,.tsx --fix ./src",
+    "lint:style": "stylelint --fix \"src/**/*.less\" --custom-syntax postcss-less",
+    "postinstall": "husky install"
   },
   "peerDependencies": {
     "react": ">=16.9.0",
@@ -35,6 +35,8 @@
     "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^16.2.4",
+    "@commitlint/config-conventional": "^16.2.4",
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.22",
     "@types/node": "^14.14.37",
@@ -44,6 +46,7 @@
     "@typescript-eslint/eslint-plugin": "^5.21.0",
     "@typescript-eslint/parser": "^5.21.0",
     "@vitejs/plugin-react-refresh": "^1.3.3",
+    "commitlint": "^16.2.4",
     "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -51,6 +54,7 @@
     "father-build": "^1.22.1",
     "husky": "^7.0.4",
     "less": "^3.13.1",
+    "lint-staged": "^12.4.1",
     "postcss-less": "^6.0.0",
     "prettier": "^2.6.2",
     "serve": "^12.0.1",
@@ -70,5 +74,18 @@
   "publishConfig": {
     "registry": "http://172.16.9.19:4873/",
     "access": "public"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,tsx,ts,json}": [
+      "npm run lint:script",
+      "git add --force"
+    ],
+    "**/*.{less}": [
+      "npm run lint:style",
+      "git add --force"
+    ]
+  },
+  "husky": {
+    "pre-commit": "npm run lint"
   }
 }
