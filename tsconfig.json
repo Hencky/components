@@ -27,5 +27,6 @@
     },
     "outDir": "es"
   },
-  "include": ["src", "vite.config.ts", "package.json"]
+  "include": ["src", "vite.config.ts", "package.json"],
+  "exclude": ["**/*.md"]
 }
