@@ -120,10 +120,10 @@ function BasicTable<RecordType extends Record<string, any> = any>(
     setSelectedRowKeys,
     getDataSource: () => dataSoruce,
     // setDataSource,
-    setPagination: (pagination) => {
-      setRef(paginationRef, pagination);
-      forceUpdate({});
-    },
+    // setPagination: (pagination) => {
+    //   setRef(paginationRef, pagination);
+    //   forceUpdate({});
+    // },
     getPagination: () => paginationRef.current,
     getLoading: () => loading,
     setLoading,
