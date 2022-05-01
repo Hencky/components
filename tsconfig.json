@@ -22,7 +22,6 @@
     // "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
       "@pms/ui": ["./src"]
     },
     "outDir": "es"

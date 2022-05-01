@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
 import cls from 'classnames';
 import { BaseAction, BaseActions } from './BaseAction';
@@ -14,40 +14,72 @@ interface BaseIconProps {
   loading?: boolean;
   className?: string;
   type?: 'primary' | 'error' | 'success' | 'warning';
+  text?: string;
+  textClassName?: string;
+  textStyle?: React.CSSProperties;
+  textPosition?: 'start' | 'end';
+  onClick?: React.MouseEventHandler<HTMLSpanElement>;
+  style?: React.CSSProperties;
 }
 
 export const BaseIcon: React.FC<BaseIconProps> = (props) => {
-  const { icon: Icon, disabled, loading, className, type, ...restProps } = props;
+  const {
+    icon: Icon,
+    disabled,
+    type,
+    loading,
+    onClick,
+    className,
+    style,
+    text,
+    textPosition = 'end',
+    textClassName,
+    textStyle,
+    ...restProps
+  } = props;
 
   const prefix = usePrefix('icon');
 
-  const classNames = useMemo(() => {
-    return cls(className, {
-      [prefix]: true,
-      [`${prefix}-${type}`]: type,
-      [`${prefix}-disabled`]: disabled,
-      [`${prefix}-loading`]: loading,
-    });
-  }, [type, className, disabled, loading]);
+  const loadingCls = cls({
+    [`${prefix}-icon-loading`]: loading,
+  });
 
   let icon;
   if (!Icon) {
     icon = null;
   } else if (React.isValidElement(Icon)) {
-    // @ts-ignore
-    icon = React.cloneElement(Icon, { className: cls(Icon.props.className, classNames), ...restProps });
+    // @ts-ignore 没有className定义
+    icon = React.cloneElement(Icon, { className: cls(Icon.props.className, loadingCls), ...restProps });
   } else {
-    icon = <Icon className={classNames} {...restProps} />;
+    icon = <Icon className={loadingCls} {...restProps} />;
   }
 
+  const textEle = text && (
+    <span className={cls(textClassName, prefix + '-text', `${prefix}-text-${textPosition}`)} style={textStyle}>
+      {text}
+    </span>
+  );
+
   return (
-    <React.Fragment>
+    <span
+      className={cls(className, {
+        [prefix]: true,
+        [`${prefix}-${type}`]: type,
+        [`${prefix}-disabled`]: disabled,
+        [`${prefix}-loading`]: loading,
+      })}
+      onClick={onClick}
+      style={style}
+    >
+      {textPosition === 'start' && textEle}
       {icon}
       <LoadingOutlined
-        style={{ display: loading ? '' : 'none', cursor: 'wait' }}
-        className={prefix + '-loading-placeholder'}
+        className={cls({
+          [`${prefix}-loading-placeholder`]: !loading,
+        })}
       />
-    </React.Fragment>
+      {textPosition === 'end' && textEle}
+    </span>
   );
 };
 

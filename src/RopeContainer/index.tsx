@@ -68,10 +68,14 @@ export const RopeContainer: React.FC<RopeContainerProps> = (props) => {
     [popconfirmVisible]
   );
 
-  const onPopconfirmVisibleChange = useCallback((visible) => {
-    setTooltipVisible(false);
-    setPopconfirmVisible(visible);
-  }, []);
+  const onPopconfirmVisibleChange = useCallback(
+    (visible) => {
+      if (loading) return;
+      setTooltipVisible(false);
+      setPopconfirmVisible(visible);
+    },
+    [loading]
+  );
 
   if (typeof render === 'function' && !render()) return null;
   if (!render) return null;

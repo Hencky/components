@@ -3,6 +3,7 @@
 @icon-prefix-cls: ~'@{ui-prefix}-icon';
 
 .@{icon-prefix-cls} {
+  position: relative;
   cursor: pointer;
   transition: all 0.3s;
 
@@ -15,13 +16,21 @@
     cursor: not-allowed;
   }
 
-  &-loading {
+  &-text-start {
+    margin-right: 4px;
+  }
+
+  &-text-end {
+    margin-left: 4px;
+  }
+
+  &-icon-loading {
     display: none;
   }
 
   &-loading-placeholder {
+    display: none;
     color: @primary-color;
-    cursor: wait;
   }
 
   &-primary {

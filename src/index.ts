@@ -5,3 +5,4 @@ export * from './Tree';
 export * from './Form';
 export * from './RecentPicker';
 export * from './Table';
+export * from './ToggleOpenButton';
