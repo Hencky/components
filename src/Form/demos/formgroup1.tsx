@@ -4,7 +4,7 @@ import { Input, Card } from 'antd';
 
 const Demo = () => {
   return (
-    <Card title="fields平铺使用">
+    <Card>
       <Form
         onValuesChange={(_, values) => {
           console.log('values', values);
@@ -35,7 +35,7 @@ const Demo = () => {
               children: <Input placeholder="请输入" />,
             },
           ]}
-        ></FormGroup>
+        />
       </Form>
     </Card>
   );
