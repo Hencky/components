@@ -8,12 +8,13 @@ import './index.less';
 
 export interface ToggleOpenButtonProps {
   className?: string;
+  style?: React.CSSProperties;
   open: boolean;
   onClick: (isOpen: boolean) => void;
 }
 
 export const ToggleOpenButton: React.FC<ToggleOpenButtonProps> = (props) => {
-  const { open, onClick, className } = props;
+  const { open, onClick, className, style } = props;
   const prefix = usePrefix('toggle-open-button');
 
   return (
@@ -34,6 +35,7 @@ export const ToggleOpenButton: React.FC<ToggleOpenButtonProps> = (props) => {
         onClick(open);
       }}
       className={className}
+      style={style}
     />
   );
 };

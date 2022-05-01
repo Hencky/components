@@ -1,0 +1,21 @@
+@import '../style/index.less';
+
+@queryform-prefix-cls: ~'@{ui-prefix}-queryform';
+
+.@{queryform-prefix-cls} {
+  &-actions {
+    display: flex;
+    align-items: start;
+    justify-content: end;
+  }
+
+  &-field {
+    &-open {
+      display: unset;
+    }
+
+    &-over {
+      display: none;
+    }
+  }
+}

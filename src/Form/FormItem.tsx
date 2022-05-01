@@ -8,10 +8,12 @@ export interface FormItemProps
   extends AFormItemProps,
     Pick<ColProps, 'span' | 'offset' | 'push' | 'pull' | 'order' | 'flex'> {
   render?: ((props: FormItemProps) => boolean) | boolean;
+  colStyle?: React.CSSProperties;
+  colClassName?: string;
 }
 
 export const FormItem: React.FC<FormItemProps> = (props) => {
-  const { span, offset, push, pull, order, flex, style, render, ...formItemProps } = props;
+  const { span, offset, push, pull, order, flex, style, render, colStyle, colClassName, ...formItemProps } = props;
   const colProps = { span, offset, push, pull, order, flex };
 
   if (!canRender(render, props)) return null;
@@ -19,7 +21,11 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
   const ele = <Form.Item {...formItemProps} style={{ marginBottom: 16, ...style }} />;
 
   if (span) {
-    return <Col {...colProps}>{ele}</Col>;
+    return (
+      <Col {...colProps} className={colClassName} style={colStyle}>
+        {ele}
+      </Col>
+    );
   }
 
   return ele;
