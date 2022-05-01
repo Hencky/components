@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Form, Row, Col } from 'antd';
 import cls from 'classnames';
 import { type FormItemProps, FormItem } from '../Form';
-import type { FormInstance } from 'antd/lib/form';
+import type { FormInstance, FormProps } from 'antd/lib/form';
 import { ButtonActions, type ButtonActionProps } from '../Actions';
 import { ToggleOpenButton } from '../ToggleOpenButton';
 import { usePrefix } from '../_hooks';
@@ -10,7 +10,7 @@ import { getFormKey } from '../_util';
 
 import './index.less';
 
-export interface QueryFormProps {
+export interface QueryFormProps extends Omit<FormProps, 'fields'> {
   fields: FormItemProps[];
   form?: FormInstance;
   showFieldsLength?: number;
@@ -22,7 +22,15 @@ export interface QueryFormProps {
 export const QueryForm: React.FC<QueryFormProps> = (props) => {
   const prefix = usePrefix('queryform');
 
-  const { fields, form = Form.useForm()[0], onReset, onSubmit, showFieldsLength = 3, defaultExpand = false } = props;
+  const {
+    fields,
+    form = Form.useForm()[0],
+    onReset,
+    onSubmit,
+    showFieldsLength = 3,
+    defaultExpand = false,
+    ...formProps
+  } = props;
 
   const [isOpen, setIsOpen] = useState(defaultExpand);
 
@@ -113,7 +121,7 @@ export const QueryForm: React.FC<QueryFormProps> = (props) => {
 
   return (
     <div className={prefix}>
-      <Form form={form}>
+      <Form form={form} {...formProps}>
         <Row gutter={24}>
           {renderFields(fields)}
           <div>{isSingleSearch && <ButtonActions actions={actions} />}</div>
