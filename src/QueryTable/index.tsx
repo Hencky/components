@@ -115,7 +115,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
         onSubmit={onSubmit}
       />
 
-      <div>{renderActions()}</div>
+      {renderActions()}
 
       <Table
         ref={tableRef}
