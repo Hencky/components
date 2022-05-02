@@ -1,6 +1,24 @@
 import { TableProps } from '@pms/ui';
 
-export const columns = [];
+export interface RecordType {
+  a: number;
+  b: number;
+  c: number;
+  id: string;
+}
+
+export const columns = [
+  {
+    title: 'title1',
+    dataIndex: 'a',
+    key: 'title1',
+  },
+  {
+    title: 'title2',
+    dataIndex: 'b',
+    key: 'title3',
+  },
+];
 
 export const remoteDataSource: TableProps['remoteDataSource'] = (params) => {
   console.log('params', params);

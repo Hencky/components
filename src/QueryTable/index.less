@@ -1,0 +1,19 @@
+@import '../style/index.less';
+
+@querytable-prefix-cls: ~'@{ui-prefix}-querytable';
+
+.@{querytable-prefix-cls} {
+  width: 100%;
+  padding: 24px;
+  background-color: #fff;
+
+  &-actions {
+    display: flex !important;
+    justify-content: space-between;
+    padding: 16px 0;
+
+    &-empty {
+      padding: 8px;
+    }
+  }
+}

@@ -6,8 +6,10 @@ import type { ButtonProps } from 'antd/lib/button';
 import type { BaseActionProps } from './BaseAction';
 
 export interface ButtonActionProps
-  extends Omit<BaseActionProps, 'children'>,
-    Omit<ButtonProps, 'disabled' | 'onClick'> {}
+  extends Omit<BaseActionProps, 'children' | 'onClick'>,
+    Omit<ButtonProps, 'disabled' | 'onClick'> {
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => any;
+}
 
 export const ButtonAction: React.FC<ButtonActionProps> = (props) => {
   const { children, ...rest } = props;

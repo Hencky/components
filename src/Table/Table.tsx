@@ -2,15 +2,15 @@ import React, { useState, forwardRef, useEffect, useRef, useImperativeHandle } f
 import { ForwardedRef, ReactElement, PropsWithChildren } from 'react';
 import { Table as ATable } from 'antd';
 import type { TableProps as ATableProps } from 'antd/lib/table';
-import type { Key, RowSelectionType, SorterResult, TableRowSelection } from 'antd/lib/table/interface';
+import type { Key, SorterResult, TableRowSelection } from 'antd/lib/table/interface';
 import { FilterParams, Pagination, RequestParams, RequestResult, SorterParams } from './interface';
 import { setRef } from '../_util';
 
 const DEFAULT_PAGINATION = { size: 10, current: 1, total: 0 } as const;
 
-export interface TableInstance<RecordType extends Record<string, any> = any> {
+export interface TableInstance<RecordType = any> {
   /** 刷新表格 */
-  refresh: (extraRefreshParams?: Record<string, any>) => void;
+  refresh: (extraRefreshParams?: Record<string, any>) => Promise<void> | undefined;
   /** 重置表格到初始状态 */
   reset: () => void;
   /** 获取表格选中行数据 */
@@ -23,12 +23,10 @@ export interface TableInstance<RecordType extends Record<string, any> = any> {
   setSelectedRows: (rows: RecordType[]) => void;
   /** 获取数据源 */
   getDataSource: () => RecordType[];
-  /** 设置数据源 */
-  // setDataSource: (dataSource: RecordType[]) => void;
   /** 获取分页配置 */
   getPagination: () => Pagination;
   /** 设置分页配置 */
-  // setPagination: (pagination: Pagination) => void;
+  setPagination: (pagination: Pagination) => void;
   /** 获取表格loading状态 */
   getLoading: () => boolean;
   /** 设置表格loading状态 */
@@ -37,7 +35,7 @@ export interface TableInstance<RecordType extends Record<string, any> = any> {
   forceUpdate: () => void;
 }
 
-export interface TableProps<RecordType extends Record<string, any> = any>
+export interface TableProps<RecordType = any>
   extends Omit<ATableProps<RecordType>, 'dataSoruce' | 'loading' | 'rowSelection'> {
   /** 远程数据源 */
   remoteDataSource?: (params: RequestParams) => Promise<RequestResult<RecordType>>;
@@ -76,7 +74,7 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   const isShowSizeChangeRef = useRef(false);
 
   // ===== 表格刷新 =====
-  const refreshTable = (extraRefreshParams?: Record<string, any>) => {
+  const refreshTable = (extraRefreshParams?: Record<string, any>): Promise<void> | undefined => {
     if (!remoteDataSource) return;
     const { current, size } = paginationRef.current;
 
@@ -119,11 +117,10 @@ function BasicTable<RecordType extends Record<string, any> = any>(
     getSelectedRowKeys: () => selectedRowKeys,
     setSelectedRowKeys,
     getDataSource: () => dataSoruce,
-    // setDataSource,
-    // setPagination: (pagination) => {
-    //   setRef(paginationRef, pagination);
-    //   forceUpdate({});
-    // },
+    setPagination: (pagination) => {
+      setRef(paginationRef, pagination);
+      forceUpdate({});
+    },
     getPagination: () => paginationRef.current,
     getLoading: () => loading,
     setLoading,
@@ -191,6 +188,8 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   );
 }
 
-const Table = forwardRef(BasicTable);
+const Table = forwardRef<TableInstance, TableProps>(BasicTable) as <RecordType = any>(
+  props: PropsWithChildren<TableProps<RecordType>> & { ref?: React.Ref<TableInstance<RecordType>> }
+) => ReactElement;
 
 export { Table };

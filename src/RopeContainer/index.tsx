@@ -6,7 +6,7 @@ export interface RopeContainerProps {
   tooltip?: string;
   confirm?: string;
   disabled?: (() => boolean) | boolean;
-  onClick: (e: React.MouseEvent<HTMLElement, MouseEvent>) => any;
+  onClick: (e: any) => any;
   render?: (() => boolean) | boolean;
   container?: (() => React.ReactElement) | React.ReactElement;
   children: React.ReactElement;

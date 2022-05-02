@@ -7,3 +7,4 @@ export * from './RecentPicker';
 export * from './Table';
 export * from './ToggleOpenButton';
 export * from './QueryForm';
+export * from './QueryTable';

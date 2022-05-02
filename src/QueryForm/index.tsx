@@ -15,7 +15,7 @@ export interface QueryFormProps extends Omit<FormProps, 'fields'> {
   form?: FormInstance;
   showFieldsLength?: number;
   defaultExpand?: boolean;
-  onSubmit: (values: any) => Promise<any>;
+  onSubmit: (values: any) => Promise<void> | undefined;
   onReset?: () => void;
 }
 
@@ -109,7 +109,7 @@ export const QueryForm: React.FC<QueryFormProps> = (props) => {
   const getActionOffset = useCallback(() => {
     const lastRowLen = fields?.length % colLen;
     if (!needCollapse) {
-      return 24 - finalSpan * (fields.length + 1);
+      return 24 - (fields.length + 1) * finalSpan;
     }
 
     if (isOpen) {

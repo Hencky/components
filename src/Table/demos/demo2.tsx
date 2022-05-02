@@ -1,8 +1,8 @@
 import React from 'react';
 import { Table, ButtonActions } from '@pms/ui';
-import { Button, Card, Space } from 'antd';
+import { Card, Space } from 'antd';
 import type { TableInstance } from '@pms/ui';
-import { remoteDataSource } from './config';
+import { type RecordType, remoteDataSource } from './config';
 
 const columns = [
   {
@@ -25,7 +25,7 @@ const columns = [
 ];
 
 const Demo = () => {
-  const ref = React.useRef<TableInstance>(null);
+  const ref = React.useRef<TableInstance<RecordType>>(null);
 
   return (
     <Card>
@@ -113,7 +113,7 @@ const Demo = () => {
           ]}
         />
       </Space>
-      <Table ref={ref} columns={columns} rowSelection remoteDataSource={remoteDataSource} />
+      <Table<RecordType> ref={ref} columns={columns} rowSelection remoteDataSource={remoteDataSource} />
     </Card>
   );
 };
