@@ -1,21 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Radio, Space, DatePicker } from 'antd';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
 import { isEqual } from 'lodash';
-// @ts-ignore
-import type { RangeValue } from 'rc-picker/lib/interface';
 import type { RangePickerProps } from 'antd/lib/date-picker';
 
 const { RangePicker } = DatePicker;
 
-export type RecentPickerValue<T> = T | RangeValue<Moment>;
+export type RangeValue = RangePickerProps['value'];
+
+export type RecentPickerValue<T> = T | RangeValue;
 
 export const typeList = ['day', 'week', 'month', 'quarter', 'year'];
 
 export interface RecentPickerProps<T extends { label: string; value: any }> {
   onChange?: (value: RecentPickerValue<T['value']>) => void;
   value?: RecentPickerValue<T['value']>;
-  defaultValue?: RangeValue<Moment>;
+  defaultValue?: RangeValue;
   options?: T[];
   rangePickerProps?: RangePickerProps;
   showRangePicker?: boolean;
@@ -42,7 +42,7 @@ export const RecentPicker: <T extends { label: string; value: any }>(
   const isSettingValue = typeof value === 'string' || typeof value === 'number';
 
   const [type, setType] = useState(isSettingValue ? value : value ? CUSTOM_VALUE : finalOptions[0].value);
-  const [searchData, setSearchData] = useState<RangeValue<Moment>>(isSettingValue ? undefined : value);
+  const [searchData, setSearchData] = useState<RangeValue>(isSettingValue ? undefined : value);
   const isChangeLock = useRef(false);
   const mountRef = useRef(false);
   const handleChagneLock = useRef(false);
@@ -51,7 +51,7 @@ export const RecentPicker: <T extends { label: string; value: any }>(
     if (!type) return;
 
     if (showRangePicker) {
-      const finalValue: RangeValue<Moment> = [moment().startOf(type), moment().endOf(type)];
+      const finalValue: RangeValue = [moment().startOf(type), moment().endOf(type)];
       setSearchData(finalValue);
       if (!mountRef.current) return;
       onChange?.(finalValue);

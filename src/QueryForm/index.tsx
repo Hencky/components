@@ -64,8 +64,7 @@ export const QueryForm: React.FC<QueryFormProps> = (props) => {
       const finalLabel = isSingleSearch ? undefined : field.label;
       const fieldChild = field.children;
       const children = isSingleSearch
-        ? // @ts-ignore
-          React.cloneElement(fieldChild, {
+        ? React.cloneElement(fieldChild, {
             allowClear: true,
             onPressEnter: () => {
               handleSearch();

@@ -48,8 +48,10 @@ export const BaseIcon: React.FC<BaseIconProps> = (props) => {
   if (!Icon) {
     icon = null;
   } else if (React.isValidElement(Icon)) {
-    // @ts-ignore 没有className定义
-    icon = React.cloneElement(Icon, { className: cls(Icon.props.className, loadingCls), ...restProps });
+    icon = React.cloneElement(Icon as React.ReactElement, {
+      className: cls((Icon as React.ReactElement).props.className, loadingCls),
+      ...restProps,
+    });
   } else {
     icon = <Icon className={loadingCls} {...restProps} />;
   }

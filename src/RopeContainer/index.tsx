@@ -6,7 +6,7 @@ export interface RopeContainerProps {
   tooltip?: string;
   confirm?: string;
   disabled?: (() => boolean) | boolean;
-  onClick: (e: any) => any;
+  onClick: (...args: any[]) => any;
   render?: (() => boolean) | boolean;
   container?: (() => React.ReactElement) | React.ReactElement;
   children: React.ReactElement;
@@ -35,7 +35,6 @@ export const RopeContainer: React.FC<RopeContainerProps> = (props) => {
     if (loading) return;
 
     setLoading(true);
-    // @ts-ignore
     const result = onClick(...args);
 
     if (isPromise(result)) {
@@ -83,7 +82,6 @@ export const RopeContainer: React.FC<RopeContainerProps> = (props) => {
   const renderTooltipElement = (element: React.ReactElement) => {
     return React.createElement(
       Tooltip,
-      // @ts-ignore
       {
         title: tooltip,
         visible: tooltipVisible,

@@ -10,6 +10,8 @@ export interface FormItemProps
   render?: ((props: FormItemProps) => boolean) | boolean;
   colStyle?: React.CSSProperties;
   colClassName?: string;
+  /** 录入组件，必填 */
+  children: React.ReactElement;
 }
 
 export const FormItem: React.FC<FormItemProps> = (props) => {

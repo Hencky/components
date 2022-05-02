@@ -16,7 +16,7 @@ export const ButtonAction: React.FC<ButtonActionProps> = (props) => {
 
   return (
     <BaseAction {...rest}>
-      <Button>{props.children}</Button>
+      <Button>{children}</Button>
     </BaseAction>
   );
 };
