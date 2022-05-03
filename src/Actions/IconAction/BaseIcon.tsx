@@ -1,14 +1,11 @@
 import React from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
 import cls from 'classnames';
-import { BaseAction, BaseActions } from './BaseAction';
-import { usePrefix } from '../_hooks';
-import type { SpaceProps } from 'antd/lib/space';
-import type { BaseActionProps } from './BaseAction';
+import { usePrefix } from '../../_hooks';
 
-import './iconAction.less';
+import './index.less';
 
-interface BaseIconProps {
+export interface BaseIconProps {
   icon: any;
   disabled?: boolean;
   loading?: boolean;
@@ -83,28 +80,4 @@ export const BaseIcon: React.FC<BaseIconProps> = (props) => {
       {textPosition === 'end' && textEle}
     </span>
   );
-};
-
-export interface IconActionProps
-  extends Omit<BaseActionProps, 'children'>,
-    Omit<BaseIconProps, 'disabled' | 'onClick' | 'loading'> {
-  icon: any;
-}
-
-export const IconAction: React.FC<IconActionProps> = (props) => {
-  const { children, icon, ...rest } = props;
-
-  return (
-    <BaseAction {...rest}>
-      <BaseIcon icon={icon} />
-    </BaseAction>
-  );
-};
-
-export interface IconActionsProps extends SpaceProps {
-  actions: (IconActionProps | React.ReactElement)[];
-}
-
-export const IconActions: React.FC<IconActionsProps> = (props) => {
-  return <BaseActions {...props} component={IconAction} />;
 };

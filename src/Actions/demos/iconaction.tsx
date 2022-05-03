@@ -1,181 +1,75 @@
 /**
- * @title ButtonActions
+ * @title TextAction
  * @description 按钮
  */
 
 import React from 'react';
 import { ConfigProvider, message, Space, Row } from 'antd';
 import { CopyOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { BaseIcon, IconActions } from '@pms/ui';
-import type { IconActionsProps } from '@pms/ui';
+import { IconAction } from '@pms/ui';
 import zhCH from 'antd/lib/locale/zh_CN';
 
-const IconAction = () => {
-  const iconActions: IconActionsProps['actions'] = [
-    {
-      icon: EditOutlined,
-      tooltip: '编辑',
-      onClick: () => {
-        console.log('Action 1');
-      },
-    },
-    {
-      icon: CopyOutlined,
-      tooltip: '复制~',
-      onClick: () => {
-        console.log('Action 1');
-      },
-    },
-    {
-      icon: EditOutlined,
-      tooltip: '编辑',
-      onClick: () => {
-        console.log('Action 编辑');
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            message.success('编辑成功');
-            resolve(true);
-          }, 2000);
-        });
-      },
-    },
-    {
-      icon: DeleteOutlined,
-      tooltip: '删除',
-      confirm: '确认删除?',
-      onClick: (e) => {
-        console.log('Action 删除', e);
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            message.success('删除成功');
-            resolve(true);
-          }, 2000);
-        });
-      },
-    },
-    {
-      icon: DeleteOutlined,
-      confirm: '确认删除?',
-      type: 'error',
-      onClick: (e) => {
-        console.log('Action 删除', e);
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            message.error('删除失败');
-            reject(true);
-          }, 2000);
-        });
-      },
-    },
-  ];
-
-  const iconTextActions: IconActionsProps['actions'] = [
-    {
-      icon: EditOutlined,
-      text: '编辑',
-      onClick: () => {
-        console.log('Action 1');
-      },
-    },
-    {
-      icon: CopyOutlined,
-      text: '复制~',
-      onClick: () => {
-        console.log('Action 1');
-      },
-    },
-    {
-      icon: EditOutlined,
-      text: '编辑',
-      onClick: () => {
-        console.log('Action 编辑');
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            message.success('编辑成功');
-            resolve(true);
-          }, 2000);
-        });
-      },
-    },
-    {
-      icon: DeleteOutlined,
-      text: '删除',
-      confirm: '确认删除?',
-      onClick: (e) => {
-        console.log('Action 删除', e);
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            message.success('删除成功');
-            resolve(true);
-          }, 2000);
-        });
-      },
-    },
-    {
-      icon: DeleteOutlined,
-      confirm: '确认删除?',
-      type: 'error',
-      text: '删除',
-      onClick: (e) => {
-        console.log('Action 删除', e);
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            message.error('删除失败');
-            reject(true);
-          }, 2000);
-        });
-      },
-    },
-  ];
+const IconActionDemo = () => {
+  const onClick = (e) => {
+    console.log('click', e);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(true);
+      }, 1500);
+    });
+  };
 
   return (
     <ConfigProvider locale={zhCH}>
       <Row>
         <Space>
-          <BaseIcon icon={EditOutlined} />
-          <BaseIcon icon={EditOutlined} type="error" />
-          <BaseIcon icon={EditOutlined} type="primary" />
-          <BaseIcon icon={EditOutlined} type="success" />
-          <BaseIcon icon={EditOutlined} type="warning" />
+          <IconAction tooltip="编辑" onClick={onClick} icon={EditOutlined} />
+          <IconAction tooltip="编辑" onClick={onClick} icon={EditOutlined} type="error" />
+          <IconAction tooltip="编辑" onClick={onClick} icon={EditOutlined} type="primary" />
+          <IconAction tooltip="编辑" onClick={onClick} icon={EditOutlined} type="success" />
+          <IconAction tooltip="编辑" onClick={onClick} icon={EditOutlined} type="warning" />
         </Space>
       </Row>
       <Row>
         <Space>
-          <BaseIcon icon={<EditOutlined className="extracls" />} />
-          <BaseIcon icon={<EditOutlined />} type="error" />
-          <BaseIcon icon={<EditOutlined />} type="primary" />
-          <BaseIcon icon={<EditOutlined />} type="success" />
-          <BaseIcon icon={<EditOutlined />} type="warning" />
+          <IconAction onClick={onClick} icon={<EditOutlined className="extracls" />} />
+          <IconAction onClick={onClick} icon={<EditOutlined />} type="error" />
+          <IconAction onClick={onClick} icon={<EditOutlined />} type="primary" />
+          <IconAction onClick={onClick} icon={<EditOutlined />} type="success" />
+          <IconAction onClick={onClick} icon={<EditOutlined />} type="warning" />
         </Space>
       </Row>
       <Row>
         <Space>
-          <BaseIcon loading icon={EditOutlined} />
-          <BaseIcon loading icon={EditOutlined} type="error" />
-          <BaseIcon loading icon={EditOutlined} type="primary" />
-          <BaseIcon loading icon={EditOutlined} type="success" />
-          <BaseIcon loading icon={EditOutlined} type="warning" />
+          <IconAction onClick={onClick} loading icon={EditOutlined} />
+          <IconAction onClick={onClick} loading icon={EditOutlined} type="error" />
+          <IconAction onClick={onClick} loading icon={EditOutlined} type="primary" />
+          <IconAction onClick={onClick} loading icon={EditOutlined} type="success" />
+          <IconAction onClick={onClick} loading icon={EditOutlined} type="warning" />
         </Space>
       </Row>
 
       <Row>
         <Space>
-          <BaseIcon disabled icon={EditOutlined} />
-          <BaseIcon disabled icon={EditOutlined} type="error" />
-          <BaseIcon disabled icon={EditOutlined} type="primary" />
-          <BaseIcon disabled icon={EditOutlined} type="success" />
-          <BaseIcon disabled icon={EditOutlined} type="warning" />
+          <IconAction onClick={onClick} disabled icon={EditOutlined} />
+          <IconAction onClick={onClick} disabled icon={EditOutlined} type="error" />
+          <IconAction onClick={onClick} disabled icon={EditOutlined} type="primary" />
+          <IconAction onClick={onClick} disabled icon={EditOutlined} type="success" />
+          <IconAction onClick={onClick} disabled icon={EditOutlined} type="warning" />
         </Space>
       </Row>
 
       <Row>
-        <IconActions actions={iconActions} />
-      </Row>
-      <Row>
-        <IconActions actions={iconTextActions} />
+        <Space>
+          <IconAction onClick={onClick} text="编辑" icon={EditOutlined} />
+          <IconAction onClick={onClick} text="编辑" icon={EditOutlined} type="error" />
+          <IconAction onClick={onClick} text="编辑" icon={EditOutlined} type="primary" />
+          <IconAction onClick={onClick} text="编辑" icon={EditOutlined} type="success" />
+          <IconAction onClick={onClick} text="编辑" icon={EditOutlined} type="warning" />
+        </Space>
       </Row>
     </ConfigProvider>
   );
 };
 
-export default IconAction;
+export default IconActionDemo;

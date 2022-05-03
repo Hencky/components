@@ -1,9 +1,9 @@
 import React from 'react';
-import { BaseAction, BaseActions } from './BaseAction';
-import { Text } from '../Text';
+import { BaseAction, BaseActions } from '../BaseAction';
+import { Text } from '../../Text';
 import type { SpaceProps } from 'antd/lib/space';
-import type { TextProps } from '../Text';
-import type { BaseActionProps } from './BaseAction';
+import type { TextProps } from '../../Text';
+import type { BaseActionProps } from '../BaseAction';
 
 export const BaseText = (props: React.PropsWithChildren<TextProps>) => {
   return (
