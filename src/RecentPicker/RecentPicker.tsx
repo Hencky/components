@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Radio, Space, DatePicker } from 'antd';
-import moment from 'moment';
+import moment, { type Moment } from 'moment';
 import { isEqual } from 'lodash';
 import type { RangePickerProps } from 'antd/lib/date-picker';
 
 const { RangePicker } = DatePicker;
 
-export type RangeValue = RangePickerProps['value'];
+export type RangeValue = [Moment, Moment];
 
 export type RecentPickerValue<T> = T | RangeValue;
 
@@ -15,7 +15,7 @@ export const typeList = ['day', 'week', 'month', 'quarter', 'year'];
 export interface RecentPickerProps<T extends { label: string; value: any }> {
   onChange?: (value: RecentPickerValue<T['value']>) => void;
   value?: RecentPickerValue<T['value']>;
-  defaultValue?: RangeValue;
+  defaultValue?: [Moment, Moment];
   options?: T[];
   rangePickerProps?: RangePickerProps;
   showRangePicker?: boolean;
@@ -42,7 +42,7 @@ export const RecentPicker: <T extends { label: string; value: any }>(
   const isSettingValue = typeof value === 'string' || typeof value === 'number';
 
   const [type, setType] = useState(isSettingValue ? value : value ? CUSTOM_VALUE : finalOptions[0].value);
-  const [searchData, setSearchData] = useState<RangeValue>(isSettingValue ? undefined : value);
+  const [searchData, setSearchData] = useState<RangeValue | undefined>(isSettingValue ? undefined : value);
   const isChangeLock = useRef(false);
   const mountRef = useRef(false);
   const handleChagneLock = useRef(false);

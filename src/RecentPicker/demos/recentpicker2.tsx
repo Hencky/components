@@ -1,11 +1,7 @@
 import React from 'react';
 import { Card, Divider } from 'antd';
 import moment from 'moment';
-import { RecentPicker } from '@pms/ui';
-import type { Moment } from 'moment';
-// @ts-ignore
-import type { RangeValue } from 'rc-picker/lib/interface';
-import { RecentPickerValue } from '@pms/ui';
+import { RecentPicker, type RecentPickerValue, type RangeValue } from '@pms/ui';
 
 const Demo = () => {
   return (
@@ -24,7 +20,7 @@ const Demo = () => {
           if (typeof val === 'string') {
             finalValue = [moment().startOf(val as any), moment()];
           }
-          const result = (finalValue as RangeValue<Moment>)?.map((val) => val?.format('YYYY-MM-DD HH:mm:ss'));
+          const result = (finalValue as RangeValue)?.map((val) => val?.format('YYYY-MM-DD HH:mm:ss'));
           console.log('val', result);
         }}
       />

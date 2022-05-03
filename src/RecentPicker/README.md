@@ -7,8 +7,6 @@ subGroup: 录入组件
 
 近期时间选择组件
 
-
-
 ## demos
 
 <Demo src="./demos/recentpicker.tsx" />
@@ -22,26 +20,27 @@ subGroup: 录入组件
 ## API
 
 ```ts
+import type { Moment } from 'moment';
 import type { RangePickerProps } from 'antd/lib/date-picker';
 
-import type { RangeValue } from 'rc-picker/lib/interface';
+export type RangeValue = [Moment, Moment];
 
-export type RecentPickerValue<T> = T | RangeValue<Moment>;
+export type RecentPickerValue<T> = T | RangeValue;
 
 export interface RecentPickerProps<T extends { label: string; value: any }> {
   onChange?: (value: RecentPickerValue<T['value']>) => void;
   value?: RecentPickerValue<T['value']>;
-  defaultValue?: RangeValue<Moment>;
+  defaultValue?: RangeValue;
   options?: T[];
   rangePickerProps?: RangePickerProps;
   showRangePicker?: boolean;
 }
 ```
 
-| 字段名 |  说明 |类型 | 默认值 |
-| :-----| :---- | :---- | :----: |
-| onChange | 值变化时的回调 | `(value: RecentPickerValue<T['value']>) => void` | - |
-| value | 值 | moment或`option string`，建议参考demo | - |
-| defaultValue | 切换到自定义选择时的值 | `RangeValue<Moment>` | - |
-| options | 日期范围选择数据源 |  `T extends { label: string; value: any }[]` | - |
-| rangePickerProps | 日期范围选择其他参数，透传给`RangePicker`组件 | [RangePickerProps](https://ant.design/components/date-picker-cn/#%E5%85%B1%E5%90%8C%E7%9A%84-API) | - |
+| 字段名           | 说明                                          | 类型                                                                                              | 默认值 |
+| :--------------- | :-------------------------------------------- | :------------------------------------------------------------------------------------------------ | :----: |
+| onChange         | 值变化时的回调                                | `(value: RecentPickerValue<T['value']>) => void`                                                  |   -    |
+| value            | 值                                            | moment 或`option string`，建议参考 demo                                                           |   -    |
+| defaultValue     | 切换到自定义选择时的值                        | `RangeValue`                                                                                      |   -    |
+| options          | 日期范围选择数据源                            | `T extends { label: string; value: any }[]`                                                       |   -    |
+| rangePickerProps | 日期范围选择其他参数，透传给`RangePicker`组件 | [RangePickerProps](https://ant.design/components/date-picker-cn/#%E5%85%B1%E5%90%8C%E7%9A%84-API) |   -    |
