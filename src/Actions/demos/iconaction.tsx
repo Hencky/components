@@ -4,8 +4,8 @@
  */
 
 import React from 'react';
-import { ConfigProvider, message, Space, Row } from 'antd';
-import { CopyOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ConfigProvider, Space, Row } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
 import { IconAction } from '@pms/ui';
 import zhCH from 'antd/lib/locale/zh_CN';
 
