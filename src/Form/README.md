@@ -25,7 +25,7 @@ FormItem 是在`Form.Item`组件基础上增加`Col`组件包裹，方便布局�
 
 <Demo src="./demos/formitemdemo.tsx" />
 
-### FormItemApi
+### FormItem api
 
 | 字段名       | 说明                                   | 类型                                 |  默认值  |
 | :----------- | :------------------------------------- | :----------------------------------- | :------: | ------ |
@@ -36,3 +36,25 @@ FormItem 是在`Form.Item`组件基础上增加`Col`组件包裹，方便布局�
 
 除此以外，透传[Col](https://ant.design/components/grid-cn/#Col)的`span` `offset` `push` `pull` `order` `flex` 属性。  
 以及，[Form.Item](https://ant.design/components/form-cn/#Form.Item)的属性。
+
+## FormGroup
+
+FormGroup 是 FormItem 组，直接使用 FormGroup 方便快速搭建表单和布局。
+
+### FormGroup demos
+
+基本时候用
+<Demo src="./demos/formgroupdemo.tsx" />
+
+放在容器中
+<Demo src="./demos/carddemo.tsx" />
+
+### FormGroup api
+
+| 字段名 | 说明             | 类型                                |  默认值  |
+| :----- | :--------------- | :---------------------------------- | :------: | ------ |
+| fields | 必填，表单项列表 | `FormItemProps[]`                   |    -     |
+| render | 是否渲染         | `(props: FormGroupProps) => boolean | boolean` | `true` |
+
+除此以外，透传[Row](https://ant.design/components/grid-cn/#Row)的属性。  
+以及，[Form.Item](https://ant.design/components/form-cn/#Form.Item)的`colon` `labelCol` `labelAlign` `wrapperCol` `hidden`属性，这些属性会透传到每个`FormItem`组件上。

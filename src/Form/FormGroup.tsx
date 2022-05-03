@@ -7,7 +7,7 @@ import { toArray, canRender } from '../_util';
 
 export interface FormGroupProps extends RowProps, FormItemBaseProps {
   fields: FormItemProps[];
-  render?: boolean;
+  render?: (props: FormGroupProps) => boolean | boolean;
 }
 
 export const FormGroup: React.FC<FormGroupProps> = (props) => {

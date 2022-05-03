@@ -16,7 +16,6 @@ const Demo = () => {
             {
               name: 'x1',
               label: 'x1',
-              labelCol: { span: 8 },
               children: <Input placeholder="请输入" />,
             },
             {
