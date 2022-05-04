@@ -1,7 +1,11 @@
 import React, { useState, forwardRef, useEffect, useRef, useImperativeHandle } from 'react';
 import { ForwardedRef, ReactElement, PropsWithChildren } from 'react';
 import { Table as ATable } from 'antd';
-import type { TableProps as ATableProps } from 'antd/lib/table';
+import type {
+  TableProps as ATableProps,
+  ColumnGroupType as AColumnGroupType,
+  ColumnType as AColumnType,
+} from 'antd/lib/table';
 import type { Key, SorterResult, TableRowSelection } from 'antd/lib/table/interface';
 import { FilterParams, Pagination, RequestParams, RequestResult, SorterParams } from './interface';
 import { setRef } from '../_util';
@@ -35,8 +39,12 @@ export interface TableInstance<RecordType = any> {
   forceUpdate: () => void;
 }
 
+export interface ColumnGroupType<RecordType> extends Omit<AColumnGroupType<RecordType>, 'render'> {
+  render: (ctx: { value: RecordType; index: number; table: TableInstance; record: RecordType }) => ReactElement;
+}
+
 export interface TableProps<RecordType = any>
-  extends Omit<ATableProps<RecordType>, 'dataSoruce' | 'loading' | 'rowSelection'> {
+  extends Omit<ATableProps<RecordType>, 'dataSoruce' | 'loading' | 'rowSelection' | 'columns'> {
   /** 远程数据源 */
   remoteDataSource?: (params: RequestParams) => Promise<RequestResult<RecordType>>;
   /** 默认分页配置 */
@@ -45,6 +53,8 @@ export interface TableProps<RecordType = any>
   rowSelection?: boolean | TableRowSelection<RecordType>;
   /** 初始是否发起一次请求，默认发起请求 */
   requestOnMount?: boolean;
+  /** 列配置 */
+  columns?: ColumnGroupType<RecordType>[];
 }
 
 function BasicTable<RecordType extends Record<string, any> = any>(
@@ -53,6 +63,7 @@ function BasicTable<RecordType extends Record<string, any> = any>(
 ): ReactElement {
   const {
     rowKey = 'id',
+    columns = [],
     remoteDataSource,
     pagination,
     rowSelection,
@@ -109,7 +120,8 @@ function BasicTable<RecordType extends Record<string, any> = any>(
     refreshTable();
   };
 
-  useImperativeHandle(ref, () => ({
+  // ===== 表格实例 =====
+  const getTableInstance = () => ({
     refresh: refreshTable,
     reset,
     getSelectedRows: () => selectedRows,
@@ -125,12 +137,28 @@ function BasicTable<RecordType extends Record<string, any> = any>(
     getLoading: () => loading,
     setLoading,
     forceUpdate: () => forceUpdate({}),
-  }));
+  });
+
+  useImperativeHandle(ref, getTableInstance);
 
   useEffect(() => {
     if (requestOnMount === false) return;
     refreshTable();
   }, []);
+
+  // ===== 改写columns，render支持form和table实例，省略dataIndex配置 =====
+  // TODO: 暂不支持children属性
+  const renderColumns = (): AColumnType<RecordType>[] => {
+    return columns!.map((column) => {
+      return {
+        dataIndex: column.key,
+        ...column,
+        render: (value, record, index) => {
+          return column?.render({ value, record, index, table: getTableInstance() });
+        },
+      };
+    });
+  };
 
   // ===== 表格变化 =====
   const onTableChange: ATableProps<RecordType>['onChange'] = (pagination, filters, sorter, datasource) => {
@@ -170,6 +198,7 @@ function BasicTable<RecordType extends Record<string, any> = any>(
     <ATable<RecordType>
       bordered
       rowKey={rowKey}
+      columns={renderColumns()}
       {...restTableProps}
       pagination={{
         showQuickJumper: true,

@@ -9,7 +9,7 @@ import React, {
 import cls from 'classnames';
 import { Form } from 'antd';
 import { QueryForm, type QueryFormProps } from '../QueryForm';
-import { Table, type TableProps, type TableInstance } from '../Table';
+import { Table, type TableProps, type TableInstance, type ColumnGroupType } from '../Table';
 import { ButtonActions, type ButtonActionProps } from '../Actions';
 import type { FormInstance } from 'antd/lib/form';
 import { usePrefix } from '../_hooks';
@@ -27,9 +27,20 @@ export interface QueryTableActions extends Omit<ButtonActionProps, 'onClick'> {
   onClick: (e: React.MouseEvent<HTMLButtonElement>, ctx: { form: FormInstance; table: TableInstance }) => void;
 }
 
+export interface QueryTableColumnGroupType<RecordType> extends Omit<ColumnGroupType<RecordType>, 'render'> {
+  render: (ctx: {
+    value: RecordType;
+    index: number;
+    form: FormInstance;
+    table: TableInstance;
+    record: RecordType;
+  }) => ReactElement;
+}
+
 export interface QueryTableProps<RecordType extends Record<string, any> = any>
   extends Omit<QueryFormProps, 'onSubmit' | 'onReset' | 'form'>,
-    Pick<TableProps, OutsideTableType> {
+    Pick<TableProps, Exclude<OutsideTableType, 'columns'>> {
+  columns: QueryTableColumnGroupType<RecordType>[];
   tableProps?: Omit<TableProps<RecordType>, OutsideTableType>;
   leftActions?: QueryTableActions[];
   actions?: QueryTableActions[];
@@ -74,7 +85,21 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
     table: tableRef.current!,
   }));
 
-  // ===== 操作按钮渲染 =====
+  // ===== 改写columns，render支持form和table实例，省略dataIndex配置 =====
+  // TODO: 暂不支持children属性
+  const renderColumns = (): ColumnGroupType<RecordType>[] => {
+    return columns!.map((column) => {
+      return {
+        dataIndex: column.key,
+        ...column,
+        render: ({ value, record, index }) => {
+          return column?.render({ value, record, index, table: tableRef.current!, form });
+        },
+      };
+    });
+  };
+
+  // ===== 操作按钮渲染，改写onClick，支持form和table实例 =====
   // TODO: 目前仅支持ButtonAction，后续如有需要，根据actionType支持其他类型
   const renderActions = () => {
     const getActions = (actions: QueryTableActions[] = []): ButtonActionProps[] => {
@@ -120,7 +145,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
       <Table
         ref={tableRef}
         rowKey={rowKey}
-        columns={columns}
+        columns={renderColumns()}
         rowSelection={rowSelection}
         remoteDataSource={remoteDataSource}
         {...tableProps}
