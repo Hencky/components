@@ -22,8 +22,11 @@ export type FilterParams = Record<string, any>;
  * 分页配置
  */
 export type Pagination = {
+  /** 当前页 */
   current: number;
+  /** 分页大小 */
   size: number;
+  /** 总条数 */
   total: number;
 };
 
@@ -36,8 +39,12 @@ export type RequestParams = BaseRequestParams &
   };
 
 export type RequestResult<RecordType extends Record<string, any> = any> = {
+  /** 数据源 **/
   records: RecordType[];
+  /** 当前页 **/
   current: number;
+  /** 数据总条数 **/
   total: number;
+  /** 分页大小 **/
   size: number;
 };

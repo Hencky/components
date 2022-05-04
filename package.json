@@ -57,6 +57,7 @@
     "husky": "^6.0.0",
     "less": "^3.13.1",
     "lint-staged": "^12.4.1",
+    "mockjs": "^1.1.0",
     "postcss-less": "^6.0.0",
     "prettier": "^2.6.2",
     "pretty-quick": "3",
@@ -73,9 +74,5 @@
     "vite-plugin-eslint": "^1.5.2",
     "vite-plugin-mdx": "^3.5.6",
     "vite-plugin-react-pages": "^3.1.8"
-  },
-  "publishConfig": {
-    "registry": "http://172.16.9.19:4873/",
-    "access": "public"
   }
 }
