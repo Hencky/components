@@ -27,12 +27,12 @@ FormItem 是在`Form.Item`组件基础上增加`Col`组件包裹，方便布局�
 
 ### FormItem api
 
-| 字段名       | 说明                                   | 类型                                 |  默认值  |
-| :----------- | :------------------------------------- | :----------------------------------- | :------: | ------ |
-| render       | 是否渲染                               | `((props: FormItemProps) => boolean) | boolean` | `true` |
-| colStyle     | Col 样式                               | `React.CSSProperties`                |    -     |
-| colClassName | colClassName                           | `string`                             |    -     |
-| children     | 必填，antd 表单录入组件，如`<Input />` | `React.ReactElement`                 |    -     |
+| 字段名       | 说明                                   | 类型                                  |  默认值   |
+| :----------- | :------------------------------------- | :------------------------------------ | :-------: | ------ |
+| render       | 是否渲染                               | `((props: FormItemProps) => boolean)` | `boolean` | `true` |
+| colStyle     | Col 样式                               | `React.CSSProperties`                 |     -     |
+| colClassName | colClassName                           | `string`                              |     -     |
+| children     | 必填，antd 表单录入组件，如`<Input />` | `React.ReactElement`                  |     -     |
 
 除此以外，透传[Col](https://ant.design/components/grid-cn/#Col)的`span` `offset` `push` `pull` `order` `flex` 属性。  
 以及，[Form.Item](https://ant.design/components/form-cn/#Form.Item)的属性。
