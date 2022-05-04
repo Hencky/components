@@ -8,10 +8,11 @@ subGroup: 展示组件
 1. 后端分页表格，`loading` `rowSelection` `pagination`由`Table`组件内部控制。
 2. 支持`remoteDataSource`方法，该方法接收`Table`组件需要数据格式的 Promise 对象，即可对`dataSource`进行控制。
 3. 支持实例方法，灵活控制表格。
+4. Table 改写了`antd Table`中`columns`的`render`方法，参数`ctx`中可以拿到`table`实例方法。
 
 ## table Demo
 
-<Demo src="./demos/demo1.tsx" />
+<Demo src="./demos/tabledemo.tsx" />
 
 ## Table 后端分页格式
 

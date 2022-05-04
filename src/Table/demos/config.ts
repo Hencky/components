@@ -1,5 +1,5 @@
-import { TableProps } from '@pms/ui';
 import { Random } from 'mockjs';
+import type { TableProps, ColumnType } from '@pms/ui';
 
 const status = ['dispatching', 'success', 'warning'];
 
@@ -17,31 +17,23 @@ export interface RecordType {
   id: string;
 }
 
-export const columns = [
+export const columns: ColumnType<RecordType>[] = [
   {
     key: 'id',
     title: 'ID',
-    dataIndex: 'id',
     sorter: true,
   },
   {
     key: 'senderName',
-    dataIndex: 'senderName',
     title: '发送人',
   },
   {
     key: 'recipientName',
-    dataIndex: 'recipientName',
     title: '接收人',
   },
   {
     key: 'status',
-    dataIndex: 'status',
     title: '状态',
-  },
-  {
-    key: 'operator',
-    title: '操作',
   },
 ];
 

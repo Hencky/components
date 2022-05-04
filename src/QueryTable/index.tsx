@@ -9,7 +9,7 @@ import React, {
 import cls from 'classnames';
 import { Form } from 'antd';
 import { QueryForm, type QueryFormProps } from '../QueryForm';
-import { Table, type TableProps, type TableInstance, type ColumnGroupType } from '../Table';
+import { Table, type TableProps, type TableInstance, type ColumnsType } from '../Table';
 import { ButtonActions, type ButtonActionProps } from '../Actions';
 import type { FormInstance } from 'antd/lib/form';
 import { usePrefix } from '../_hooks';
@@ -27,7 +27,7 @@ export interface QueryTableActions extends Omit<ButtonActionProps, 'onClick'> {
   onClick: (e: React.MouseEvent<HTMLButtonElement>, ctx: { form: FormInstance; table: TableInstance }) => void;
 }
 
-export interface QueryTableColumnGroupType<RecordType> extends Omit<ColumnGroupType<RecordType>, 'render'> {
+export interface QueryTableColumnGroupType<RecordType> extends Omit<ColumnsType<RecordType>, 'render'> {
   render: (ctx: {
     value: RecordType;
     index: number;
@@ -87,7 +87,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
 
   // ===== 改写columns，render支持form和table实例，省略dataIndex配置 =====
   // TODO: 暂不支持children属性
-  const renderColumns = (): ColumnGroupType<RecordType>[] => {
+  const renderColumns = (): ColumnsType<RecordType>[] => {
     return columns!.map((column) => {
       return {
         dataIndex: column.key,

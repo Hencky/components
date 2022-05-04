@@ -1,11 +1,7 @@
 import React, { useState, forwardRef, useEffect, useRef, useImperativeHandle } from 'react';
 import { ForwardedRef, ReactElement, PropsWithChildren } from 'react';
 import { Table as ATable } from 'antd';
-import type {
-  TableProps as ATableProps,
-  ColumnGroupType as AColumnGroupType,
-  ColumnType as AColumnType,
-} from 'antd/lib/table';
+import type { TableProps as ATableProps, ColumnsType as AColumnsType, ColumnType as AColumnType } from 'antd/lib/table';
 import type { Key, SorterResult, TableRowSelection } from 'antd/lib/table/interface';
 import { FilterParams, Pagination, RequestParams, RequestResult, SorterParams } from './interface';
 import { setRef } from '../_util';
@@ -37,10 +33,14 @@ export interface TableInstance<RecordType = any> {
   setLoading: (loading: boolean) => void;
   /** 强制刷新表格 */
   forceUpdate: () => void;
+
+  /** 内部传递，传给table组件更多ctx */
+  extraCtx?: () => any;
 }
 
-export interface ColumnGroupType<RecordType> extends Omit<AColumnGroupType<RecordType>, 'render'> {
-  render: (ctx: { value: RecordType; index: number; table: TableInstance; record: RecordType }) => ReactElement;
+export interface ColumnType<RecordType> extends Omit<AColumnType<RecordType>, 'render' | 'key'> {
+  render?: (ctx: { value: RecordType; index: number; table: TableInstance; record: RecordType }) => ReactElement;
+  key?: string;
 }
 
 export interface TableProps<RecordType = any>
@@ -54,7 +54,7 @@ export interface TableProps<RecordType = any>
   /** 初始是否发起一次请求，默认发起请求 */
   requestOnMount?: boolean;
   /** 列配置 */
-  columns?: ColumnGroupType<RecordType>[];
+  columns?: ColumnType<RecordType>[];
 }
 
 function BasicTable<RecordType extends Record<string, any> = any>(
@@ -148,14 +148,16 @@ function BasicTable<RecordType extends Record<string, any> = any>(
 
   // ===== 改写columns，render支持form和table实例，省略dataIndex配置 =====
   // TODO: 暂不支持children属性
-  const renderColumns = (): AColumnType<RecordType>[] => {
-    return columns!.map((column) => {
+  const renderColumns = (): AColumnsType<RecordType> => {
+    return columns.map((column) => {
+      const finalRender = column?.render
+        ? (value, record, index) => column.render!({ value, record, index, table: getTableInstance() })
+        : undefined;
+
       return {
         dataIndex: column.key,
         ...column,
-        render: (value, record, index) => {
-          return column?.render({ value, record, index, table: getTableInstance() });
-        },
+        render: finalRender,
       };
     });
   };
