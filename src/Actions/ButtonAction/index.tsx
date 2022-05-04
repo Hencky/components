@@ -22,7 +22,7 @@ export const ButtonAction: React.FC<ButtonActionProps> = (props) => {
 };
 
 export interface ButtonActionsProps extends SpaceProps {
-  actions: (ButtonActionProps | React.ReactElement)[];
+  actions: ButtonActionProps[];
 }
 
 export const ButtonActions: React.FC<ButtonActionsProps> = (props) => {

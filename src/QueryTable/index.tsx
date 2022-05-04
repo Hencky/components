@@ -9,7 +9,7 @@ import React, {
 import cls from 'classnames';
 import { Form } from 'antd';
 import { QueryForm, type QueryFormProps } from '../QueryForm';
-import { Table, type TableProps, type TableInstance, type ColumnsType } from '../Table';
+import { Table, type TableProps, type TableInstance, type ColumnType } from '../Table';
 import { ButtonActions, type ButtonActionProps } from '../Actions';
 import type { FormInstance } from 'antd/lib/form';
 import { usePrefix } from '../_hooks';
@@ -27,8 +27,8 @@ export interface QueryTableActions extends Omit<ButtonActionProps, 'onClick'> {
   onClick: (e: React.MouseEvent<HTMLButtonElement>, ctx: { form: FormInstance; table: TableInstance }) => void;
 }
 
-export interface QueryTableColumnGroupType<RecordType> extends Omit<ColumnsType<RecordType>, 'render'> {
-  render: (ctx: {
+export interface QueryTableColumnType<RecordType> extends Omit<ColumnType<RecordType>, 'render'> {
+  render?: (ctx: {
     value: RecordType;
     index: number;
     form: FormInstance;
@@ -40,7 +40,7 @@ export interface QueryTableColumnGroupType<RecordType> extends Omit<ColumnsType<
 export interface QueryTableProps<RecordType extends Record<string, any> = any>
   extends Omit<QueryFormProps, 'onSubmit' | 'onReset' | 'form'>,
     Pick<TableProps, Exclude<OutsideTableType, 'columns'>> {
-  columns: QueryTableColumnGroupType<RecordType>[];
+  columns: QueryTableColumnType<RecordType>[];
   tableProps?: Omit<TableProps<RecordType>, OutsideTableType>;
   leftActions?: QueryTableActions[];
   actions?: QueryTableActions[];
@@ -87,14 +87,16 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
 
   // ===== 改写columns，render支持form和table实例，省略dataIndex配置 =====
   // TODO: 暂不支持children属性
-  const renderColumns = (): ColumnsType<RecordType>[] => {
-    return columns!.map((column) => {
+  const renderColumns = (): ColumnType<RecordType>[] => {
+    return columns.map((column) => {
+      const finalRender = column.render
+        ? ({ value, record, index }) => {
+            return column.render!({ value, record, index, table: tableRef.current!, form });
+          }
+        : undefined;
       return {
-        dataIndex: column.key,
         ...column,
-        render: ({ value, record, index }) => {
-          return column?.render({ value, record, index, table: tableRef.current!, form });
-        },
+        render: finalRender,
       };
     });
   };

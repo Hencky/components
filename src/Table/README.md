@@ -96,8 +96,13 @@ export interface TableInstance<RecordType = any> {
 ## Table API
 
 ```ts
+export interface ColumnType<RecordType> extends Omit<AColumnType<RecordType>, 'render' | 'key'> {
+  render?: (ctx: { value: RecordType; index: number; table: TableInstance; record: RecordType }) => ReactElement;
+  key?: string;
+}
+
 export interface TableProps<RecordType = any>
-  extends Omit<ATableProps<RecordType>, 'dataSoruce' | 'loading' | 'rowSelection'> {
+  extends Omit<ATableProps<RecordType>, 'dataSoruce' | 'loading' | 'rowSelection' | 'columns'> {
   /** 远程数据源 */
   remoteDataSource?: (params: RequestParams) => Promise<RequestResult<RecordType>>;
   /** 默认分页配置 */
@@ -106,5 +111,7 @@ export interface TableProps<RecordType = any>
   rowSelection?: boolean | TableRowSelection<RecordType>;
   /** 初始是否发起一次请求，默认发起请求 */
   requestOnMount?: boolean;
+  /** 列配置 */
+  columns?: ColumnType<RecordType>[];
 }
 ```

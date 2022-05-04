@@ -1,21 +1,7 @@
 import React from 'react';
-import { QueryTable } from '@pms/ui';
+import { QueryTable, TextActions, ButtonActionProps, QueryTableColumnType } from '@pms/ui';
 import { Input, message } from 'antd';
-import { ButtonActionProps } from '@pms/ui';
-import { remoteDataSource } from '../../Table/demos/config';
-
-const columns = [
-  {
-    title: 'title1',
-    dataIndex: 'a',
-    key: 'title1',
-  },
-  {
-    title: 'title2',
-    dataIndex: 'b',
-    key: 'title3',
-  },
-];
+import { remoteDataSource, columns, type RecordType } from '../../Table/demos/config';
 
 const fields = [
   {
@@ -36,10 +22,32 @@ const actions: ButtonActionProps[] = [
 ];
 
 const Demo = () => {
+  const cols: QueryTableColumnType<RecordType>[] = [
+    ...columns,
+    {
+      key: 'operator',
+      render: (ctx) => {
+        return (
+          <TextActions
+            actions={[
+              {
+                children: '刷新',
+                onClick: () => {
+                  console.log('ctx', ctx);
+                  message.success('刷新成功');
+                },
+              },
+            ]}
+          />
+        );
+      },
+    },
+  ];
+
   return (
     <QueryTable
       fields={fields}
-      columns={columns}
+      columns={cols}
       // leftActions={actions}
       actions={actions}
       remoteDataSource={remoteDataSource}

@@ -26,7 +26,7 @@ export const TextAction: React.FC<TextActionProps> = (props) => {
 };
 
 export interface TextActionsProps extends SpaceProps {
-  actions: (TextActionProps | React.ReactElement)[];
+  actions: TextActionProps[];
 }
 
 export const TextActions: React.FC<TextActionsProps> = (props) => {

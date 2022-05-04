@@ -19,7 +19,7 @@ export const IconAction: React.FC<IconActionProps> = (props) => {
 };
 
 export interface IconActionsProps extends SpaceProps {
-  actions: (IconActionProps | React.ReactElement)[];
+  actions: IconActionProps[];
 }
 
 export const IconActions: React.FC<IconActionsProps> = (props) => {
