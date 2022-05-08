@@ -11,6 +11,7 @@ import { Form } from 'antd';
 import { QueryForm, type QueryFormProps } from '../QueryForm';
 import { Table, type TableProps, type TableInstance, type ColumnType } from '../Table';
 import { ButtonActions, type ButtonActionProps } from '../Actions';
+import { Modal, type ModalInstance } from '../Modal';
 import type { FormInstance } from 'antd/lib/form';
 import { usePrefix } from '../_hooks';
 
@@ -19,21 +20,26 @@ import './index.less';
 export interface QueryTableInstance<RecordType = any> {
   form: FormInstance;
   table: TableInstance<RecordType>;
+  modal: ModalInstance;
 }
 
 type OutsideTableType = 'remoteDataSource' | 'columns' | 'rowKey' | 'rowSelection';
 
 export interface QueryTableActions extends Omit<ButtonActionProps, 'onClick'> {
-  onClick: (e: React.MouseEvent<HTMLButtonElement>, ctx: { form: FormInstance; table: TableInstance }) => void;
+  onClick: (
+    e: React.MouseEvent<HTMLButtonElement>,
+    ctx: { form: FormInstance; table: TableInstance; modal: ModalInstance }
+  ) => void;
 }
 
 export interface QueryTableColumnType<RecordType> extends Omit<ColumnType<RecordType>, 'render'> {
   render?: (ctx: {
     value: RecordType;
     index: number;
+    record: RecordType;
     form: FormInstance;
     table: TableInstance;
-    record: RecordType;
+    modal: ModalInstance;
   }) => ReactElement;
 }
 
@@ -67,6 +73,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
   const [form] = Form.useForm();
 
   const tableRef = useRef<TableInstance>(null);
+  const modalRef = useRef<ModalInstance>(null);
 
   // ===== 点击查询按钮，恢复第一页 ======
   const onSubmit = (values) => {
@@ -83,6 +90,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
   useImperativeHandle(ref, () => ({
     form,
     table: tableRef.current!,
+    modal: modalRef.current!,
   }));
 
   // ===== 改写columns，render支持form和table实例，省略dataIndex配置 =====
@@ -91,7 +99,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
     return columns.map((column) => {
       const finalRender = column.render
         ? ({ value, record, index }) => {
-            return column.render!({ value, record, index, table: tableRef.current!, form });
+            return column.render!({ value, record, index, table: tableRef.current!, form, modal: modalRef.current! });
           }
         : undefined;
       return {
@@ -109,7 +117,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
         return {
           ...item,
           onClick: (e) => {
-            return item.onClick(e, { form, table: tableRef.current! });
+            return item.onClick(e, { form, table: tableRef.current!, modal: modalRef.current! });
           },
         };
       });
@@ -152,6 +160,8 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
         remoteDataSource={remoteDataSource}
         {...tableProps}
       />
+
+      <Modal ref={modalRef} />
     </div>
   );
 }
