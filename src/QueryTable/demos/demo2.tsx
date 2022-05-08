@@ -95,6 +95,19 @@ const Demo = () => {
                 },
               },
               {
+                children: '修改',
+                onClick: (e) => {
+                  const { modal } = ctx;
+                  return new Promise((resolve) => {
+                    setTimeout(() => {
+                      // return promise先请求数据，再打开弹框
+                      modal.open(getModalConfig(ctx));
+                      resolve('');
+                    }, 1000);
+                  });
+                },
+              },
+              {
                 children: '刷新',
                 onClick: () => {
                   console.log('ctx', ctx);
