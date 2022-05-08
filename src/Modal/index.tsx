@@ -11,7 +11,7 @@ export interface ModalProps extends Pick<AModalProps, ExcludeModalType> {
 
 export interface ModalInstance {
   open: (props: ModalProps) => void;
-  close: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+  close: (e?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
 
 const IModal: React.ForwardRefRenderFunction<ModalInstance> = (_, ref) => {
@@ -20,8 +20,8 @@ const IModal: React.ForwardRefRenderFunction<ModalInstance> = (_, ref) => {
 
   const propsRef = useRef<ModalProps>();
 
-  const onClose = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    propsRef.current?.onCancel?.(e);
+  const onClose = (e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    propsRef.current?.onCancel?.(e!);
     // TODO: 异步关闭
     setTimeout(() => {
       setVisible(false);

@@ -1,6 +1,13 @@
 import React, { useEffect } from 'react';
-import { QueryTable, TextActions, QueryTableColumnType, FormGroup, QueryTableActions } from '@pms/ui';
-import { Input, message, Form } from 'antd';
+import {
+  QueryTable,
+  TextActions,
+  QueryTableColumnType,
+  FormGroup,
+  QueryTableActions,
+  QueryTableInstance,
+} from '@pms/ui';
+import { Input, message, Form, FormInstance } from 'antd';
 import { remoteDataSource, columns, type RecordType } from '../../Table/demos/config';
 
 const fields = [
@@ -20,12 +27,12 @@ const modalFields = [
   },
 ];
 
-const ModalForm = (props) => {
+const ModalForm = (props: { form: FormInstance; initialValues?: Record<string, any> }) => {
   const { form, initialValues } = props;
 
-  useEffect(() => {
+  setTimeout(() => {
     form.setFieldsValue(initialValues);
-  }, [initialValues]);
+  });
 
   return (
     <Form form={form}>
@@ -37,9 +44,9 @@ const ModalForm = (props) => {
 const Demo = () => {
   const [form] = Form.useForm();
 
-  const getModalConfig = (ctx?: any) => {
+  const getModalConfig = (ctx: QueryTableInstance & { record?: any }) => {
     return {
-      title: '编辑',
+      title: '弹框标题',
       width: 800,
       children: <ModalForm form={form} initialValues={ctx?.record} />,
       onCancel: () => {
