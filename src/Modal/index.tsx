@@ -23,10 +23,7 @@ const IModal: React.ForwardRefRenderFunction<ModalInstance> = (_, ref) => {
 
   const onClose = (e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
     propsRef.current?.onCancel?.(e!);
-    // TODO: 异步关闭
-    setTimeout(() => {
-      setVisible(false);
-    });
+    setVisible(false);
   };
 
   useImperativeHandle(ref, () => {
