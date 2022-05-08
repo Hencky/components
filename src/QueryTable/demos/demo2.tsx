@@ -27,12 +27,8 @@ const modalFields = [
   },
 ];
 
-const ModalForm = (props: { form: FormInstance; initialValues?: Record<string, any> }) => {
-  const { form, initialValues } = props;
-
-  setTimeout(() => {
-    form.setFieldsValue(initialValues);
-  });
+const ModalForm = (props: { form: FormInstance }) => {
+  const { form } = props;
 
   return (
     <Form form={form}>
@@ -48,14 +44,16 @@ const Demo = () => {
     return {
       title: '弹框标题',
       width: 800,
-      children: <ModalForm form={form} initialValues={ctx?.record} />,
+      children: <ModalForm form={form} />,
       onCancel: () => {
         form.resetFields();
+      },
+      onOpen() {
+        form.setFieldsValue(ctx?.record);
       },
       onOk() {
         return form.validateFields().then(() => {
           const values = form.getFieldsValue(true);
-
           return new Promise((resolve) => {
             setTimeout(() => {
               console.log('values', values);
@@ -92,6 +90,7 @@ const Demo = () => {
                 onClick: (e) => {
                   const { modal } = ctx;
                   modal.open(getModalConfig(ctx));
+                  // form.setFieldsValue(ctx.record);
                 },
               },
               {

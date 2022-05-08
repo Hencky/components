@@ -7,6 +7,7 @@ export type ExcludeModalType = 'title' | 'width' | 'children' | 'onOk' | 'onCanc
 
 export interface ModalProps extends Pick<AModalProps, ExcludeModalType> {
   modalProps?: Omit<AModalProps, ExcludeModalType | 'visible'>;
+  onOpen?: () => void;
 }
 
 export interface ModalInstance {
@@ -32,6 +33,8 @@ const IModal: React.ForwardRefRenderFunction<ModalInstance> = (_, ref) => {
     return {
       open: (props) => {
         setRef(propsRef, props);
+        const { onOpen } = props!;
+        onOpen?.();
         setVisible(true);
       },
       close: onClose,
