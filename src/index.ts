@@ -8,3 +8,4 @@ export * from './Table';
 export * from './ToggleOpenButton';
 export * from './QueryForm';
 export * from './QueryTable';
+export * from './ModalForm';

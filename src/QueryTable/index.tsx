@@ -12,6 +12,7 @@ import { QueryForm, type QueryFormProps } from '../QueryForm';
 import { Table, type TableProps, type TableInstance, type ColumnType } from '../Table';
 import { ButtonActions, type ButtonActionProps } from '../Actions';
 import { Modal, type ModalInstance } from '../Modal';
+import { ModalForm, type ModalFormInstance } from '../ModalForm';
 import type { FormInstance } from 'antd/lib/form';
 import { usePrefix } from '../_hooks';
 
@@ -21,26 +22,25 @@ export interface QueryTableInstance<RecordType = any> {
   form: FormInstance;
   table: TableInstance<RecordType>;
   modal: ModalInstance;
+  modalForm: ModalFormInstance;
 }
+
+export type QueryTableContext<RecordType = any> = QueryTableInstance<RecordType>;
 
 type OutsideTableType = 'remoteDataSource' | 'columns' | 'rowKey' | 'rowSelection';
 
-export interface QueryTableActions extends Omit<ButtonActionProps, 'onClick'> {
-  onClick: (
-    e: React.MouseEvent<HTMLButtonElement>,
-    ctx: { form: FormInstance; table: TableInstance; modal: ModalInstance }
-  ) => void;
+export interface QueryTableActions<RecordType = any> extends Omit<ButtonActionProps, 'onClick'> {
+  onClick: (e: React.MouseEvent<HTMLButtonElement>, ctx: QueryTableContext<RecordType>) => void;
 }
 
 export interface QueryTableColumnType<RecordType> extends Omit<ColumnType<RecordType>, 'render'> {
-  render?: (ctx: {
-    value: RecordType;
-    index: number;
-    record: RecordType;
-    form: FormInstance;
-    table: TableInstance;
-    modal: ModalInstance;
-  }) => ReactElement;
+  render?: (
+    ctx: {
+      value: RecordType;
+      index: number;
+      record: RecordType;
+    } & QueryTableContext<RecordType>
+  ) => ReactElement;
 }
 
 export interface QueryTableProps<RecordType extends Record<string, any> = any>
@@ -48,8 +48,8 @@ export interface QueryTableProps<RecordType extends Record<string, any> = any>
     Pick<TableProps, Exclude<OutsideTableType, 'columns'>> {
   columns: QueryTableColumnType<RecordType>[];
   tableProps?: Omit<TableProps<RecordType>, OutsideTableType>;
-  leftActions?: QueryTableActions[];
-  actions?: QueryTableActions[];
+  leftActions?: QueryTableActions<RecordType>[];
+  actions?: QueryTableActions<RecordType>[];
 }
 
 function BaseQueryTable<RecordType extends Record<string, any> = any>(
@@ -74,6 +74,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
 
   const tableRef = useRef<TableInstance>(null);
   const modalRef = useRef<ModalInstance>(null);
+  const modalFormRef = useRef<ModalFormInstance>(null);
 
   // ===== 点击查询按钮，恢复第一页 ======
   const onSubmit = (values) => {
@@ -87,11 +88,14 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
     return tableRef.current!.reset();
   };
 
-  useImperativeHandle(ref, () => ({
+  const getQueryTableInstance = () => ({
     form,
     table: tableRef.current!,
     modal: modalRef.current!,
-  }));
+    modalForm: modalFormRef.current!,
+  });
+
+  useImperativeHandle(ref, getQueryTableInstance);
 
   // ===== 改写columns，render支持form和table实例，省略dataIndex配置 =====
   // TODO: 暂不支持children属性
@@ -99,7 +103,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
     return columns.map((column) => {
       const finalRender = column.render
         ? ({ value, record, index }) => {
-            return column.render!({ value, record, index, table: tableRef.current!, form, modal: modalRef.current! });
+            return column.render!({ value, record, index, ...getQueryTableInstance() });
           }
         : undefined;
       return {
@@ -117,7 +121,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
         return {
           ...item,
           onClick: (e) => {
-            return item.onClick(e, { form, table: tableRef.current!, modal: modalRef.current! });
+            return item.onClick(e, getQueryTableInstance());
           },
         };
       });
@@ -162,6 +166,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
       />
 
       <Modal ref={modalRef} />
+      <ModalForm ref={modalFormRef} />
     </div>
   );
 }
