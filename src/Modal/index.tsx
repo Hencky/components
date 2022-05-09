@@ -54,9 +54,9 @@ const IModal: React.ForwardRefRenderFunction<ModalInstance> = (_, ref) => {
 
   return (
     <AModal
-      visible={visible}
-      onCancel={onClose}
       {...modalProps}
+      onCancel={onClose}
+      visible={visible}
       confirmLoading={confirmLoading}
       title={title}
       width={width}
