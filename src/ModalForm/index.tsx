@@ -64,17 +64,22 @@ const IModalForm: React.ForwardRefRenderFunction<ModalFormInstance> = (_, ref) =
 
   const handleOk = (e) => {
     setConfirmLoading(true);
-    return form.validateFields().then(() => {
-      const cb = onOk?.(e, { form });
-      if (isPromise(cb)) {
-        return (cb as unknown as Promise<any>).then(() => {
+    return form
+      .validateFields()
+      .then(() => {
+        const cb = onOk?.(e, { form });
+        if (isPromise(cb)) {
+          return (cb as unknown as Promise<any>).then(() => {
+            setConfirmLoading(false);
+          });
+        } else {
           setConfirmLoading(false);
-        });
-      } else {
+          return;
+        }
+      })
+      .catch(() => {
         setConfirmLoading(false);
-        return;
-      }
-    });
+      });
   };
 
   return (
