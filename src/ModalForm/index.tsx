@@ -13,7 +13,9 @@ export interface ModalFormContext {
 
 export interface ModalFormProps extends Pick<AModalProps, ExcludeModalType> {
   formProps?: Omit<FormProps, 'form' | 'initialValues'>;
-  modalProps?: Omit<AModalProps, ExcludeModalType | 'visible' | 'onOk' | 'onCancel'>;
+  modalProps?: Omit<AModalProps, ExcludeModalType | 'visible' | 'onOk' | 'onCancel'> & {
+    footerRender?: (ctx: ModalFormContext) => React.ReactNode;
+  };
   onOpen?: (ctx: ModalFormContext) => void;
   onOk?: (e: React.MouseEvent<HTMLElement>, ctx: ModalFormContext) => void;
   onCancel?: (e: React.MouseEvent<HTMLElement>, ctx: ModalFormContext) => void;
@@ -37,8 +39,10 @@ const IModalForm: React.ForwardRefRenderFunction<ModalFormInstance> = (_, ref) =
 
   const propsRef = useRef<ModalFormProps>();
 
+  const getModalFormContext = () => ({ form });
+
   const onClose = (e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    propsRef.current?.onCancel?.(e!, { form });
+    propsRef.current?.onCancel?.(e!, getModalFormContext());
     form.resetFields();
     setVisible(false);
   };
@@ -53,7 +57,7 @@ const IModalForm: React.ForwardRefRenderFunction<ModalFormInstance> = (_, ref) =
           form.setFieldsValue(initialValues);
         }
 
-        onOpen?.({ form });
+        onOpen?.(getModalFormContext());
         setVisible(true);
       },
       close: onClose,
@@ -61,13 +65,20 @@ const IModalForm: React.ForwardRefRenderFunction<ModalFormInstance> = (_, ref) =
   });
 
   const { modalProps, formProps, title, children, width, onOk } = propsRef.current || {};
+  const { footerRender, footer, ...restModalProps } = modalProps || {};
 
+  // ===== footer支持ctx =====
+  const renderFooter = () => {
+    return footerRender ? footerRender(getModalFormContext()) : footer;
+  };
+
+  // ==== 确定按钮回调，返回promise按钮自动进入loading =====
   const handleOk = (e) => {
     setConfirmLoading(true);
     return form
       .validateFields()
       .then(() => {
-        const cb = onOk?.(e, { form });
+        const cb = onOk?.(e, getModalFormContext());
         if (isPromise(cb)) {
           return (cb as unknown as Promise<any>).then(() => {
             setConfirmLoading(false);
@@ -84,7 +95,8 @@ const IModalForm: React.ForwardRefRenderFunction<ModalFormInstance> = (_, ref) =
 
   return (
     <Modal
-      {...modalProps}
+      {...restModalProps}
+      footer={renderFooter()}
       onCancel={onClose}
       visible={visible}
       confirmLoading={confirmLoading}
@@ -93,7 +105,7 @@ const IModalForm: React.ForwardRefRenderFunction<ModalFormInstance> = (_, ref) =
       onOk={handleOk}
     >
       <Form {...formProps} form={form}>
-        {children && React.cloneElement(children, { form })}
+        {children && React.cloneElement(children, { ...getModalFormContext() })}
       </Form>
     </Modal>
   );
