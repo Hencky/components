@@ -12,13 +12,18 @@ export interface ModalFormContext {
 }
 
 export interface ModalFormProps extends Pick<AModalProps, ExcludeModalType> {
+  /** 打开弹框的回调 */
+  onOpen?: (ctx: ModalFormContext) => void;
+  /** 点击确定回调 */
+  onOk?: (e: React.MouseEvent<HTMLElement>, ctx: ModalFormContext) => void;
+  /** 点击遮罩层或右上角叉或取消按钮的回调 */
+  onCancel?: (e: React.MouseEvent<HTMLElement>, ctx: ModalFormContext) => void;
+  /** 表单属性 */
   formProps?: Omit<FormProps, 'form' | 'initialValues'>;
+  /** Modal的其他属性 */
   modalProps?: Omit<AModalProps, ExcludeModalType | 'visible' | 'onOk' | 'onCancel'> & {
     footerRender?: (ctx: ModalFormContext) => React.ReactNode;
   };
-  onOpen?: (ctx: ModalFormContext) => void;
-  onOk?: (e: React.MouseEvent<HTMLElement>, ctx: ModalFormContext) => void;
-  onCancel?: (e: React.MouseEvent<HTMLElement>, ctx: ModalFormContext) => void;
   children: React.ReactElement;
 
   // TODO: 把initialValues放到form里

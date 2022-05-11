@@ -7,8 +7,11 @@ import { canRender } from '../_util';
 export interface FormItemProps
   extends AFormItemProps,
     Pick<ColProps, 'span' | 'offset' | 'push' | 'pull' | 'order' | 'flex'> {
+  /** 是否渲染 */
   render?: ((props: FormItemProps) => boolean) | boolean;
+  /** Col的style属性 */
   colStyle?: React.CSSProperties;
+  /** Col的ClassName属性 */
   colClassName?: string;
   /** 录入组件，必填 */
   children: React.ReactElement;

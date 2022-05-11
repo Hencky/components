@@ -3,11 +3,17 @@ import { Tooltip, Popconfirm } from 'antd';
 import { isPromise } from '../_util';
 
 export interface RopeContainerProps {
+  /** Tooltip的title，推荐string类型 */
   tooltip?: string;
+  /** PopConfirm的title，推荐string类型 */
   confirm?: string;
+  /** 是否禁用 */
   disabled?: (() => boolean) | boolean;
-  onClick: (...args: any[]) => any;
+  /** 是否渲染 */
   render?: (() => boolean) | boolean;
+  /** 点击事件 */
+  onClick: (...args: any[]) => any;
+  /** 渲染容器 */
   container?: (() => React.ReactElement) | React.ReactElement;
   children: React.ReactElement;
 

@@ -10,8 +10,11 @@ import './index.less';
 const { Paragraph } = Typography;
 
 export interface TextProps extends Omit<AParagraphProps, 'type'> {
+  /** 类型 */
   type?: 'description' | 'title' | 'text' | 'primary' | AParagraphProps['type'];
+  /** 显示行数 */
   rows?: number;
+  /** loading装填，内部用 */
   loading?: boolean;
   children?: string;
 }

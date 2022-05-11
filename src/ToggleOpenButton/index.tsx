@@ -9,6 +9,7 @@ import './index.less';
 export interface ToggleOpenButtonProps {
   className?: string;
   style?: React.CSSProperties;
+  /** 是否展开状态 */
   open: boolean;
   onClick: (isOpen: boolean) => void;
 }
