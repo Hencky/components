@@ -11,6 +11,7 @@ export interface ToggleOpenButtonProps {
   style?: React.CSSProperties;
   /** 是否展开状态 */
   open: boolean;
+  /** 点击时候的回调 */
   onClick: (isOpen: boolean) => void;
 }
 
