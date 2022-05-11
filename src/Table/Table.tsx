@@ -33,9 +33,6 @@ export interface TableInstance<RecordType = any> {
   setLoading: (loading: boolean) => void;
   /** 强制刷新表格 */
   forceUpdate: () => void;
-
-  /** 内部传递，传给table组件更多ctx */
-  extraCtx?: () => any;
 }
 
 export interface ColumnType<RecordType> extends Omit<AColumnType<RecordType>, 'render' | 'key'> {
