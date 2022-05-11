@@ -23,6 +23,8 @@ export interface QueryFormProps extends Omit<FormProps, 'fields'> {
   onSubmit: (values: any) => Promise<void> | undefined;
   /** 点击重置时的回调函数 */
   onReset?: () => void;
+  /** 是否显示分割线， 默认true */
+  showDivider?: boolean;
 }
 
 export const QueryForm: React.FC<QueryFormProps> = (props) => {
@@ -35,6 +37,7 @@ export const QueryForm: React.FC<QueryFormProps> = (props) => {
     onSubmit,
     showFieldsLength = 3,
     defaultExpand = false,
+    showDivider = true,
     ...formProps
   } = props;
 
@@ -125,7 +128,12 @@ export const QueryForm: React.FC<QueryFormProps> = (props) => {
   }, [fields, isOpen, needCollapse, finalSpan]);
 
   return (
-    <div className={prefix}>
+    <div
+      className={cls({
+        [prefix]: true,
+        [prefix + '-divider']: showDivider,
+      })}
+    >
       <Form form={form} {...formProps}>
         <Row gutter={24}>
           {renderFields(fields)}

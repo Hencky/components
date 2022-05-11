@@ -39,5 +39,7 @@ export interface QueryFormProps extends Omit<FormProps, 'fields'> {
   onSubmit: (values: any) => Promise<void> | undefined;
   /** 点击重置时的回调函数 */
   onReset?: () => void;
+  /** 是否显示分割线， 默认true */
+  showDivider?: boolean;
 }
 ```

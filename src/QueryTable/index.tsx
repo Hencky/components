@@ -44,12 +44,13 @@ export interface QueryTableColumnType<RecordType> extends Omit<ColumnType<Record
 }
 
 export interface QueryTableProps<RecordType extends Record<string, any> = any>
-  extends Omit<QueryFormProps, 'onSubmit' | 'onReset' | 'form'>,
+  extends Pick<QueryFormProps, 'fields' | 'initialValues' | 'showFieldsLength'>,
     Pick<TableProps, Exclude<OutsideTableType, 'columns'>> {
   columns: QueryTableColumnType<RecordType>[];
   tableProps?: Omit<TableProps<RecordType>, OutsideTableType>;
   leftActions?: QueryTableActions<RecordType>[];
   actions?: QueryTableActions<RecordType>[];
+  formProps?: Omit<QueryFormProps, 'fields' | 'initialValues' | 'showFieldsLength'>;
 }
 
 function BaseQueryTable<RecordType extends Record<string, any> = any>(
@@ -65,7 +66,8 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
     columns,
     rowSelection,
     remoteDataSource,
-    tableProps,
+    tableProps = {},
+    formProps = {},
     leftActions,
     actions,
   } = props;
@@ -148,10 +150,11 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
       <QueryForm
         form={form}
         fields={fields}
-        initialValues={initialValues}
-        showFieldsLength={showFieldsLength}
         onReset={onReset}
         onSubmit={onSubmit}
+        {...formProps}
+        showFieldsLength={showFieldsLength}
+        initialValues={initialValues}
       />
 
       {renderActions()}

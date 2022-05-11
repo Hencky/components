@@ -5,6 +5,7 @@ import { Input } from 'antd';
 const Demo = () => {
   return (
     <QueryForm
+      showDivider={false}
       onSubmit={(values) => {
         return new Promise((resolve) => {
           setTimeout(() => {
