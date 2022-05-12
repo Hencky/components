@@ -1,6 +1,7 @@
 import React, { useState, forwardRef, useImperativeHandle, useRef } from 'react';
-import { Modal, Form, type FormInstance, type FormProps } from 'antd';
+import { Modal, type FormInstance, type FormProps } from 'antd';
 import type { ModalProps as AModalProps } from 'antd/lib/modal';
+import { Form } from '../Form';
 import { isPromise, setRef } from '../_util';
 
 const { useForm } = Form;
