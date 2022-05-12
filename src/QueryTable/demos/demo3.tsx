@@ -45,7 +45,7 @@ const Demo = () => {
         return new Promise((resolve) => {
           setTimeout(() => {
             console.log('values', values);
-            ctx.modalForm.close();
+            ctx.modal.close();
             ctx.table.refresh();
             resolve('');
           }, 2000);
@@ -59,7 +59,7 @@ const Demo = () => {
       children: '新增',
       type: 'primary',
       onClick: (e, ctx) => {
-        ctx.modalForm.open(getModalConfig(ctx));
+        ctx.modal.open(getModalConfig(ctx));
       },
     },
   ];
@@ -75,18 +75,18 @@ const Demo = () => {
               {
                 children: '编辑',
                 onClick: (e) => {
-                  const { modalForm } = ctx;
-                  modalForm.open(getModalConfig(ctx));
+                  const { modal } = ctx;
+                  modal.open(getModalConfig(ctx));
                 },
               },
               {
                 children: '修改',
                 onClick: (e) => {
-                  const { modalForm } = ctx;
+                  const { modal } = ctx;
                   return new Promise((resolve) => {
                     setTimeout(() => {
                       // return promise先请求数据，再打开弹框
-                      modalForm.open(getModalConfig(ctx));
+                      modal.open(getModalConfig(ctx));
                       resolve('');
                     }, 1000);
                   });

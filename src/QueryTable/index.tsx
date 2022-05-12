@@ -11,7 +11,6 @@ import { Form } from 'antd';
 import { QueryForm, type QueryFormProps } from '../QueryForm';
 import { Table, type TableProps, type TableInstance, type ColumnType } from '../Table';
 import { ButtonActions, type ButtonActionProps } from '../Actions';
-import { Modal, type ModalInstance } from '../Modal';
 import { ModalForm, type ModalFormInstance } from '../ModalForm';
 import type { FormInstance } from 'antd/lib/form';
 import { usePrefix } from '../_hooks';
@@ -21,8 +20,7 @@ import './index.less';
 export interface QueryTableInstance<RecordType = any> {
   form: FormInstance;
   table: TableInstance<RecordType>;
-  modal: ModalInstance;
-  modalForm: ModalFormInstance;
+  modal: ModalFormInstance;
 }
 
 export type QueryTableContext<RecordType = any> = QueryTableInstance<RecordType>;
@@ -75,8 +73,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
   const [form] = Form.useForm();
 
   const tableRef = useRef<TableInstance>(null);
-  const modalRef = useRef<ModalInstance>(null);
-  const modalFormRef = useRef<ModalFormInstance>(null);
+  const modalRef = useRef<ModalFormInstance>(null);
 
   // ===== 点击查询按钮，恢复第一页 ======
   const onSubmit = (values) => {
@@ -94,7 +91,6 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
     form,
     table: tableRef.current!,
     modal: modalRef.current!,
-    modalForm: modalFormRef.current!,
   });
 
   useImperativeHandle(ref, getQueryTableInstance);
@@ -168,8 +164,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
         {...tableProps}
       />
 
-      <Modal ref={modalRef} />
-      <ModalForm ref={modalFormRef} />
+      <ModalForm ref={modalRef} />
     </div>
   );
 }
