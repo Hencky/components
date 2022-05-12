@@ -2,27 +2,7 @@ import React from 'react';
 import { Table, ButtonActions } from '@pms/ui';
 import { Card, Space } from 'antd';
 import type { TableInstance } from '@pms/ui';
-import { type RecordType, remoteDataSource } from './config';
-
-const columns = [
-  {
-    title: 'title1',
-    dataIndex: 'a',
-    key: 'title1',
-  },
-  {
-    title: 'title2',
-    dataIndex: 'b',
-    key: 'title2',
-    sorter: true,
-  },
-  {
-    title: 'title3',
-    dataIndex: 'c',
-    key: 'title3',
-    sorter: true,
-  },
-];
+import { type RecordType, remoteDataSource, columns } from './config';
 
 const Demo = () => {
   const ref = React.useRef<TableInstance<RecordType>>(null);
