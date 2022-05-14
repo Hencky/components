@@ -42,8 +42,7 @@ module.exports = {
             helpers.watchFiles(srcPath + '/entrys', '*/demos/**/*.{[tj]sx,md?(x)}', fileHandler);
           }
 
-          // find all component README
-          helpers.watchFiles(srcPath, '*/README.md?(x)', async function fileHandler(file, api) {
+          async function fileHandler(file, api) {
             const { relative, path: absolute } = file;
             const match = relative.match(/(.*)\/README\.mdx?$/);
             if (!match) throw new Error('unexpected file: ' + absolute);
@@ -55,7 +54,11 @@ module.exports = {
             // set page staticData
             const staticData = api.getStaticData(pageId);
             staticData.main = await helpers.extractStaticData(file);
-          });
+          }
+
+          // find all component README
+          helpers.watchFiles(srcPath, '*/README.md?(x)', fileHandler);
+          helpers.watchFiles(srcPath + '/entrys', '*/README.md?(x)', fileHandler);
         },
       }),
     }),
