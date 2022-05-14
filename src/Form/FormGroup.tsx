@@ -11,7 +11,8 @@ export interface FormGroupProps extends RowProps, FormItemBaseProps {
 }
 
 export const FormGroup: React.FC<FormGroupProps> = (props) => {
-  const { render, fields, className, style, colon, labelCol, labelAlign, wrapperCol, hidden, ...rowProps } = props;
+  const { render, fields, className, style, colon, labelCol, labelAlign, wrapperCol, hidden, disabled, ...rowProps } =
+    props;
 
   if (!isBooleanProp(render, props)) return null;
 
@@ -21,6 +22,7 @@ export const FormGroup: React.FC<FormGroupProps> = (props) => {
     labelAlign,
     wrapperCol,
     hidden,
+    disabled,
   };
 
   const renderFields = (fields) => {
