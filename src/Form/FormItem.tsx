@@ -1,8 +1,8 @@
-import React, { type PropsWithChildren } from 'react';
+import React, { useEffect, useState, type PropsWithChildren } from 'react';
 import { Form, Col } from 'antd';
 import { ColProps } from 'antd/lib/col';
 import { FormItemProps as AFormItemProps } from 'antd/lib/form';
-import { canRender } from '../_util';
+import { isBooleanProp } from '../_util';
 
 export interface FormItemProps<Values = any>
   extends AFormItemProps<Values>,
@@ -15,15 +15,56 @@ export interface FormItemProps<Values = any>
   colClassName?: string;
   /** 录入组件，必填 */
   children: React.ReactElement;
+
+  // ===== 传给子组件 =====
+  /** 远程数据源 */
+  remoteDataSource?: () => Promise<any>;
+  /** 禁用状态 */
+  disabled?: boolean | (() => boolean);
 }
 
 export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>) {
-  const { span, offset, push, pull, order, flex, style, render, colStyle, colClassName, ...formItemProps } = props;
+  const {
+    span,
+    offset,
+    push,
+    pull,
+    order,
+    flex,
+    style,
+    render,
+    colStyle,
+    colClassName,
+    disabled,
+    remoteDataSource,
+    children,
+    ...formItemProps
+  } = props;
   const colProps = { span, offset, push, pull, order, flex };
 
-  if (!canRender(render, props)) return null;
+  const [dataSource, setDataSource] = useState(null);
 
-  const ele = <Form.Item {...formItemProps} style={{ marginBottom: 16, ...style }} />;
+  useEffect(() => {
+    if (!remoteDataSource) return;
+
+    remoteDataSource()
+      .then((data) => {
+        setDataSource(data);
+      })
+      .catch(() => {
+        setDataSource(null);
+      });
+  }, [remoteDataSource]);
+
+  if (!isBooleanProp(render, props)) return null;
+
+  const finalDisabled = isBooleanProp(disabled, props, false);
+
+  const ele = (
+    <Form.Item {...formItemProps} style={{ marginBottom: 16, ...style }}>
+      {React.cloneElement(children, { disabled: finalDisabled, dataSource })}
+    </Form.Item>
+  );
 
   if (span) {
     return (

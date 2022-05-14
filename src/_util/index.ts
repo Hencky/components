@@ -3,3 +3,4 @@ export * from './setRef';
 export * from './array';
 export * from './render';
 export * from './formKey';
+export * from './isBooleanProp';
