@@ -24,7 +24,7 @@ module.exports = {
         extraFindPages: async (pagesDir, helpers) => {
           const srcPath = path.join(__dirname, '../src');
           if (String(process.env.SHOW_ALL_COMPONENT_DEMOS) === 'true') {
-            async function fileHandler(file, api) {
+            async function devFileHandler(file, api) {
               const { relative, path: absolute } = file;
               const match = relative.match(/(.*)\/demos\/(.*)\.([tj]sx|mdx?)$/);
               if (!match) throw new Error('unexpected file: ' + absolute);
@@ -38,8 +38,8 @@ module.exports = {
 
             // show all component demos during dev
             // put them in page `/components/demos/${componentName}`
-            helpers.watchFiles(srcPath, '*/demos/**/*.{[tj]sx,md?(x)}', fileHandler);
-            helpers.watchFiles(srcPath + '/entrys', '*/demos/**/*.{[tj]sx,md?(x)}', fileHandler);
+            helpers.watchFiles(srcPath, '*/demos/**/*.{[tj]sx,md?(x)}', devFileHandler);
+            helpers.watchFiles(srcPath + '/entrys', '*/demos/**/*.{[tj]sx,md?(x)}', devFileHandler);
           }
 
           async function fileHandler(file, api) {
