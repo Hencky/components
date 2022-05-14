@@ -3,7 +3,7 @@ import { Row } from 'antd';
 import type { RowProps } from 'antd/lib/row';
 import { FormItem, type FormItemProps } from './FormItem';
 import { type FormItemBaseProps } from './interface';
-import { toArray, isBooleanProp } from '../_util';
+import { isBooleanProp, getFormKey } from '../_util';
 
 export interface FormGroupProps extends RowProps, FormItemBaseProps {
   fields: FormItemProps[];
@@ -27,7 +27,7 @@ export const FormGroup: React.FC<FormGroupProps> = (props) => {
 
   const renderFields = (fields) => {
     return fields.map((item) => {
-      return <FormItem key={toArray(item.name).join('-')} {...itemProps} {...item} />;
+      return <FormItem key={getFormKey(item)} {...itemProps} {...item} />;
     });
   };
 
