@@ -8,7 +8,7 @@ export interface FormItemProps<Values = any>
   extends AFormItemProps<Values>,
     Pick<ColProps, 'offset' | 'push' | 'pull' | 'order' | 'flex'> {
   /** 扩展null属性 */
-  span: ColProps['span'] | null;
+  span?: ColProps['span'] | null;
   /** 是否渲染 */
   render?: ((props: FormItemProps<Values>) => boolean) | boolean;
   /** Col的style属性 */
@@ -64,7 +64,7 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
   const finalDisabled = isBooleanProp(disabled, props, false);
 
   const ele = (
-    <Form.Item {...formItemProps} style={{ marginBottom: 16, ...style }}>
+    <Form.Item {...formItemProps} style={style}>
       {isFunction(children)
         ? children
         : React.cloneElement(children as React.ReactElement, {
@@ -89,4 +89,5 @@ FormItem.defaultProps = {
   span: 24,
   render: true,
   style: {},
+  disabled: false,
 };

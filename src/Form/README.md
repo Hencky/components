@@ -1,6 +1,6 @@
 ---
 title: Form
-subGroup: 录入组件
+subGroup: 表单组件
 ---
 
 # Form
