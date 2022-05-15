@@ -17,9 +17,15 @@ subGroup: 录入组件
 
 ## FormItem
 
-FormItem 是在`Form.Item`组件基础上增加`Col`组件包裹，方便布局。
+1. FormItem 是在`Form.Item`组件基础上增加`Col`组件包裹，方便布局。
 
-> 如果不设置`span`属性的话，不会生成`Col`组件包裹。
+> 如果设置`span: null`属性的话，不会生成`Col`组件包裹。
+
+<!-- 2022年5月14号更新 -->
+
+2. FormItem 扩展了**数据源**的使用，支持`remoteDataSource`方法请求数据源传递给子组件，或者使用`dataSource`方法传递数据源给子组件。
+
+3. FormItem 的`disabled`属性也会传递给子组件。
 
 ### FormItem demos
 
