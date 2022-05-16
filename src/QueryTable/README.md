@@ -18,6 +18,9 @@ subGroup: 展示组件
 行选择
 <Demo src="./demos/rowselection.tsx">
 
+使用 tableProps 传递更多属性
+<Demo src="./demos/tableprops.tsx">
+
 ## 实例方法
 
 ```ts
