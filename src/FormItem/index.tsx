@@ -45,7 +45,7 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
   } = props;
   const colProps = { span: span!, offset, push, pull, order, flex };
 
-  const [dataSource, setDataSource] = useState<any[]>([]);
+  const [dataSource, setDataSource] = useState<any[]>();
 
   useEffect(() => {
     if (!remoteDataSource) return;

@@ -1,4 +1,4 @@
-import type { FormItemProps } from './FormItem';
+import type { FormItemProps } from '../FormItem';
 
 export type FormItemBaseProps = Pick<
   FormItemProps,

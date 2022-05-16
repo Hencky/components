@@ -1,8 +1,8 @@
 import React from 'react';
 import { Row } from 'antd';
 import type { RowProps } from 'antd/lib/row';
-import { FormItem, type FormItemProps } from './FormItem';
-import { type FormItemBaseProps } from './interface';
+import { FormItem, type FormItemProps } from '../FormItem';
+import { type FormItemBaseProps } from '../Form/interface';
 import { isBooleanProp, getFormKey } from '../_util';
 
 export interface FormGroupProps extends RowProps, FormItemBaseProps {

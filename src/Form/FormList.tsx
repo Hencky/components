@@ -1,11 +1,11 @@
 import React from 'react';
 import { Form } from 'antd';
 import { NamePath } from 'antd/lib/form/interface';
-import { FormGroup } from './FormGroup';
+import { FormGroup } from '../FormGroup';
 import { toArray } from '../_util/array';
 import type { FormListOperation } from 'antd/lib/form/FormList';
 import type { FormInstance } from 'antd/lib/form';
-import type { FormItemProps } from './FormItem';
+import type { FormItemProps } from '../FormItem';
 
 const { List } = Form;
 
