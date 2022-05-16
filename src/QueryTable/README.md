@@ -12,40 +12,50 @@ subGroup: 展示组件
 
 ## demos
 
+基础使用
 <Demo src="./demos/base.tsx">
 
-## QueryTable 实例方法
+行选择
+<Demo src="./demos/rowselection.tsx">
+
+## 实例方法
 
 ```ts
 export interface QueryTableInstance<RecordType = any> {
   form: FormInstance;
   table: TableInstance<RecordType>;
+  modal: ModalFormInstance;
 }
 ```
 
-## QueryTable API
+## API
 
 ```ts
-export interface QueryTableActions extends Omit<ButtonActionProps, 'onClick'> {
-  onClick: (e: React.MouseEvent<HTMLButtonElement>, ctx: { form: FormInstance; table: TableInstance }) => void;
+export type QueryTableContext<RecordType = any> = QueryTableInstance<RecordType>;
+
+type OutsideTableType = 'remoteDataSource' | 'columns' | 'rowKey' | 'rowSelection';
+
+export interface QueryTableActions<RecordType = any> extends Omit<ButtonActionProps, 'onClick'> {
+  onClick: (e: React.MouseEvent<HTMLButtonElement>, ctx: QueryTableContext<RecordType>) => void;
 }
 
+export type QueryTableColumnRenderContext<RecordType = any> = {
+  value: RecordType;
+  index: number;
+  record: RecordType;
+} & QueryTableContext<RecordType>;
+
 export interface QueryTableColumnType<RecordType> extends Omit<ColumnType<RecordType>, 'render'> {
-  render?: (ctx: {
-    value: RecordType;
-    index: number;
-    form: FormInstance;
-    table: TableInstance;
-    record: RecordType;
-  }) => ReactElement;
+  render?: (ctx: QueryTableColumnRenderContext) => ReactElement;
 }
 
 export interface QueryTableProps<RecordType extends Record<string, any> = any>
-  extends Omit<QueryFormProps, 'onSubmit' | 'onReset' | 'form'>,
+  extends Pick<QueryFormProps, 'fields' | 'initialValues' | 'showFieldsLength'>,
     Pick<TableProps, Exclude<OutsideTableType, 'columns'>> {
   columns: QueryTableColumnType<RecordType>[];
   tableProps?: Omit<TableProps<RecordType>, OutsideTableType>;
-  leftActions?: QueryTableActions[];
-  actions?: QueryTableActions[];
+  leftActions?: QueryTableActions<RecordType>[];
+  actions?: QueryTableActions<RecordType>[];
+  formProps?: Omit<QueryFormProps, 'fields' | 'initialValues' | 'showFieldsLength'>;
 }
 ```

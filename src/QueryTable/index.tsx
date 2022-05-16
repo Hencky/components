@@ -1,4 +1,5 @@
 import React, {
+  useState,
   useRef,
   forwardRef,
   useImperativeHandle,
@@ -31,14 +32,14 @@ export interface QueryTableActions<RecordType = any> extends Omit<ButtonActionPr
   onClick: (e: React.MouseEvent<HTMLButtonElement>, ctx: QueryTableContext<RecordType>) => void;
 }
 
+export type QueryTableColumnRenderContext<RecordType = any> = {
+  value: RecordType;
+  index: number;
+  record: RecordType;
+} & QueryTableContext<RecordType>;
+
 export interface QueryTableColumnType<RecordType> extends Omit<ColumnType<RecordType>, 'render'> {
-  render?: (
-    ctx: {
-      value: RecordType;
-      index: number;
-      record: RecordType;
-    } & QueryTableContext<RecordType>
-  ) => ReactElement;
+  render?: (ctx: QueryTableColumnRenderContext) => ReactElement;
 }
 
 export interface QueryTableProps<RecordType extends Record<string, any> = any>
@@ -59,7 +60,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
   const {
     fields,
     initialValues,
-    showFieldsLength,
+    showFieldsLength = 3,
     rowKey,
     columns,
     rowSelection,
@@ -71,9 +72,15 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
   } = props;
 
   const [form] = Form.useForm();
+  const [, update] = useState({});
 
   const tableRef = useRef<TableInstance>(null);
   const modalRef = useRef<ModalFormInstance>(null);
+
+  // ===== 刷新，用于更新action组件 =====
+  const forceUpdate = () => {
+    update({});
+  };
 
   // ===== 点击查询按钮，恢复第一页 ======
   const onSubmit = (values) => {
@@ -141,17 +148,26 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
     );
   };
 
+  const finalRowSelection = rowSelection
+    ? {
+        ...(typeof rowSelection === 'boolean' ? {} : rowSelection),
+        onChange: forceUpdate,
+      }
+    : undefined;
+
   return (
     <div className={prefix}>
-      <QueryForm
-        form={form}
-        fields={fields}
-        onReset={onReset}
-        onSubmit={onSubmit}
-        {...formProps}
-        showFieldsLength={showFieldsLength}
-        initialValues={initialValues}
-      />
+      {!!showFieldsLength && (
+        <QueryForm
+          form={form}
+          fields={fields}
+          onReset={onReset}
+          onSubmit={onSubmit}
+          {...formProps}
+          showFieldsLength={showFieldsLength}
+          initialValues={initialValues}
+        />
+      )}
 
       {renderActions()}
 
@@ -159,7 +175,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
         ref={tableRef}
         rowKey={rowKey}
         columns={renderColumns()}
-        rowSelection={rowSelection}
+        rowSelection={finalRowSelection}
         remoteDataSource={remoteDataSource}
         {...tableProps}
       />

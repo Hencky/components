@@ -3,8 +3,6 @@ import { message } from 'antd';
 import { Table, type ColumnType, TextActions } from '@pms/ui';
 import { remoteDataSource, columns, type RecordType } from './config';
 
-import './style.less';
-
 const Demo = () => {
   const cols: ColumnType<RecordType>[] = [
     ...columns,
@@ -36,7 +34,7 @@ const Demo = () => {
     },
   ];
 
-  return <Table<RecordType> rowKey="id" columns={cols} remoteDataSource={remoteDataSource} />;
+  return <Table<RecordType> columns={cols} remoteDataSource={remoteDataSource} />;
 };
 
 export default Demo;

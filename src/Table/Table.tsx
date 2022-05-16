@@ -47,7 +47,7 @@ export interface TableProps<RecordType = any>
   /** 默认分页配置 */
   defaultPagination?: Pagination;
   /** 选中行配置 */
-  rowSelection?: boolean | TableRowSelection<RecordType>;
+  rowSelection?: true | TableRowSelection<RecordType>;
   /** 初始是否发起一次请求，默认发起请求 */
   requestOnMount?: boolean;
   /** 列配置 */
@@ -177,9 +177,11 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   const onRowSelectionChange = (currentSelectedRowKeys, currentSelectedRows) => {
     setSelectedRowKeys(currentSelectedRowKeys);
     setSelectedRows(currentSelectedRows);
-
-    (rowSelection as TableRowSelection<RecordType>)?.onChange?.(currentSelectedRowKeys, currentSelectedRows);
   };
+
+  useEffect(() => {
+    (rowSelection as TableRowSelection<RecordType>)?.onChange?.(selectedRowKeys, selectedRows);
+  }, [selectedRowKeys, selectedRows]);
 
   // ===== pagination.size变化，调整current为1 =====
   const handleShowSizeChange = (current, size) => {
@@ -216,8 +218,6 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   );
 }
 
-const Table = forwardRef<TableInstance, TableProps>(BasicTable) as <RecordType = any>(
+export const Table = forwardRef<TableInstance, TableProps>(BasicTable) as <RecordType = any>(
   props: PropsWithChildren<TableProps<RecordType>> & { ref?: React.Ref<TableInstance<RecordType>> }
 ) => ReactElement;
-
-export { Table };

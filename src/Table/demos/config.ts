@@ -1,6 +1,8 @@
 import { Random } from 'mockjs';
 import type { TableProps, ColumnType } from '@pms/ui';
 
+import './style.less';
+
 const status = ['dispatching', 'success', 'warning'];
 
 const level = ['High', 'Medium', 'Low'];

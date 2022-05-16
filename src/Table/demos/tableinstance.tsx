@@ -4,8 +4,6 @@ import { Card, Space } from 'antd';
 import type { TableInstance } from '@pms/ui';
 import { type RecordType, remoteDataSource, columns } from './config';
 
-import './style.less';
-
 const Demo = () => {
   const ref = React.useRef<TableInstance<RecordType>>(null);
 

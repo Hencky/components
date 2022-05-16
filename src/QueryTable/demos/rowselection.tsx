@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   QueryTable,
   TextActions,
@@ -6,6 +6,7 @@ import {
   QueryTableColumnType,
   FormGroup,
   QueryTableColumnRenderContext,
+  QueryTableInstance,
 } from '@pms/ui';
 import { Input, message } from 'antd';
 import { remoteDataSource, columns, type RecordType } from '../../Table/demos/config';
@@ -23,33 +24,49 @@ const ModalForm = () => {
   return <FormGroup fields={fields} />;
 };
 
-const actions: QueryTableActions[] = [
-  {
-    children: '刷新',
-    type: 'primary',
-    onClick: (e, ctx) => {
-      ctx.table.refresh()?.then(() => {
-        message.success('新建成功');
-      });
-    },
-  },
-  {
-    children: '新增',
-    type: 'primary',
-    onClick: (e, ctx) => {
-      ctx.modal.open({
-        title: '新建',
-        children: <ModalForm />,
-        onOk() {
-          ctx.modal.close();
-          ctx.table.refresh();
-        },
-      });
-    },
-  },
-];
-
 const Demo = () => {
+  const ref = useRef<QueryTableInstance>();
+
+  const actions: QueryTableActions[] = [
+    {
+      children: '导出',
+      type: 'primary',
+      disabled: () => {
+        if (!ref.current) return true;
+        setTimeout(() => {
+          console.log('选中', ref.current.table.getSelectedRowKeys());
+        });
+        return !ref.current.table.getSelectedRowKeys().length;
+      },
+      onClick: (e, ctx) => {
+        console.log('选中行', ctx.table.getSelectedRowKeys());
+      },
+    },
+    {
+      children: '刷新',
+      type: 'primary',
+      onClick: (e, ctx) => {
+        ctx.table.refresh()?.then(() => {
+          message.success('新建成功');
+        });
+      },
+    },
+    {
+      children: '新增',
+      type: 'primary',
+      onClick: (e, ctx) => {
+        ctx.modal.open({
+          title: '新建',
+          children: <ModalForm />,
+          onOk() {
+            ctx.modal.close();
+            ctx.table.refresh();
+          },
+        });
+      },
+    },
+  ];
+
   const getOperatorActions = (ctx: QueryTableColumnRenderContext) => {
     return [
       {
@@ -96,8 +113,10 @@ const Demo = () => {
 
   return (
     <QueryTable
+      ref={ref}
       fields={fields.map((item) => ({ ...item, rules: [] }))}
       columns={cols}
+      rowSelection
       // leftActions={actions}
       actions={actions}
       remoteDataSource={remoteDataSource}
