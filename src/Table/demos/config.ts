@@ -47,7 +47,7 @@ export const remoteDataSource: TableProps['remoteDataSource'] = (params) => {
         total: 100,
         records: new Array(10).fill(0).map((item, index) => {
           return {
-            id: Random.id(),
+            id: `${(current - 1) * size + index}`,
             name: Random.name(),
             senderName: Random.name(),
             senderNumber: Random.id(),

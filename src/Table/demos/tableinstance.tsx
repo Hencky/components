@@ -4,12 +4,14 @@ import { Card, Space } from 'antd';
 import type { TableInstance } from '@pms/ui';
 import { type RecordType, remoteDataSource, columns } from './config';
 
+import './style.less';
+
 const Demo = () => {
   const ref = React.useRef<TableInstance<RecordType>>(null);
 
   return (
     <Card>
-      <Space size={16} direction="vertical">
+      <Space size={16} direction="vertical" style={{ marginBottom: 16 }}>
         <ButtonActions
           actions={[
             {
