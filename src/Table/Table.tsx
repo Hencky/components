@@ -16,7 +16,7 @@ export interface TableInstance<RecordType = any> {
   /** 获取表格选中行数据 */
   getSelectedRowKeys: () => Key[];
   /** 设置表格选中行数据 */
-  setSelectedRowKeys: (rows: Key[]) => void;
+  // setSelectedRowKeys: (rows: Key[]) => void;
   /** 获取表格选中行数据 */
   getSelectedRows: () => RecordType[];
   /** 设置表格选中行数据 */
@@ -72,7 +72,7 @@ function BasicTable<RecordType extends Record<string, any> = any>(
 
   const [loading, setLoading] = useState(false);
   const [dataSoruce, setDataSource] = useState<RecordType[]>([]);
-  const [selectedRows, setSelectedRows] = useState<RecordType[]>([]);
+  // const [selectedRows, setSelectedRows] = useState<RecordType[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
   const [, forceUpdate] = useState({});
 
@@ -80,6 +80,7 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   const filterRef = useRef<FilterParams>(null);
   const sorterRef = useRef<SorterParams>(null);
   const isShowSizeChangeRef = useRef(false);
+  const selectedRowsRef = useRef<RecordType[]>([]);
 
   // ===== 表格刷新 =====
   const refreshTable = (extraRefreshParams?: Record<string, any>): Promise<void> | undefined => {
@@ -113,7 +114,8 @@ function BasicTable<RecordType extends Record<string, any> = any>(
     setRef(filterRef, null);
     setRef(sorterRef, null);
     setSelectedRowKeys([]);
-    setSelectedRows([]);
+    // setSelectedRows([]);
+    setRef(selectedRowsRef, []);
     refreshTable();
   };
 
@@ -121,10 +123,14 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   const getTableInstance = () => ({
     refresh: refreshTable,
     reset,
-    getSelectedRows: () => selectedRows,
-    setSelectedRows,
+    getSelectedRows: () => selectedRowsRef.current,
+    setSelectedRows: (selectedRows) => {
+      setRef(selectedRowsRef, selectedRows);
+      const selectedRowKeys = selectedRows.map((record) => record[rowKey as string]);
+      setSelectedRowKeys(selectedRowKeys);
+    },
     getSelectedRowKeys: () => selectedRowKeys,
-    setSelectedRowKeys,
+    // setSelectedRowKeys,
     getDataSource: () => dataSoruce,
     setPagination: (pagination) => {
       setRef(paginationRef, pagination);
@@ -175,13 +181,10 @@ function BasicTable<RecordType extends Record<string, any> = any>(
 
   // ===== 选中行变化 =====
   const onRowSelectionChange = (currentSelectedRowKeys, currentSelectedRows) => {
+    setRef(selectedRowsRef, currentSelectedRows);
     setSelectedRowKeys(currentSelectedRowKeys);
-    setSelectedRows(currentSelectedRows);
+    (rowSelection as TableRowSelection<RecordType>)?.onChange?.(currentSelectedRowKeys, currentSelectedRows);
   };
-
-  useEffect(() => {
-    (rowSelection as TableRowSelection<RecordType>)?.onChange?.(selectedRowKeys, selectedRows);
-  }, [selectedRowKeys, selectedRows]);
 
   // ===== pagination.size变化，调整current为1 =====
   const handleShowSizeChange = (current, size) => {

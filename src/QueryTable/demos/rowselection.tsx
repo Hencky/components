@@ -32,11 +32,9 @@ const Demo = () => {
       children: '导出',
       type: 'primary',
       disabled: () => {
-        if (!ref.current) return true;
-        setTimeout(() => {
-          console.log('选中', ref.current.table.getSelectedRowKeys());
-        });
-        return !ref.current.table.getSelectedRowKeys().length;
+        const { table } = ref.current || {};
+        if (!table) return true;
+        return !table.getSelectedRows()?.length;
       },
       onClick: (e, ctx) => {
         console.log('选中行', ctx.table.getSelectedRowKeys());

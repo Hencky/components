@@ -71,7 +71,6 @@ const Demo = () => {
               children: '设置选中行',
               onClick: () => {
                 const dataSource = ref.current!.getDataSource();
-                ref.current!.setSelectedRowKeys(['1', '2']);
                 const selectedRows = dataSource.filter((item) => item.id === '1' || item.id === '2');
                 ref.current!.setSelectedRows(selectedRows);
               },
@@ -79,7 +78,6 @@ const Demo = () => {
             {
               children: '清空选中行',
               onClick: () => {
-                ref.current!.setSelectedRowKeys([]);
                 ref.current!.setSelectedRows([]);
               },
             },
