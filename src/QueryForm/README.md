@@ -1,6 +1,6 @@
 ---
 title: QueryForm
-subGroup: 录入组件
+subGroup: 表单组件
 ---
 
 # QueryForm
@@ -12,13 +12,13 @@ subGroup: 录入组件
 
 ## demos
 
-单搜索，不显示 label
+单搜索
 <Demo src="./demos/single.tsx" />
 
 单行搜索
 <Demo src="./demos/singleRow.tsx" />
 
-多行搜索，显示折叠按钮
+多行搜索
 <Demo src="./demos/queryform.tsx" />
 
 ## API
