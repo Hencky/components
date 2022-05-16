@@ -10,7 +10,7 @@ subGroup: 展示组件
 3. 支持实例方法，灵活控制表格。
 4. Table 改写了`antd Table`中`columns`的`render`方法，参数`ctx`中可以拿到`table`实例方法。
 
-## table Demo
+## demos
 
 <Demo src="./demos/tabledemo.tsx" />
 
@@ -51,7 +51,7 @@ type RequestResult<RecordType extends Record<string, any> = any> = {
 };
 ```
 
-## Table 实例方法
+## 实例方法
 
 ```ts
 import type { Key } from 'antd/lib/table/interface';
@@ -93,7 +93,7 @@ export interface TableInstance<RecordType = any> {
 }
 ```
 
-## Table API
+## API
 
 ```ts
 export interface ColumnType<RecordType> extends Omit<AColumnType<RecordType>, 'render' | 'key'> {

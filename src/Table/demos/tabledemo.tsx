@@ -3,13 +3,14 @@ import { message } from 'antd';
 import { Table, type ColumnType, TextActions } from '@pms/ui';
 import { remoteDataSource, columns, type RecordType } from './config';
 
-import 'antd/lib/table/style/index.css';
+import './style.less';
 
 const Demo = () => {
   const cols: ColumnType<RecordType>[] = [
     ...columns,
     {
-      key: 'id',
+      key: 'operator',
+      title: '操作',
       render: (ctx) => {
         return (
           <TextActions
