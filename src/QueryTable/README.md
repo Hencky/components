@@ -5,11 +5,14 @@ subGroup: 展示组件
 
 # QueryTable
 
+## 组件介绍
+
 - 查询表格解决方案
+- 内置 ModalForm，优化弹框处理
 
-## QueryTable Demo
+## demos
 
-<Demo src="./demos/demo1.tsx">
+<Demo src="./demos/base.tsx">
 
 ## QueryTable 实例方法
 

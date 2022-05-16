@@ -5,7 +5,7 @@ subGroup: 展示组件
 
 # Table
 
-## 组件说明
+## 组件介绍
 
 1. 后端分页表格，`loading` `rowSelection` `pagination`由`Table`组件内部控制。
 2. 支持`remoteDataSource`方法，该方法接收`Table`组件需要数据格式的 Promise 对象，即可对`dataSource`进行控制。
@@ -20,7 +20,7 @@ subGroup: 展示组件
 实例方法
 <Demo src="./demos/tableinstance.tsx" />
 
-## Table 后端分页格式
+## 后端分页格式
 
 下发参数
 

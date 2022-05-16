@@ -5,13 +5,13 @@ subGroup: 录入组件
 
 # RecentPicker
 
+## 组件介绍
+
 近期时间选择组件
 
 ## demos
 
 <Demo src="./demos/recentpicker.tsx" />
-
-## demos2
 
 > 不成熟的设计方案，不推荐使用。建议在日期展开框下面增加按钮，解决此类场景问题。参考[demo](https://codesandbox.io/s/ced29l)
 

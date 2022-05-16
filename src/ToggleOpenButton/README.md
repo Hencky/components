@@ -5,6 +5,8 @@ subGroup: 导航控件
 
 # ToggleOpenButton
 
+## 组件介绍
+
 展开关闭交互按钮。
 
 ## demos
