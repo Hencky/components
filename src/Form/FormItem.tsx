@@ -18,9 +18,9 @@ export interface FormItemProps<Values = any>
 
   // ===== 传给子组件 =====
   /** 远程数据源 */
-  remoteDataSource?: () => Promise<any>;
+  remoteDataSource?: () => Promise<any[]>;
   /** 数据源 */
-  dataSource?: any;
+  dataSource?: any[];
   /** 禁用状态 */
   disabled?: boolean | (() => boolean);
 }
@@ -45,7 +45,7 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
   } = props;
   const colProps = { span: span!, offset, push, pull, order, flex };
 
-  const [dataSource, setDataSource] = useState(propDataSource);
+  const [dataSource, setDataSource] = useState<any[]>([]);
 
   useEffect(() => {
     if (!remoteDataSource) return;
@@ -55,9 +55,15 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
         setDataSource(data);
       })
       .catch(() => {
-        setDataSource(null);
+        setDataSource([]);
       });
   }, [remoteDataSource]);
+
+  useEffect(() => {
+    if (propDataSource) {
+      setDataSource(propDataSource);
+    }
+  }, [propDataSource]);
 
   if (!isBooleanProp(render, props)) return null;
 

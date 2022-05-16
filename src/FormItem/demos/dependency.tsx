@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, FormItem, Select } from '@pms/ui';
 import { Card, Row } from 'antd';
 
-const layout = { labelCol: { style: { width: 140 } } };
+const layout = { labelCol: { style: { width: 140 } }, span: 12 };
 
 const Demo = () => {
   const [form] = Form.useForm();
@@ -22,7 +22,6 @@ const Demo = () => {
                   { value: 'shanghai', label: '上海' },
                 ]);
               },
-              span: 12,
               children: (
                 <Select
                   placeholder="请选择省份"
@@ -48,7 +47,6 @@ const Demo = () => {
                       name: 'city',
                       label: '市',
                       ...layout,
-                      span: 12,
                       remoteDataSource: () => {
                         console.log('发起请求');
                         return Promise.resolve([{ value: depValue, label: `${depValue}下的地区` }]);

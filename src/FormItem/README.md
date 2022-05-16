@@ -17,6 +17,8 @@ subGroup: 表单组件
 
 3. `FormItem` 的`disabled`属性也会传递给子组件。
 
+> TODO: 暂时不考虑对数据源、disabled 等状态的实例方法扩展。
+
 ## demos
 
 基本使用
@@ -25,14 +27,17 @@ subGroup: 表单组件
 配合 span 布局
 <Demo src="./demos/layout.tsx" />
 
-表单关联
+表单关联: 常规使用
+<Demo src="./demos/dependencybase.tsx" />
+
+表单关联: 被动表单关联
 <Demo src="./demos/dependency.tsx" />
 
 ### FormItem api
 
 | 字段名           | 说明                                                  | 类型                                             | 默认值  |
 | :--------------- | :---------------------------------------------------- | :----------------------------------------------- | :-----: |
-| colClassName     | colClassName                                          | `string`                                         |    -    |
+| colClassName     | col 的 className 属性                                 | `string`                                         |    -    |
 | colStyle         | Col 样式                                              | `React.CSSProperties`                            |    -    |
 | dataSource       | 数据源                                                | `any`                                            |    -    |
 | disabled         | 是否禁用表单项，`disabled`会传给子组件                | `boolean` \| `() => boolean`                     | `false` |
