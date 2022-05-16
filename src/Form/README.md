@@ -15,52 +15,19 @@ subGroup: 表单组件
 > 模板能力： 表单配置页、搜索表格  
 > 高阶能力： 快速搭建平台
 
-## FormItem
+## 组件说明
 
-1. FormItem 是在`Form.Item`组件基础上增加`Col`组件包裹，方便布局。
+`Form`在`AForm`的基础上，扩展了`remoteValues`属性加载表单值。
 
-> 如果设置`span: null`属性的话，不会生成`Col`组件包裹。
+## 组件示例
 
-<!-- 2022年5月14号更新 -->
+基础使用
+<Demo src="./demos/remoteValues.tsx" />
 
-2. FormItem 扩展了**数据源**的使用，支持`remoteDataSource`方法请求数据源传递给子组件，或者使用`dataSource`方法传递数据源给子组件。
+## API
 
-3. FormItem 的`disabled`属性也会传递给子组件。
+| 字段名       | 说明       | 类型                    | 默认值 |
+| :----------- | :--------- | :---------------------- | :----: |
+| remoteValues | 远程表单值 | `() => Promise<Values>` |   -    |
 
-### FormItem demos
-
-<Demo src="./demos/formitemdemo.tsx" />
-
-### FormItem api
-
-| 字段名       | 说明                                   | 类型                                  |  默认值   |
-| :----------- | :------------------------------------- | :------------------------------------ | :-------: | ------ |
-| render       | 是否渲染                               | `((props: FormItemProps) => boolean)` | `boolean` | `true` |
-| colStyle     | Col 样式                               | `React.CSSProperties`                 |     -     |
-| colClassName | colClassName                           | `string`                              |     -     |
-| children     | 必填，antd 表单录入组件，如`<Input />` | `React.ReactElement`                  |     -     |
-
-除此以外，透传[Col](https://ant.design/components/grid-cn/#Col)的`span` `offset` `push` `pull` `order` `flex` 属性。  
-以及，[Form.Item](https://ant.design/components/form-cn/#Form.Item)的属性。
-
-## FormGroup
-
-FormGroup 是 FormItem 组，直接使用 FormGroup 方便快速搭建表单和布局。
-
-### FormGroup demos
-
-基本时候用
-<Demo src="./demos/formgroupdemo.tsx" />
-
-放在容器中
-<Demo src="./demos/carddemo.tsx" />
-
-### FormGroup api
-
-| 字段名 | 说明             | 类型                                |  默认值  |
-| :----- | :--------------- | :---------------------------------- | :------: | ------ |
-| fields | 必填，表单项列表 | `FormItemProps[]`                   |    -     |
-| render | 是否渲染         | `(props: FormGroupProps) => boolean | boolean` | `true` |
-
-除此以外，透传[Row](https://ant.design/components/grid-cn/#Row)的属性。  
-以及，[Form.Item](https://ant.design/components/form-cn/#Form.Item)的`colon` `labelCol` `labelAlign` `wrapperCol` `hidden`属性，这些属性会透传到每个`FormItem`组件上。
+其他属性参考[Form](https://ant.design/components/form-cn/#API)。

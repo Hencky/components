@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, FormGroup } from '@pms/ui';
+import { Form, FormGroup, Select } from '@pms/ui';
 import { Input, Card } from 'antd';
 
 const Demo = () => {
@@ -12,33 +12,49 @@ const Demo = () => {
         remoteValues={() => {
           return new Promise((resolve) => {
             setTimeout(() => {
-              resolve({ x1: 'x1', x2: 'x2', x3: 'x3' });
+              resolve({ username: 'Hencky', password: '*****', sex: 'male', address: 'zhejiang' });
             }, 1000);
           });
         }}
       >
         <FormGroup
-          labelCol={{ span: 4 }}
+          labelCol={{ style: { width: 80 } }}
           fields={[
             {
-              name: 'x1',
-              label: 'x1',
+              name: 'username',
+              label: '用户名',
+              rules: [{ required: true, message: '请输入' }],
               children: <Input placeholder="请输入" />,
             },
             {
-              name: 'x2',
-              label: 'x2',
+              name: 'password',
+              label: '密码',
+              rules: [{ required: true, message: '请输入' }],
               children: <Input placeholder="请输入" />,
             },
             {
-              name: 'x3',
-              label: 'x3',
-              children: <Input placeholder="请输入" />,
+              name: 'sex',
+              label: '性别',
+              span: 12,
+              dataSource: [
+                { label: '男', value: 'male' },
+                { label: '女', value: 'female' },
+                { label: '保密', value: 'other' },
+              ],
+              rules: [{ required: true, message: '请选择' }],
+              children: <Select placeholder="请选择" />,
             },
             {
-              name: 'x4',
-              label: 'x4',
-              children: <Input placeholder="请输入" />,
+              name: 'address',
+              label: '地址',
+              span: 12,
+              remoteDataSource: () => {
+                return Promise.resolve([
+                  { label: '北京', value: 'beijing' },
+                  { label: '浙江', value: 'zhejiang' },
+                ]);
+              },
+              children: <Select placeholder="请选择" />,
             },
           ]}
         />

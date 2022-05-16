@@ -9,6 +9,8 @@ interface FormType extends IFormType {
   FormGroup: typeof FormGroup;
   FormItem: typeof FormItem;
   useForm: typeof AForm.useForm;
+  useFormInstance: typeof AForm.useFormInstance;
+  useWatch: typeof AForm.useWatch;
 }
 
 const Form = IForm as FormType;
@@ -16,5 +18,7 @@ const Form = IForm as FormType;
 Form.FormGroup = FormGroup;
 Form.FormItem = FormItem;
 Form.useForm = AForm.useForm;
+Form.useFormInstance = AForm.useFormInstance;
+Form.useWatch = AForm.useWatch;
 
 export { Form };

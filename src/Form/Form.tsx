@@ -16,7 +16,7 @@ export function Form<Values = any>(props: PropsWithChildren<FormProps<Values>>) 
     setLoading(true);
     remoteValues()
       .then((values) => {
-        // TODO: antd没有暴露出RecursivePartial，不考虑手写
+        // TODO: antd没有暴露出RecursivePartial类型，先不考虑手写，断言成any
         return form.setFieldsValue(values as any);
       })
       .finally(() => {
