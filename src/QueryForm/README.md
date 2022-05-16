@@ -10,18 +10,18 @@ subGroup: 录入组件
 - 单行搜索：显示查询、重置按钮
 - 多行搜索：超出行折叠
 
-## QueryForm Demo
+## demos
 
-单搜索
+单搜索，不显示 label
 <Demo src="./demos/single.tsx" />
 
 单行搜索
 <Demo src="./demos/singleRow.tsx" />
 
-多行搜索
+多行搜索，显示折叠按钮
 <Demo src="./demos/queryform.tsx" />
 
-## QueryForm API
+## API
 
 ```ts
 import type { FormInstance, FormProps } from 'antd/lib/form';

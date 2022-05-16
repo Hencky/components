@@ -24,7 +24,7 @@ export const ToggleOpenButton: React.FC<ToggleOpenButtonProps> = (props) => {
       text={open ? '收起' : '展开'}
       textPosition="start"
       type="primary"
-      textStyle={{ fontSize: 14 }}
+      textStyle={{ fontSize: 16 }}
       icon={
         <DownOutlined
           className={cls({

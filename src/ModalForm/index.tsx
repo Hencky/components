@@ -27,10 +27,8 @@ export interface ModalFormProps extends Pick<AModalProps, ExcludeModalType> {
   };
   children: React.ReactElement;
 
-  // TODO: 把initialValues放到form里
   initialValues?: Record<string, any>;
-  // TODO: 支持remoteValues，同样也放到form里
-  remoteValues?: any;
+  remoteValues?: () => Promise<any>;
 }
 
 export interface ModalFormInstance {
@@ -70,7 +68,7 @@ const IModalForm: React.ForwardRefRenderFunction<ModalFormInstance> = (_, ref) =
     };
   });
 
-  const { modalProps, formProps, title, children, width, onOk } = propsRef.current || {};
+  const { modalProps, formProps, title, children, width, onOk, remoteValues } = propsRef.current || {};
   const { footerRender, footer, ...restModalProps } = modalProps || {};
 
   // ===== footer支持ctx =====
@@ -110,7 +108,7 @@ const IModalForm: React.ForwardRefRenderFunction<ModalFormInstance> = (_, ref) =
       width={width}
       onOk={handleOk}
     >
-      <Form {...formProps} form={form}>
+      <Form {...formProps} remoteValues={remoteValues} form={form}>
         {children && React.cloneElement(children, { ...getModalFormContext() })}
       </Form>
     </Modal>

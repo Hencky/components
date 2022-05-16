@@ -18,7 +18,7 @@ const Demo = () => {
         {
           name: 'name',
           label: '名称',
-          children: <Input placeholder="请输入" />,
+          children: <Input placeholder="请输入搜索名称" />,
         },
       ]}
     />
