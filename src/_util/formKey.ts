@@ -1,5 +1,5 @@
 import { toArray } from './array';
-import type { FormItemProps } from '../Form';
+import type { FormItemProps } from '../FormItem';
 
 export function getFormKey(field: FormItemProps): string;
 export function getFormKey(name: FormItemProps['name']): string;

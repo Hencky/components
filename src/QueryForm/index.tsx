@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Form, Row, Col } from 'antd';
 import cls from 'classnames';
-import { type FormItemProps, FormItem } from '../Form';
+import { type FormItemProps, FormItem } from '../FormItem';
 import type { FormInstance, FormProps } from 'antd/lib/form';
 import { ButtonActions, type ButtonActionProps } from '../Actions';
 import { ToggleOpenButton } from '../ToggleOpenButton';

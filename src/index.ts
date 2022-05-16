@@ -3,6 +3,8 @@ export * from './Actions';
 export * from './Dropdown';
 export * from './Tree';
 export * from './Form';
+export * from './FormItem';
+export * from './FormGroup';
 export * from './Table';
 export * from './ToggleOpenButton';
 export * from './QueryForm';
