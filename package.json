@@ -13,7 +13,8 @@
   "scripts": {
     "dev": "SHOW_ALL_COMPONENT_DEMOS=true vite serve docs",
     "compile": "father-build",
-    "build": "rm -rf docs/dist && vite build docs && serve -s docs/dist",
+    "build": "rm -rf docs/dist && vite build docs",
+    "build:preview": "rm -rf docs/dist && vite build docs && serve -s docs/dist",
     "ssr": "rm -rf docs/dist && vite-pages ssr docs && serve docs/dist",
     "lint": "npm run lint:script && npm run lint:style",
     "lint:script": "tsc && eslint --ext .js,.jsx,.ts,.tsx --fix ./",
