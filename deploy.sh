@@ -9,6 +9,8 @@ npm run build
 # 进入生成的文件夹
 cd docs/dist
 
+cp -f index.html 404.html
+
 # 如果是发布到自定义域名
 # echo 'www.example.com' > CNAME
 
