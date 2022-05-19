@@ -7,6 +7,7 @@ import pages, { DefaultPageStrategy } from 'vite-plugin-react-pages';
 const variablePath = normalizePath(path.resolve('./src/style/index.less'));
 
 module.exports = {
+  base: '/components/',
   root: path.join(__dirname, 'src'),
   build: {
     outDir: path.join(__dirname, 'dist'),
