@@ -5,5 +5,6 @@ export default {
     eslint: true,
     prettier: true,
   },
-  extractCSS: true,
+  extractCSS: false,
+  lessInBabelMode: true,
 };
