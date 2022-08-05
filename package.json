@@ -2,7 +2,7 @@
   "name": "@pms/ui",
   "description": "基于antd封装的组件",
   "author": "hencky, jax",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "es/index.js",
   "module": "es/index.js",
   "types": "es/index.d.ts",
@@ -19,7 +19,6 @@
     "lint": "npm run lint:script && npm run lint:style",
     "lint:script": "tsc && eslint --ext .js,.jsx,.ts,.tsx --fix ./",
     "lint:style": "stylelint --fix \"src/**/*.less\" --custom-syntax postcss-less",
-    "postinstall": "husky install",
     "pretty-quick": "pretty-quick",
     "release": "pnpm run compile && npm publish"
   },
