@@ -28,11 +28,11 @@ subGroup: 表单组件
 ```ts
 import type { FormInstance, FormProps } from 'antd/lib/form';
 
-export interface QueryFormProps extends Omit<FormProps, 'fields'> {
+interface QueryFormProps<Values = any> extends Omit<FormProps<Values>, 'fields'> {
   /** 表单搜索字段配置，同FormItem */
   fields: FormItemProps[];
   /** 表单实例 */
-  form?: FormInstance;
+  form?: FormInstance<Values>;
   /** 显示字段长度，2/3/4 默认3 */
   showFieldsLength?: number;
   /** 默认展开，默认false */

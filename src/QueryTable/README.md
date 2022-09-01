@@ -24,8 +24,8 @@ subGroup: 展示组件
 ## 实例方法
 
 ```ts
-export interface QueryTableInstance<RecordType = any> {
-  form: FormInstance;
+interface QueryTableInstance<RecordType = any, Values = any> {
+  form: FormInstance<Values>;
   table: TableInstance<RecordType>;
   modal: ModalFormInstance;
 }
@@ -34,31 +34,31 @@ export interface QueryTableInstance<RecordType = any> {
 ## API
 
 ```ts
-export type QueryTableContext<RecordType = any> = QueryTableInstance<RecordType>;
+type QueryTableContext<RecordType = any> = QueryTableInstance<RecordType>;
 
 type OutsideTableType = 'remoteDataSource' | 'columns' | 'rowKey' | 'rowSelection';
 
-export interface QueryTableActions<RecordType = any> extends Omit<ButtonActionProps, 'onClick'> {
+interface QueryTableActions<RecordType = any> extends Omit<ButtonActionProps, 'onClick'> {
   onClick: (e: React.MouseEvent<HTMLButtonElement>, ctx: QueryTableContext<RecordType>) => void;
 }
 
-export type QueryTableColumnRenderContext<RecordType = any> = {
+type QueryTableColumnRenderContext<RecordType = any> = {
   value: RecordType;
   index: number;
   record: RecordType;
 } & QueryTableContext<RecordType>;
 
-export interface QueryTableColumnType<RecordType> extends Omit<ColumnType<RecordType>, 'render'> {
+interface QueryTableColumnType<RecordType> extends Omit<ColumnType<RecordType>, 'render'> {
   render?: (ctx: QueryTableColumnRenderContext) => ReactElement;
 }
 
-export interface QueryTableProps<RecordType extends Record<string, any> = any>
-  extends Pick<QueryFormProps, 'fields' | 'initialValues' | 'showFieldsLength'>,
+interface QueryTableProps<RecordType extends Record<string, any> = any, SearchValues = any>
+  extends Pick<QueryFormProps<SearchValues>, 'fields' | 'initialValues' | 'showFieldsLength'>,
     Pick<TableProps, Exclude<OutsideTableType, 'columns'>> {
   columns: QueryTableColumnType<RecordType>[];
   tableProps?: Omit<TableProps<RecordType>, OutsideTableType>;
   leftActions?: QueryTableActions<RecordType>[];
   actions?: QueryTableActions<RecordType>[];
-  formProps?: Omit<QueryFormProps, 'fields' | 'initialValues' | 'showFieldsLength'>;
+  formProps?: Omit<QueryFormProps<SearchValues>, 'fields' | 'initialValues' | 'showFieldsLength'>;
 }
 ```

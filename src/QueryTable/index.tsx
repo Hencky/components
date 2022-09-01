@@ -18,15 +18,15 @@ import { usePrefix } from '../_hooks';
 
 import './index.less';
 
-export interface QueryTableInstance<RecordType = any> {
-  form: FormInstance;
+export interface QueryTableInstance<RecordType = any, Values = any> {
+  form: FormInstance<Values>;
   table: TableInstance<RecordType>;
   modal: ModalFormInstance;
 }
 
 export type QueryTableContext<RecordType = any> = QueryTableInstance<RecordType>;
 
-type OutsideTableType = 'remoteDataSource' | 'columns' | 'rowKey' | 'rowSelection';
+export type OutsideTableType = 'remoteDataSource' | 'columns' | 'rowKey' | 'rowSelection';
 
 export interface QueryTableActions<RecordType = any> extends Omit<ButtonActionProps, 'onClick'> {
   onClick: (e: React.MouseEvent<HTMLButtonElement>, ctx: QueryTableContext<RecordType>) => void;
@@ -42,17 +42,17 @@ export interface QueryTableColumnType<RecordType> extends Omit<ColumnType<Record
   render?: (ctx: QueryTableColumnRenderContext) => ReactElement;
 }
 
-export interface QueryTableProps<RecordType extends Record<string, any> = any>
-  extends Pick<QueryFormProps, 'fields' | 'initialValues' | 'showFieldsLength'>,
+export interface QueryTableProps<RecordType extends Record<string, any> = any, SearchValues = any>
+  extends Pick<QueryFormProps<SearchValues>, 'fields' | 'initialValues' | 'showFieldsLength'>,
     Pick<TableProps, Exclude<OutsideTableType, 'columns'>> {
   columns: QueryTableColumnType<RecordType>[];
   tableProps?: Omit<TableProps<RecordType>, OutsideTableType>;
   leftActions?: QueryTableActions<RecordType>[];
   actions?: QueryTableActions<RecordType>[];
-  formProps?: Omit<QueryFormProps, 'fields' | 'initialValues' | 'showFieldsLength'>;
+  formProps?: Omit<QueryFormProps<SearchValues>, 'fields' | 'initialValues' | 'showFieldsLength'>;
 }
 
-function BaseQueryTable<RecordType extends Record<string, any> = any>(
+function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValues = any>(
   props: QueryTableProps<RecordType>,
   ref: ForwardedRef<QueryTableInstance<RecordType>>
 ) {
@@ -158,7 +158,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any>(
   return (
     <div className={prefix}>
       {!!showFieldsLength && (
-        <QueryForm
+        <QueryForm<SeachValues>
           form={form}
           fields={fields}
           onReset={onReset}

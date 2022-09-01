@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { Form, Row, Col } from 'antd';
 import cls from 'classnames';
-import { type FormItemProps, FormItem } from '../FormItem';
 import type { FormInstance, FormProps } from 'antd/lib/form';
+import { type FormItemProps, FormItem } from '../FormItem';
 import { ButtonActions, type ButtonActionProps } from '../Actions';
 import { ToggleOpenButton } from '../ToggleOpenButton';
 import { usePrefix } from '../_hooks';
@@ -10,11 +10,11 @@ import { getFormKey } from '../_util';
 
 import './index.less';
 
-export interface QueryFormProps extends Omit<FormProps, 'fields'> {
+export interface QueryFormProps<Values = any> extends Omit<FormProps<Values>, 'fields'> {
   /** 表单搜索字段配置，同FormItem */
   fields: FormItemProps[];
   /** 表单实例 */
-  form?: FormInstance;
+  form?: FormInstance<Values>;
   /** 显示字段长度，2/3/4 默认3 */
   showFieldsLength?: number;
   /** 默认展开，默认false */
@@ -27,7 +27,9 @@ export interface QueryFormProps extends Omit<FormProps, 'fields'> {
   showDivider?: boolean;
 }
 
-export const QueryForm: React.FC<QueryFormProps> = (props) => {
+export const QueryForm: <Values = any>(props: React.PropsWithChildren<QueryFormProps<Values>>) => React.ReactElement = (
+  props
+) => {
   const prefix = usePrefix('queryform');
 
   const {
