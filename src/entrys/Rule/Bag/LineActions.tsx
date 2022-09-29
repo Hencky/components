@@ -1,7 +1,7 @@
 import React from 'react';
-import { type FormListOperation } from 'antd';
 import { ButtonActions } from '@pms/ui';
 import { PlusOutlined } from '@ant-design/icons';
+import type { FormListOperation } from 'antd/lib/form/FormList';
 
 export interface LineActionProps {
   operation: FormListOperation;

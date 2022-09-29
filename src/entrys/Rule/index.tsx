@@ -7,14 +7,14 @@ export interface RuleProps {
   name: string;
   condition: React.ReactElement<{ field: FormListFieldData }>;
   lineAction: React.ReactElement<{ operation: FormListOperation }>;
-  grouopAction: React.ReactElement<{ operation: FormListOperation; index: number }>;
+  groupAction: React.ReactElement<{ operation: FormListOperation; index: number }>;
 }
 
 export const Rule: React.FC<RuleProps> = (props) => {
-  const { name, condition, lineAction } = props;
+  const { name, condition, lineAction, groupAction } = props;
 
   return (
-    <RuleContext.Provider value={{ name, condition, lineAction }}>
+    <RuleContext.Provider value={{ name, condition, lineAction, groupAction }}>
       <Group name={[name, 0, 'children']} path={[0]} />
     </RuleContext.Provider>
   );

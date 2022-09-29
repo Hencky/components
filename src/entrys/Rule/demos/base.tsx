@@ -42,7 +42,7 @@ const demo = () => {
         }}
       >
         {/* @ts-expect-error */}
-        <Rule name={'abc'} condition={<Condition />} lineAction={<LineAction />} grouopAction={<GroupAction />} />
+        <Rule name={'abc'} condition={<Condition />} lineAction={<LineAction />} groupAction={<GroupAction />} />
       </Form>
       <ButtonAction
         style={{ marginTop: 20 }}

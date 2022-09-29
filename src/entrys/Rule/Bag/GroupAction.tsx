@@ -1,7 +1,7 @@
 import React from 'react';
-import { type FormListOperation } from 'antd';
 import { IconActions } from '@pms/ui';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import type { FormListOperation } from 'antd/lib/form/FormList';
 
 export interface GroupActionProps {
   operation: FormListOperation;
