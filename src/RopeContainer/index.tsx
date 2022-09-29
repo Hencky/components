@@ -90,8 +90,8 @@ export const RopeContainer: React.FC<RopeContainerProps> = (props) => {
       Tooltip,
       {
         title: tooltip,
-        visible: tooltipVisible,
-        onVisibleChange: onToolVisibleChange,
+        open: tooltipVisible,
+        onOpenChange: onToolVisibleChange,
       },
       element
     );
@@ -107,8 +107,8 @@ export const RopeContainer: React.FC<RopeContainerProps> = (props) => {
       {
         title: confirm,
         onConfirm: onClickInternal,
-        visible: popconfirmVisible,
-        onVisibleChange: onPopconfirmVisibleChange,
+        open: popconfirmVisible,
+        onOpenChange: onPopconfirmVisibleChange,
       },
       element
     );

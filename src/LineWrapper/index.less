@@ -1,0 +1,53 @@
+@import '../style/index.less';
+
+@linewrapper-prefix-cls: ~'@{ui-prefix}-line-wrapper';
+
+.@{linewrapper-prefix-cls} {
+  position: relative;
+
+  &-title {
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &-item {
+    display: flex;
+
+    &-line {
+      position: relative;
+      width: 40px;
+
+      > div {
+        position: absolute;
+        background-color: #ccc;
+      }
+
+      &-left {
+        top: 50%;
+        width: 40px;
+        height: 1px;
+      }
+
+      &-top {
+        width: 1px;
+        height: 50%;
+      }
+
+      &-bottom {
+        top: 50%;
+        width: 1px;
+        height: 50%;
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+@import '../style/index.less';
+
+@rule-group-prefix-cls: ~'@{ui-prefix}-rule-group';
+
+.@{rule-group-prefix-cls} {
+  &-card {
+    position: relative;
+  }
+
+  &-operator {
+    position: absolute;
+    top: 4px;
+    right: 8px;
+  }
+}
