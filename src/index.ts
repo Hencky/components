@@ -12,4 +12,4 @@ export * from './QueryTable';
 export * from './ModalForm';
 export * from './entrys';
 export * from './LineWrapper';
-export * from './Rule';
+export * from './entrys/Rule';

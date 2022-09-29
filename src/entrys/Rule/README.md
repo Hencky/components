@@ -1,3 +1,19 @@
+---
+title: Rule
+subGroup: 数据录入组件
+---
+
+# Rule
+
+## 组件介绍
+
+1. 规则组件
+
+## demos
+
+基础使用
+<Demo src="./demos/base.tsx" />
+
 <!-- 值格式 -->
 
 ```ts

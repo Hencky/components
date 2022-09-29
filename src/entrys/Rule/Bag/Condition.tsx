@@ -8,13 +8,13 @@ export interface ConditionProps {
   field: FormListFieldData;
 }
 
-const Condition: React.FC<ConditionProps> = (props) => {
+export const Condition: React.FC<ConditionProps> = (props) => {
   const { field } = props;
   const { key, ...restField } = field;
 
   return (
     <Space size={0}>
-      <Item {...restField} name={[restField.name, 'a']} rules={[{ required: true }]} style={{ marginBottom: 0 }}>
+      <Item {...restField} name={[restField.name, 'a']} rules={[{ required: false }]} style={{ marginBottom: 0 }}>
         <Input placeholder="请输入条件1" />
       </Item>
       <Item {...restField} name={[restField.name, 'b']} style={{ marginBottom: 0 }}>
@@ -26,5 +26,3 @@ const Condition: React.FC<ConditionProps> = (props) => {
     </Space>
   );
 };
-
-export default Condition;

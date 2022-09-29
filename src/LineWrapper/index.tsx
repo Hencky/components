@@ -53,7 +53,9 @@ export const LineWrapper: React.FC<LineProps> = (props) => {
 
   return (
     <div className={prefix}>
-      {flatChildren.length > 1 && (!titleRender ? <DefaultTitle title={title} /> : titleRender())}
+      {flatChildren.length > 1 && (
+        <div className={prefix + '-title-wrapper'}>{!titleRender ? <DefaultTitle title={title} /> : titleRender()}</div>
+      )}
       {renderLineItem()}
     </div>
   );

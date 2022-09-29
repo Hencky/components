@@ -1,0 +1,11 @@
+@import '../../style/index.less';
+
+@rule-title-prefix-cls: ~'@{ui-prefix}-rule-title';
+
+.@{rule-title-prefix-cls} {
+  cursor: pointer;
+
+  &::selection {
+    background: none;
+  }
+}
