@@ -40,7 +40,7 @@ export interface ColumnType<RecordType> extends Omit<AColumnType<RecordType>, 'r
   key?: string;
 }
 
-export interface TableProps<RecordType = any>
+export interface TableProps<RecordType extends Record<string, any> = any>
   extends Omit<ATableProps<RecordType>, 'dataSoruce' | 'loading' | 'rowSelection' | 'columns'> {
   /** 远程数据源 */
   remoteDataSource?: (params: RequestParams) => Promise<RequestResult<RecordType>>;
@@ -183,6 +183,7 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   const onRowSelectionChange = (currentSelectedRowKeys, currentSelectedRows) => {
     setRef(selectedRowsRef, currentSelectedRows);
     setSelectedRowKeys(currentSelectedRowKeys);
+    // @ts-expect-error
     (rowSelection as TableRowSelection<RecordType>)?.onChange?.(currentSelectedRowKeys, currentSelectedRows);
   };
 
@@ -221,6 +222,8 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   );
 }
 
-export const Table = forwardRef<TableInstance, TableProps>(BasicTable) as <RecordType = any>(
+export const Table = forwardRef<TableInstance, TableProps>(BasicTable) as <
+  RecordType extends Record<string, any> = any
+>(
   props: PropsWithChildren<TableProps<RecordType>> & { ref?: React.Ref<TableInstance<RecordType>> }
 ) => ReactElement;

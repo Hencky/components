@@ -185,6 +185,8 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
   );
 }
 
-export const QueryTable = forwardRef<QueryTableInstance, QueryTableProps>(BaseQueryTable) as <RecordType = any>(
+export const QueryTable = forwardRef<QueryTableInstance, QueryTableProps>(BaseQueryTable) as <
+  RecordType extends Record<string, any> = any
+>(
   props: PropsWithChildren<QueryTableProps<RecordType>> & { ref?: React.Ref<QueryTableInstance<RecordType>> }
 ) => ReactElement;

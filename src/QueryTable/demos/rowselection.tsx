@@ -111,6 +111,7 @@ const Demo = () => {
 
   return (
     <QueryTable
+      // @ts-expect-error
       ref={ref}
       fields={fields.map((item) => ({ ...item, rules: [] }))}
       columns={cols}
