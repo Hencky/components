@@ -7,7 +7,7 @@ import {
   FormGroup,
   QueryTableColumnRenderContext,
   QueryTableInstance,
-} from '@pms/ui';
+} from '@lucky-bird/ui';
 import { Input, message } from 'antd';
 import { remoteDataSource, columns, type RecordType } from '../../Table/demos/config';
 

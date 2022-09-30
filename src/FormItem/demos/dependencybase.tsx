@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, FormItem, Select } from '@pms/ui';
+import { Form, FormItem, Select } from '@lucky-bird/ui';
 import { Card, Row } from 'antd';
 
 const layout = { labelCol: { style: { width: 140 } }, span: 12 };

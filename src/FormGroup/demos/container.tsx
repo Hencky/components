@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, FormGroup, Select, ButtonAction } from '@pms/ui';
+import { Form, FormGroup, Select, ButtonAction } from '@lucky-bird/ui';
 import { Input, Card, Space } from 'antd';
 
 const layout = { labelCol: { style: { width: 120 } } };

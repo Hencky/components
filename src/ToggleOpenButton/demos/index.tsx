@@ -1,5 +1,5 @@
 import React from 'react';
-import { ToggleOpenButton } from '@pms/ui';
+import { ToggleOpenButton } from '@lucky-bird/ui';
 
 const Demo = () => {
   const [isOpen, setIsOpen] = React.useState(false);

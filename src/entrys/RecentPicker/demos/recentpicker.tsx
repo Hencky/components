@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Divider } from 'antd';
 import moment from 'moment';
-import { type RecentPickerValue, type RangeValue, RecentPicker } from '@pms/ui';
+import { type RecentPickerValue, type RangeValue, RecentPicker } from '@lucky-bird/ui';
 
 const Demo = () => {
   return (

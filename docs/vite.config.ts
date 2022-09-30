@@ -66,7 +66,7 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      '@pms/ui': path.join(__dirname, '../src'),
+      '@lucky-bird/ui': path.join(__dirname, '../src'),
     },
   },
   css: {

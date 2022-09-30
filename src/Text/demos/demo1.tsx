@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { Divider, Space } from 'antd';
-import { Text } from '@pms/ui';
+import { Text } from '@lucky-bird/ui';
 
 const Demo = () => {
   return (

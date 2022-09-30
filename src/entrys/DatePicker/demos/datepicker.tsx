@@ -1,5 +1,5 @@
 import React from 'react';
-import { DatePicker } from '@pms/ui';
+import { DatePicker } from '@lucky-bird/ui';
 import { Space } from 'antd';
 import moment from 'moment';
 

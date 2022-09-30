@@ -22,7 +22,7 @@
     // "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@pms/ui": ["./src"]
+      "@lucky-bird/ui": ["./src"]
     },
     "outDir": "es"
   },

@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { ConfigProvider, message, Space } from 'antd';
-import { ButtonAction } from '@pms/ui';
+import { ButtonAction } from '@lucky-bird/ui';
 import zhCH from 'antd/lib/locale/zh_CN';
 
 const ButtonActionDemo = () => {

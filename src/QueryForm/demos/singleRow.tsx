@@ -1,5 +1,5 @@
 import React from 'react';
-import { QueryForm } from '@pms/ui';
+import { QueryForm } from '@lucky-bird/ui';
 import { Input } from 'antd';
 
 const Demo = () => {

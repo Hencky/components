@@ -1,5 +1,5 @@
 import React from 'react';
-import { Rule, ButtonAction } from '@pms/ui';
+import { Rule, ButtonAction } from '@lucky-bird/ui';
 import { Form } from 'antd';
 import { Condition, LineAction, GroupAction } from '../Bag';
 

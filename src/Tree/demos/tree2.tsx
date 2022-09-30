@@ -1,8 +1,8 @@
 import React from 'react';
-import { Tree, ButtonAction, DropdownButton, IconAction } from '@pms/ui';
+import { Tree, ButtonAction, DropdownButton, IconAction } from '@lucky-bird/ui';
 import { message } from 'antd';
 import { PlusOutlined, CopyOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined } from '@ant-design/icons';
-import type { DataNode, ButtonActionProps, TreeProps } from '@pms/ui';
+import type { DataNode, ButtonActionProps, TreeProps } from '@lucky-bird/ui';
 
 const treeData = [
   {
