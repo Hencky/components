@@ -5,8 +5,8 @@
 
 import React from 'react';
 import { ConfigProvider, message } from 'antd';
-import { ButtonActions } from '@lucky-bird/ui';
-import type { ButtonActionsProps } from '@lucky-bird/ui';
+import { ButtonActions } from 'lucky-bird-ui';
+import type { ButtonActionsProps } from 'lucky-bird-ui';
 import zhCH from 'antd/lib/locale/zh_CN';
 
 const ButtonAction = () => {

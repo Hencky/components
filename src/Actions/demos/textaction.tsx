@@ -5,8 +5,8 @@
 
 import React from 'react';
 import { ConfigProvider, message } from 'antd';
-import { TextActions } from '@lucky-bird/ui';
-import type { TextActionsProps } from '@lucky-bird/ui';
+import { TextActions } from 'lucky-bird-ui';
+import type { TextActionsProps } from 'lucky-bird-ui';
 import zhCH from 'antd/lib/locale/zh_CN';
 
 const Demo = () => {

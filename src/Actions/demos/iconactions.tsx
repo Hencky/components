@@ -6,8 +6,8 @@
 import React from 'react';
 import { ConfigProvider, message, Row } from 'antd';
 import { CopyOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { IconActions } from '@lucky-bird/ui';
-import type { IconActionsProps } from '@lucky-bird/ui';
+import { IconActions } from 'lucky-bird-ui';
+import type { IconActionsProps } from 'lucky-bird-ui';
 import zhCH from 'antd/lib/locale/zh_CN';
 
 const IconActionDemo = () => {

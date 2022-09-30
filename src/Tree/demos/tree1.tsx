@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tree } from '@lucky-bird/ui';
+import { Tree } from 'lucky-bird-ui';
 
 const treeData = [
   {

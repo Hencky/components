@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, FormGroup, Select, ButtonAction } from '@lucky-bird/ui';
+import { Form, FormGroup, Select, ButtonAction } from 'lucky-bird-ui';
 import { Input, Card } from 'antd';
 
 const layout = { labelCol: { style: { width: 120 } } };

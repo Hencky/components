@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, FormGroup, Select } from '@lucky-bird/ui';
+import { Form, FormGroup, Select } from 'lucky-bird-ui';
 import { Input, Card } from 'antd';
 
 const Demo = () => {

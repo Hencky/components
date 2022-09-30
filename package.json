@@ -1,5 +1,5 @@
 {
-  "name": "@lucky-bird/ui",
+  "name": "lucky-bird-ui",
   "description": "基于antd封装的组件",
   "author": "hencky, jax",
   "version": "1.0.0",

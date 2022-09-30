@@ -1,7 +1,7 @@
 import React from 'react';
-import { Table, ButtonActions } from '@lucky-bird/ui';
+import { Table, ButtonActions } from 'lucky-bird-ui';
 import { Card, Space } from 'antd';
-import type { TableInstance } from '@lucky-bird/ui';
+import type { TableInstance } from 'lucky-bird-ui';
 import { type RecordType, remoteDataSource, columns } from './config';
 
 const Demo = () => {

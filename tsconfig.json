@@ -22,7 +22,7 @@
     // "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@lucky-bird/ui": ["./src"]
+      "lucky-bird-ui": ["./src"]
     },
     "outDir": "es"
   },

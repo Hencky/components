@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonActions } from '@lucky-bird/ui';
+import { ButtonActions } from 'lucky-bird-ui';
 import { PlusOutlined } from '@ant-design/icons';
 import type { FormListOperation } from 'antd/lib/form/FormList';
 

@@ -1,5 +1,5 @@
 import { Random } from 'mockjs';
-import type { TableProps, ColumnType } from '@lucky-bird/ui';
+import type { TableProps, ColumnType } from 'lucky-bird-ui';
 
 import './style.less';
 

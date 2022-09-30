@@ -6,7 +6,7 @@
 import React from 'react';
 import { ConfigProvider, Space, Row } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
-import { IconAction } from '@lucky-bird/ui';
+import { IconAction } from 'lucky-bird-ui';
 import zhCH from 'antd/lib/locale/zh_CN';
 
 const IconActionDemo = () => {

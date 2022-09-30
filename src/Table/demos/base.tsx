@@ -1,6 +1,6 @@
 import React from 'react';
 import { message } from 'antd';
-import { Table, type ColumnType, TextActions } from '@lucky-bird/ui';
+import { Table, type ColumnType, TextActions } from 'lucky-bird-ui';
 import { remoteDataSource, columns, type RecordType } from './config';
 
 const Demo = () => {
