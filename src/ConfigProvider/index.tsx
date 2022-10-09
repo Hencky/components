@@ -7,7 +7,7 @@ export interface IConfigContext {
 const defaultGetPrefixCls = (suffixCls?: string, customizePrefixCls?: string) => {
   if (customizePrefixCls) return customizePrefixCls;
 
-  return suffixCls ? `pms-ui-${suffixCls}` : 'pms-ui';
+  return suffixCls ? `lucky-bird-ui-${suffixCls}` : 'lucky-bird-ui';
 };
 
 export const ConfigContext = React.createContext<IConfigContext>({
