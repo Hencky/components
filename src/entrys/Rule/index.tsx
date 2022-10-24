@@ -2,10 +2,11 @@ import React from 'react';
 import { Group } from './Group';
 import { RuleContext } from './context';
 import type { FormListFieldData, FormListOperation } from 'antd/lib/form/FormList';
+import type { NamePath } from 'antd/lib/form/interface';
 
 export interface RuleProps {
   name: string;
-  condition: React.ReactElement<{ field: FormListFieldData }>;
+  condition: React.ReactElement<{ field: FormListFieldData; path: NamePath }>;
   lineAction: React.ReactElement<{ operation: FormListOperation }>;
   groupAction: React.ReactElement<{ operation: FormListOperation; index: number }>;
 }

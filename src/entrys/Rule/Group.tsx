@@ -46,7 +46,7 @@ export const Group: React.FC<GroupProps> = (props) => {
             if (!isGroup) {
               return (
                 <Space key={field.key}>
-                  {React.cloneElement(condition!, { field })}
+                  {React.cloneElement(condition!, { field, path: currentPath })}
                   <IconAction
                     onClick={() => {
                       operation.remove(index);
