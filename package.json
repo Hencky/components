@@ -2,7 +2,7 @@
   "name": "lucky-bird",
   "description": "基于antd封装的组件",
   "author": "hencky, jax",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "es/index.js",
   "module": "es/index.js",
   "types": "es/index.d.ts",

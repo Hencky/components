@@ -43,6 +43,7 @@ const Demo = () => {
       onSelect={(selectedKeys, e) => {
         console.log(selectedKeys, e);
       }}
+      defaultExpandAll={true}
       treeData={treeData}
       operatorRender={() => {
         return <div>操作按钮</div>;

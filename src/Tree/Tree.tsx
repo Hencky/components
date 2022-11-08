@@ -56,9 +56,20 @@ const generateList = (data: DataNode[]) => {
 };
 
 export const Tree: React.FC<TreeProps> = (props) => {
-  const { searchProps, showSearch, treeData, operatorRender, showOperatorOnHover, extraRender, ...restProps } = props;
-  const [expandedKeys, setExpandedKeys] = useState<string[]>([]);
+  const {
+    searchProps,
+    showSearch,
+    treeData,
+    operatorRender,
+    showOperatorOnHover,
+    extraRender,
+    defaultExpandAll,
+    ...restProps
+  } = props;
+  const [expandedKeys, setExpandedKeys] = useState<string[] | undefined>(undefined);
   const [autoExpandParent, setAutoExpandParent] = useState(false);
+  // 清空搜索条件后，默认展开所有
+  const [treeKey, setTreeKey] = useState('1');
   const searchValueRef = useRef('');
 
   const prefix = usePrefix('tree');
@@ -86,6 +97,7 @@ export const Tree: React.FC<TreeProps> = (props) => {
 
       setExpandedKeys(expKeys);
       setAutoExpandParent(true);
+      defaultExpandAll && setTreeKey(value?.length ? '2' : '1');
     },
     [treeData]
   );
@@ -146,11 +158,13 @@ export const Tree: React.FC<TreeProps> = (props) => {
         </div>
       )}
       <ATree
+        key={treeKey}
         blockNode
         {...restProps}
         treeData={treeData}
         onExpand={onExpand}
-        expandedKeys={expandedKeys}
+        defaultExpandAll={defaultExpandAll}
+        {...(defaultExpandAll && !searchValueRef.current ? {} : { expandedKeys })}
         autoExpandParent={autoExpandParent}
         titleRender={(nodeData) => {
           return titleRender(nodeData, searchValueRef.current);
