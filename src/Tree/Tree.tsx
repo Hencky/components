@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import cls from 'classnames';
 import { Tree as ATree, Input } from 'antd';
+import { Text } from '../Text';
 import { usePrefix } from '../_hooks';
 import type { SearchProps } from 'antd/lib/input';
 import type { TreeProps as ATreeProps, DataNode as ADataNode } from 'antd/lib/tree';
@@ -109,9 +110,11 @@ export const Tree: React.FC<TreeProps> = (props) => {
 
   const titleRender = useCallback(
     (nodeData, searchValue) => {
-      const index = nodeData.title.indexOf(searchValue);
-      const beforeStr = nodeData.title.substring(0, index);
-      const afterStr = nodeData.title.slice(index + searchValue.length);
+      const { title: nodeTitle, description: nodeDesc } = nodeData;
+
+      const index = nodeTitle.indexOf(searchValue);
+      const beforeStr = nodeTitle.substring(0, index);
+      const afterStr = nodeTitle.slice(index + searchValue.length);
 
       const title =
         index > -1 ? (
@@ -121,13 +124,16 @@ export const Tree: React.FC<TreeProps> = (props) => {
             {afterStr}
           </span>
         ) : (
-          <span>{nodeData.title}</span>
+          <span>{nodeTitle}</span>
         );
 
       if (operatorRender) {
         return (
           <div className={cls(prefix + '-treenode')}>
-            <div className={prefix + '-treenode-title'}>{title}</div>
+            <div className={prefix + '-treenode-title'}>
+              <div>{title}</div>
+              {nodeDesc ? <Text type="secondary">{nodeDesc}</Text> : null}
+            </div>
             <div
               className={cls({
                 [prefix + '-treenode-operator']: true,
