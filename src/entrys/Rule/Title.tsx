@@ -21,7 +21,7 @@ export interface RultTitleProps {
 
 export const RuleTitle: React.FC<RultTitleProps> = (props) => {
   const form = useFormInstance();
-  const { name } = useContext(RuleContext);
+  const { name, disabled } = useContext(RuleContext);
   const { path, refresh } = props;
   const prefix = usePrefix('rule-title');
 
@@ -34,6 +34,7 @@ export const RuleTitle: React.FC<RultTitleProps> = (props) => {
       title={toogleType[title]}
       className={prefix}
       onClick={() => {
+        if (disabled) return;
         form.setFieldValue([name, ...path.concat('type')], title === 'and' ? 'or' : 'and');
         refresh!();
       }}

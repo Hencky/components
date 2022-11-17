@@ -39,10 +39,38 @@ const demo = () => {
               ],
             },
           ],
+          def: [
+            {
+              type: 'and',
+              children: [
+                {
+                  b: '=',
+                  a: 'a',
+                  c: 'a',
+                },
+                {
+                  type: 'or',
+                  children: [
+                    {
+                      b: '=',
+                      a: 'a',
+                      c: 'a',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         }}
       >
-        {/* @ts-expect-error */}
         <Rule name={'abc'} condition={<Condition />} lineAction={<LineAction />} groupAction={<GroupAction />} />
+        <Rule
+          name={'def'}
+          disabled
+          condition={<Condition />}
+          lineAction={<LineAction />}
+          groupAction={<GroupAction />}
+        />
       </Form>
       <ButtonAction
         style={{ marginTop: 20 }}

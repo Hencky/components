@@ -24,7 +24,7 @@ export interface GroupProps {
 export const Group: React.FC<GroupProps> = (props) => {
   const { name: propName, path = [] } = props;
 
-  const { name: ctxName, condition, lineAction, groupAction } = useContext(RuleContext);
+  const { name: ctxName, condition, lineAction, groupAction, disabled } = useContext(RuleContext);
   const prefix = usePrefix('rule-group');
   const form = useFormInstance();
   const [, update] = useState({});
@@ -46,11 +46,12 @@ export const Group: React.FC<GroupProps> = (props) => {
             if (!isGroup) {
               return (
                 <Space key={field.key}>
-                  {React.cloneElement(condition!, { field, path: currentPath })}
+                  {React.cloneElement(condition!, { field, path: currentPath, disabled })}
                   <IconAction
                     onClick={() => {
                       operation.remove(index);
                     }}
+                    render={!disabled}
                     icon={<MinusCircleOutlined />}
                     tooltip="删除行"
                   />
@@ -61,7 +62,7 @@ export const Group: React.FC<GroupProps> = (props) => {
             return (
               <Card key={key} className={prefix + '-card'}>
                 <div className={prefix + '-operator'}>
-                  {groupAction ? React.cloneElement(groupAction, { operation, index }) : null}
+                  {groupAction && !disabled ? React.cloneElement(groupAction, { operation, index }) : null}
                 </div>
                 <Group field={field} key={key} name={[name, 'children']} path={currentPath} />
               </Card>
@@ -73,10 +74,15 @@ export const Group: React.FC<GroupProps> = (props) => {
         const titlePath = [...path, 'type'];
         const title = get(values, titlePath);
 
+        const lineItemList = renderFields();
+
+        if (lineAction && !disabled) {
+          lineItemList.push(React.cloneElement(lineAction, { operation }));
+        }
+
         return (
           <LineWrapper title={title} gutter={16} titleRender={() => <RuleTitle path={path} refresh={forceUpdate} />}>
-            {renderFields() as any}
-            {lineAction ? React.cloneElement(lineAction, { operation }) : null}
+            {lineItemList}
           </LineWrapper>
         );
       }}

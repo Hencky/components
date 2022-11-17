@@ -4,7 +4,8 @@ import type { NamePath } from 'antd/lib/form/interface';
 
 export interface IRuleContext {
   name: string;
-  condition?: React.ReactElement<{ field: FormListFieldData; path: NamePath }>;
+  disabled?: boolean;
+  condition?: React.ReactElement<{ field?: FormListFieldData; path?: NamePath; disabled?: boolean }>;
   lineAction?: React.ReactElement<{ operation: FormListOperation }>;
   groupAction?: React.ReactElement<{ operation: FormListOperation; index: number }>;
 }

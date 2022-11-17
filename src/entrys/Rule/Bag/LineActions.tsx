@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import type { FormListOperation } from 'antd/lib/form/FormList';
 
 export interface LineActionProps {
-  operation: FormListOperation;
+  operation?: FormListOperation;
 }
 
 export const LineAction: React.FC<LineActionProps> = (props) => {
@@ -15,7 +15,7 @@ export const LineAction: React.FC<LineActionProps> = (props) => {
       actions={[
         {
           onClick: () => {
-            operation.add({
+            operation!.add({
               operation: '',
               variable: '',
               value: '',
@@ -26,7 +26,7 @@ export const LineAction: React.FC<LineActionProps> = (props) => {
         },
         {
           onClick: () => {
-            operation.add({
+            operation!.add({
               type: 'or',
               children: [],
             });
@@ -37,7 +37,7 @@ export const LineAction: React.FC<LineActionProps> = (props) => {
         },
         {
           onClick: () => {
-            operation.add({
+            operation!.add({
               type: 'and',
               children: [],
             });

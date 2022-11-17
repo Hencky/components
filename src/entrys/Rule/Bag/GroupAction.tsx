@@ -4,8 +4,8 @@ import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { FormListOperation } from 'antd/lib/form/FormList';
 
 export interface GroupActionProps {
-  operation: FormListOperation;
-  index: number;
+  operation?: FormListOperation;
+  index?: number;
 }
 
 export const GroupAction: React.FC<GroupActionProps> = (props) => {
@@ -16,12 +16,12 @@ export const GroupAction: React.FC<GroupActionProps> = (props) => {
       actions={[
         {
           onClick: () => {
-            operation.add(
+            operation!.add(
               {
                 type: 'and',
                 children: [],
               },
-              index + 1
+              index! + 1
             );
           },
           icon: PlusOutlined,
@@ -29,7 +29,7 @@ export const GroupAction: React.FC<GroupActionProps> = (props) => {
         },
         {
           onClick: () => {
-            operation.remove(index);
+            operation!.remove(index!);
           },
           icon: DeleteOutlined,
           tooltip: '删除组',
