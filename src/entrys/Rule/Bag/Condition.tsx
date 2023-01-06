@@ -11,7 +11,7 @@ export interface ConditionProps {
 
 export const Condition: React.FC<ConditionProps> = (props) => {
   const { field, disabled } = props;
-  const { key, ...restField } = field;
+  const { key, ...restField } = field!;
 
   return (
     <Space size={0}>
