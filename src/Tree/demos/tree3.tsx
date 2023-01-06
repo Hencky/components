@@ -37,19 +37,36 @@ const treeData = [
 
 const Demo = () => {
   return (
-    <Tree
-      searchProps={{
-        placeholder: '请输入搜索名称 tree3',
-      }}
-      onSelect={(selectedKeys, e) => {
-        console.log(selectedKeys, e);
-      }}
-      defaultExpandAll={true}
-      treeData={treeData}
-      operatorRender={() => {
-        return <div>操作按钮</div>;
-      }}
-    />
+    <div>
+      <Tree
+        searchProps={{
+          placeholder: '请输入搜索名称 tree3',
+        }}
+        onSelect={(selectedKeys, e) => {
+          console.log(selectedKeys, e);
+        }}
+        defaultExpandAll={true}
+        treeData={treeData}
+        // descriptionInLine
+        operatorRender={() => {
+          return <div>操作按钮</div>;
+        }}
+      />
+      <Tree
+        searchProps={{
+          placeholder: '请输入搜索名称 tree3',
+        }}
+        onSelect={(selectedKeys, e) => {
+          console.log(selectedKeys, e);
+        }}
+        defaultExpandAll={true}
+        treeData={treeData}
+        descriptionInLine
+        operatorRender={() => {
+          return <div>操作按钮</div>;
+        }}
+      />
+    </div>
   );
 };
 

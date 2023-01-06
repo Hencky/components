@@ -27,6 +27,10 @@ export interface TreeProps extends ATreeProps<DataNode> {
   showOperatorOnHover?: boolean;
   /** 额外的渲染组件 */
   extraRender?: () => React.ReactElement;
+  /** 树节点样式 */
+  treeNodeTitleStyle?: React.CSSProperties;
+  /** 描述信息单行显示 */
+  descriptionInLine?: boolean;
 }
 
 const getParentKey = (key, tree) => {
@@ -65,6 +69,8 @@ export const Tree: React.FC<TreeProps> = (props) => {
     showOperatorOnHover,
     extraRender,
     defaultExpandAll,
+    treeNodeTitleStyle,
+    descriptionInLine,
     ...restProps
   } = props;
   const [expandedKeys, setExpandedKeys] = useState<string[] | undefined>(undefined);
@@ -130,7 +136,12 @@ export const Tree: React.FC<TreeProps> = (props) => {
       if (operatorRender) {
         return (
           <div className={cls(prefix + '-treenode')}>
-            <div className={prefix + '-treenode-title'}>
+            <div
+              className={cls(prefix + '-treenode-title', {
+                [prefix + '-treenode-title-description-inline']: descriptionInLine,
+              })}
+              style={treeNodeTitleStyle}
+            >
               <div>{title}</div>
               {nodeDesc ? <Text type="secondary">{nodeDesc}</Text> : null}
             </div>
