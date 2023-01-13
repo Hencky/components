@@ -65,6 +65,9 @@ const Demo = () => {
         operatorRender={() => {
           return <div>操作按钮</div>;
         }}
+        onTreeNodeHover={(data) => {
+          console.log('data', data);
+        }}
       />
     </div>
   );

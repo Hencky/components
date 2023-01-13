@@ -31,6 +31,8 @@ export interface TreeProps extends ATreeProps<DataNode> {
   treeNodeTitleStyle?: React.CSSProperties;
   /** 描述信息单行显示 */
   descriptionInLine?: boolean;
+  /** 树节点hover时回调 */
+  onTreeNodeHover?: (data: DataNode) => void;
 }
 
 const getParentKey = (key, tree) => {
@@ -71,6 +73,7 @@ export const Tree: React.FC<TreeProps> = (props) => {
     defaultExpandAll,
     treeNodeTitleStyle,
     descriptionInLine,
+    onTreeNodeHover,
     ...restProps
   } = props;
   const [expandedKeys, setExpandedKeys] = useState<string[] | undefined>(undefined);
@@ -135,7 +138,12 @@ export const Tree: React.FC<TreeProps> = (props) => {
 
       if (operatorRender) {
         return (
-          <div className={cls(prefix + '-treenode')}>
+          <div
+            className={cls(prefix + '-treenode')}
+            onMouseEnter={() => {
+              onTreeNodeHover?.(nodeData);
+            }}
+          >
             <div
               className={cls(prefix + '-treenode-title', {
                 [prefix + '-treenode-title-description-inline']: descriptionInLine,
