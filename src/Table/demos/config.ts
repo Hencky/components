@@ -76,3 +76,37 @@ export const remoteDataSource: TableProps['remoteDataSource'] = (params) => {
     }, 2000);
   });
 };
+
+export const remoteDataSourceSingle: TableProps['remoteDataSource'] = (params) => {
+  console.log('params', params);
+  const { current, size } = params;
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const data = new Array(10).fill(0).map((item, index) => {
+        return {
+          id: `${(current - 1) * size + index}`,
+          name: Random.name(),
+          senderName: Random.name(),
+          senderNumber: Random.id(),
+          senderAddress: Random.sentence(2, 3),
+          recipientName: Random.pick(recipientName),
+          recipientNumber: Random.id(),
+          recipientAddress: Random.sentence(2, 3),
+          recipientTime: Random.pick(recipientTime),
+          time: [Random.date('yyyy-MM-dd'), Random.date('yyyy-MM-dd')],
+          priceProject: Random.pick(priceProject),
+          address: Random.city(true),
+          status: Random.pick(status),
+          level: Random.pick(level),
+          description: Random.sentence(3, 4),
+          times: Random.natural(),
+          createTime: Random.date('MM-dd HH:mm:ss'),
+          ruler: [[{ type: 'price', comparator: 'lt', value: '100' }]],
+        };
+      });
+
+      console.log('result', data);
+      resolve(data);
+    }, 2000);
+  });
+};

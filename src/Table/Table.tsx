@@ -82,6 +82,8 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   const isShowSizeChangeRef = useRef(false);
   const selectedRowsRef = useRef<RecordType[]>([]);
 
+  const noPagination = pagination === false;
+
   // ===== 表格刷新 =====
   const refreshTable = (extraRefreshParams?: Record<string, any>): Promise<void> | undefined => {
     if (!remoteDataSource) return;
@@ -96,14 +98,20 @@ function BasicTable<RecordType extends Record<string, any> = any>(
       ...(extraRefreshParams || {}),
     })
       .then((data: RequestResult<RecordType>) => {
+        if (noPagination) {
+          setDataSource(data as unknown as RecordType[]);
+          return;
+        }
+
         const { records, current, size, total } = data || {};
         setRef(paginationRef, { current, size, total });
         setRef(filterRef, { ...filterRef.current, ...extraRefreshParams });
         setDataSource(records);
-        setLoading(false);
       })
       .catch(() => {
         setDataSource([]);
+      })
+      .finally(() => {
         setLoading(false);
       });
   };
@@ -205,15 +213,19 @@ function BasicTable<RecordType extends Record<string, any> = any>(
       rowKey={rowKey}
       columns={renderColumns()}
       {...restTableProps}
-      pagination={{
-        showQuickJumper: true,
-        showSizeChanger: true,
-        ...pagination,
-        ...restPaginationProps,
-        current: paginationRef.current.current,
-        total: paginationRef.current.total,
-        onShowSizeChange: handleShowSizeChange,
-      }}
+      pagination={
+        noPagination
+          ? false
+          : {
+              showQuickJumper: true,
+              showSizeChanger: true,
+              ...pagination,
+              ...restPaginationProps,
+              current: paginationRef.current.current,
+              total: paginationRef.current.total,
+              onShowSizeChange: handleShowSizeChange,
+            }
+      }
       rowSelection={rowSelection ? internalRowSelection : undefined}
       onChange={onTableChange}
       loading={loading}
