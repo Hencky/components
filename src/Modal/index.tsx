@@ -1,7 +1,8 @@
 import React, { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 import { Modal as AModal } from 'antd';
-import type { ModalProps as AModalProps } from 'antd/lib/modal';
 import { isPromise, setRef } from '../_util';
+import { ConfigProvider } from '../ConfigProvider';
+import type { ModalProps as AModalProps } from 'antd/lib/modal';
 
 export type ExcludeModalType = 'title' | 'width' | 'children' | 'onOk' | 'onCancel' | 'confirmLoading';
 
@@ -53,17 +54,19 @@ const IModal: React.ForwardRefRenderFunction<ModalInstance> = (_, ref) => {
   };
 
   return (
-    <AModal
-      {...modalProps}
-      onCancel={onClose}
-      visible={visible}
-      confirmLoading={confirmLoading}
-      title={title}
-      width={width}
-      onOk={handleOk}
-    >
-      {children}
-    </AModal>
+    <ConfigProvider>
+      <AModal
+        {...modalProps}
+        onCancel={onClose}
+        visible={visible}
+        confirmLoading={confirmLoading}
+        title={title}
+        width={width}
+        onOk={handleOk}
+      >
+        {children}
+      </AModal>
+    </ConfigProvider>
   );
 };
 

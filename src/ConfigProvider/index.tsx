@@ -1,5 +1,7 @@
 import React from 'react';
+import { ConfigProvider as AConfigProvider } from 'antd';
 
+import zhCN from 'antd/lib/locale/zh_CN';
 export interface IConfigContext {
   getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => string;
 }
@@ -13,3 +15,8 @@ const defaultGetPrefixCls = (suffixCls?: string, customizePrefixCls?: string) =>
 export const ConfigContext = React.createContext<IConfigContext>({
   getPrefixCls: defaultGetPrefixCls,
 });
+
+export const ConfigProvider = (props) => {
+  const { children } = props;
+  return <AConfigProvider locale={zhCN}>{children}</AConfigProvider>;
+};

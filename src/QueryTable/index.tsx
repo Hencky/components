@@ -15,6 +15,7 @@ import { ButtonActions, type ButtonActionProps } from '../Actions';
 import { ModalForm, type ModalFormInstance } from '../ModalForm';
 import type { FormInstance } from 'antd/lib/form';
 import { usePrefix } from '../_hooks';
+import { ConfigProvider } from '../ConfigProvider';
 
 import './index.less';
 
@@ -156,32 +157,34 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
     : undefined;
 
   return (
-    <div className={prefix}>
-      {!!showFieldsLength && (
-        <QueryForm<SeachValues>
-          form={form}
-          fields={fields}
-          onReset={onReset}
-          onSubmit={onSubmit}
-          {...formProps}
-          showFieldsLength={showFieldsLength}
-          initialValues={initialValues}
+    <ConfigProvider>
+      <div className={prefix}>
+        {!!showFieldsLength && (
+          <QueryForm<SeachValues>
+            form={form}
+            fields={fields}
+            onReset={onReset}
+            onSubmit={onSubmit}
+            {...formProps}
+            showFieldsLength={showFieldsLength}
+            initialValues={initialValues}
+          />
+        )}
+
+        {renderActions()}
+
+        <Table
+          ref={tableRef}
+          rowKey={rowKey}
+          columns={renderColumns()}
+          rowSelection={finalRowSelection}
+          remoteDataSource={remoteDataSource}
+          {...tableProps}
         />
-      )}
 
-      {renderActions()}
-
-      <Table
-        ref={tableRef}
-        rowKey={rowKey}
-        columns={renderColumns()}
-        rowSelection={finalRowSelection}
-        remoteDataSource={remoteDataSource}
-        {...tableProps}
-      />
-
-      <ModalForm ref={modalRef} />
-    </div>
+        <ModalForm ref={modalRef} />
+      </div>
+    </ConfigProvider>
   );
 }
 
