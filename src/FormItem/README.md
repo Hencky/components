@@ -30,6 +30,9 @@ subGroup: 表单组件
 表单关联: 常规使用
 <Demo src="./demos/dependencybase.tsx" />
 
+表单关联: 显隐关联
+<Demo src="./demos/visibleDependency.tsx" />
+
 表单关联: 被动表单关联
 <Demo src="./demos/dependency.tsx" />
 
