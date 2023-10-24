@@ -33,6 +33,9 @@ subGroup: 表单组件
 表单关联: 被动表单关联
 <Demo src="./demos/dependency.tsx" />
 
+表单关联: 被动表单关联 1
+<Demo src="./demos/deps.tsx" />
+
 ### API
 
 | 字段名           | 说明                                                  | 类型                                             | 默认值  |
