@@ -104,7 +104,7 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
 
   if (dependency) {
     const { visible, deps } = dependency as Deps;
-    const { condition } = visible!;
+    const { condition } = visible! as SingleDepCondition<boolean>;
     ele = (
       <Form.Item dependencies={deps} noStyle>
         {(form) => {
