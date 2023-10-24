@@ -43,7 +43,7 @@ const IModalForm: React.ForwardRefRenderFunction<ModalFormInstance> = (_, ref) =
 
   const propsRef = useRef<ModalFormProps>();
 
-  const getModalFormContext = () => ({ form });
+  const getModalFormContext = () => ({ form, visible });
 
   const onClose = (e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
     propsRef.current?.onCancel?.(e!, getModalFormContext());
