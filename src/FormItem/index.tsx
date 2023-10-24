@@ -3,6 +3,8 @@ import { Form, Col } from 'antd';
 import { ColProps } from 'antd/lib/col';
 import { FormItemProps as AFormItemProps } from 'antd/lib/form';
 import { isBooleanProp, isFunction } from '../_util';
+import useDependency, { Dependency } from './hooks/useDependency';
+import { FormInstance } from 'antd/es/form/Form';
 
 export interface FormItemProps<Values = any>
   extends AFormItemProps<Values>,
@@ -15,7 +17,10 @@ export interface FormItemProps<Values = any>
   colStyle?: React.CSSProperties;
   /** Col的ClassName属性 */
   colClassName?: string;
-
+  /** 表单间的值依赖关系 */
+  deps?: Dependency;
+  /** form实例 */
+  form?: FormInstance;
   // ===== 传给子组件 =====
   /** 远程数据源 */
   remoteDataSource?: () => Promise<any[]>;
@@ -40,12 +45,20 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
     disabled,
     remoteDataSource,
     dataSource: propDataSource,
+    deps,
     children,
+    form,
     ...formItemProps
   } = props;
   const colProps = { span: span!, offset, push, pull, order, flex };
 
   const [dataSource, setDataSource] = useState<any[]>();
+
+  const { visible, options } = useDependency({
+    form,
+    children,
+    deps,
+  });
 
   useEffect(() => {
     if (!remoteDataSource) return;
@@ -68,6 +81,7 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
   if (!isBooleanProp(render, props)) return null;
 
   const finalDisabled = isBooleanProp(disabled, props, false);
+  if (!visible && deps) return null;
 
   const ele = (
     <Form.Item {...formItemProps} style={style}>

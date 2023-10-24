@@ -11,7 +11,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "dev": "SHOW_ALL_COMPONENT_DEMOS=true vite serve docs",
+    "dev": "cross-env SHOW_ALL_COMPONENT_DEMOS=true vite serve docs",
     "compile": "father-build",
     "build": "rm -rf docs/dist && vite build docs",
     "build:preview": "rm -rf docs/dist && vite build docs && serve -s docs/dist",
