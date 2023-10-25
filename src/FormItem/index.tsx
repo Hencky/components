@@ -2,8 +2,8 @@ import React, { useEffect, useState, type PropsWithChildren } from 'react';
 import { Form, Col } from 'antd';
 import { ColProps } from 'antd/lib/col';
 import { isFunction, isEqual } from 'lodash';
-import { FormItemProps as AFormItemProps } from 'antd/lib/form';
 import { type NamePath } from 'antd/lib/form/interface';
+import { type FormItemProps as AFormItemProps } from 'antd/lib/form';
 import { isBooleanProp } from '../_util';
 
 export type SingleDepCondition<T = any> = {
@@ -35,10 +35,15 @@ export interface FormItemProps<Values = any>
   // ===== 传给子组件 =====
   /** 远程数据源 */
   remoteDataSource?: () => Promise<any[]>;
+  remoteOptions?: () => Promise<any[]>;
+
   /** 数据源 */
   dataSource?: any[];
+  options?: any[];
   /** 数据源名称，比如 treeSelect 是 treeData */
   dataSourceKey?: string;
+  optionsKey?: string;
+  optionsPropName?: string;
   /** 禁用状态 */
   disabled?: boolean | (() => boolean);
 }
@@ -57,9 +62,13 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
     colClassName,
     disabled,
     remoteDataSource,
+    remoteOptions,
     dataSource: propDataSource,
+    options: propsOptions,
     children,
     dataSourceKey = 'options',
+    optionsKey = 'options',
+    optionsPropName = 'options',
     dependency,
     ...formItemProps
   } = props;
@@ -67,23 +76,27 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
 
   const [dataSource, setDataSource] = useState<any[]>();
 
-  useEffect(() => {
-    if (!remoteDataSource) return;
+  const finalRemoteOptions = remoteOptions || remoteDataSource;
+  const finalPropsOptions = propsOptions || propDataSource;
+  const finalOptionsPropName = optionsPropName || optionsKey || dataSourceKey;
 
-    remoteDataSource()
+  useEffect(() => {
+    if (!finalRemoteOptions) return;
+
+    finalRemoteOptions()
       .then((data) => {
         setDataSource(data);
       })
       .catch(() => {
         setDataSource([]);
       });
-  }, [remoteDataSource]);
+  }, [finalRemoteOptions]);
 
   useEffect(() => {
-    if (propDataSource) {
-      setDataSource(propDataSource);
+    if (finalPropsOptions) {
+      setDataSource(finalPropsOptions);
     }
-  }, [propDataSource]);
+  }, [finalPropsOptions]);
 
   if (!isBooleanProp(render, props)) return null;
 
@@ -95,7 +108,7 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
         ? children
         : React.cloneElement(children as React.ReactElement, {
             disabled: finalDisabled,
-            ...(dataSource ? { [dataSourceKey]: dataSource } : {}),
+            ...(dataSource ? { [finalOptionsPropName]: dataSource } : {}),
           })}
     </Form.Item>
   );

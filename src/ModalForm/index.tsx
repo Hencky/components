@@ -10,6 +10,7 @@ export type ExcludeModalType = 'title' | 'width' | 'children' | 'confirmLoading'
 
 export interface ModalFormContext {
   form: FormInstance;
+  visible: boolean;
 }
 
 export interface ModalFormProps extends Pick<AModalProps, ExcludeModalType> {
