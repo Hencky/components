@@ -1,8 +1,13 @@
 import React from 'react';
-import { Form, FormItem, Select } from 'lucky-bird-ui';
-import { Card, Row } from 'antd';
+import { Form, FormItem } from 'lucky-bird-ui';
+import { Card, Row, Select } from 'antd';
 
 const layout = { labelCol: { style: { width: 140 } }, span: 12 };
+
+const options = [
+  { label: '1', value: '1' },
+  { label: '2', value: '2' },
+];
 
 const Demo = () => {
   const [form] = Form.useForm();
@@ -12,22 +17,16 @@ const Demo = () => {
         <Row gutter={24}>
           <FormItem
             {...{
-              name: 'province',
-              label: '省',
+              name: 'first',
+              label: '第一层',
               ...layout,
-              remoteDataSource: () => {
-                return Promise.resolve([
-                  { value: 'zhejiang', label: '浙江' },
-                  { value: 'beijing', label: '北京' },
-                  { value: 'shanghai', label: '上海' },
-                ]);
-              },
               children: (
                 <Select
-                  placeholder="请选择省份"
+                  options={options}
+                  allowClear
                   onChange={() => {
                     form.setFieldsValue({
-                      city: undefined,
+                      second: undefined,
                     });
                   }}
                 />
@@ -36,16 +35,71 @@ const Demo = () => {
           />
           <FormItem
             {...{
-              name: 'city',
-              label: '市',
+              name: 'second',
+              label: '第二层',
               ...layout,
               dependency: {
-                deps: ['province'],
+                deps: ['first'],
                 visible: {
-                  condition: [['beijing']],
+                  condition: [['1']],
                 },
               },
-              children: <Select placeholder="请输入地区" />,
+              children: (
+                <Select
+                  options={options}
+                  allowClear
+                  onChange={() => {
+                    form.setFieldsValue({
+                      third: undefined,
+                    });
+                  }}
+                />
+              ),
+            }}
+          />
+          <FormItem
+            {...{
+              name: 'third',
+              label: '第三层',
+              ...layout,
+              dependency: {
+                deps: ['second'],
+                visible: {
+                  condition: [['1']],
+                },
+              },
+              children: (
+                <Select
+                  options={options}
+                  allowClear
+                  onChange={() => {
+                    form.setFieldsValue({
+                      fourth: undefined,
+                    });
+                  }}
+                />
+              ),
+            }}
+          />
+          <FormItem
+            {...{
+              name: 'fourth',
+              label: '第四层',
+              ...layout,
+              dependency: {
+                deps: ['third', 'first', 'second'],
+                visible: {
+                  condition: [
+                    ['1', '1', '1'],
+                    ['2', '1', '1'],
+                  ],
+                },
+                options: {
+                  condition: [['1']],
+                  result: [{ label: '3', value: '3' }],
+                },
+              },
+              children: <Select options={options} />,
             }}
           />
         </Row>

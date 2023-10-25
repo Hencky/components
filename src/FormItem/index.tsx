@@ -16,6 +16,7 @@ export type DepCondition<T> = SingleDepCondition<T> | SingleDepCondition<T>[];
 export type Deps = {
   deps: NamePath[];
   visible?: DepCondition<boolean>;
+  options?: DepCondition<any[]>;
 };
 
 export interface FormItemProps<Values = any>
@@ -116,12 +117,29 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
   let ele = itemElement;
 
   if (dependency) {
-    const { visible, deps } = dependency as Deps;
-    const { condition } = visible! as SingleDepCondition<boolean>;
+    const { visible, deps, options } = dependency as Deps;
+
+    const { condition: visibleCondition } = (visible || {}) as SingleDepCondition<boolean>;
+    const { condition: optionCondition, result: optionResult } = (options || {}) as SingleDepCondition<any[]>;
+
     ele = (
       <Form.Item dependencies={deps} noStyle>
         {(form) => {
-          if (condition.some((c) => deps.every((key, idx) => isEqual(form.getFieldValue(key), c[idx])))) {
+          const isMatched = (condition) =>
+            condition.some((c) => deps.every((key, idx) => isEqual(form.getFieldValue(key), c[idx])));
+
+          if (options) {
+            // TODO: 更新组件报警告，加一个延迟解决
+            setTimeout(() => {
+              setDataSource(isMatched(optionCondition) ? optionResult : finalPropsOptions);
+            });
+          }
+
+          if (visible && isMatched(visibleCondition)) {
+            return itemElement;
+          }
+
+          if (!visible) {
             return itemElement;
           }
 
