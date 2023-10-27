@@ -39,6 +39,10 @@ export const DropdownButton: React.FC<DropdownButtonProps> = (props) => {
 
   const renderActionButtons = (actions: ButtonActionProps[] = []) => {
     return actions.map((item, index) => {
+      if (item.render === false) {
+        return null;
+      }
+
       return (
         <Menu.Item key={item.title ?? index}>
           <ButtonAction {...item} onStatusChange={onStatusChange} />
@@ -55,6 +59,10 @@ export const DropdownButton: React.FC<DropdownButtonProps> = (props) => {
     if (loadingRef.current) return;
     setVisible(visible);
   };
+
+  if (actions.every((item) => item.render === false)) {
+    return null;
+  }
 
   return (
     <Dropdown
