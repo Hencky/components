@@ -33,20 +33,41 @@ subGroup: 表单组件
 表单关联: 被动表单关联
 <Demo src="./demos/dependency.tsx" />
 
-表单关联: 被动表单关联 1
-<Demo src="./demos/deps.tsx" />
+表单关联: 自定义被动表单关联
+<Demo src="./demos/customDependencies.tsx" />
 
 ### API
 
-| 字段名           | 说明                                                  | 类型                                             | 默认值  |
-| :--------------- | :---------------------------------------------------- | :----------------------------------------------- | :-----: |
-| colClassName     | col 的 className 属性                                 | `string`                                         |    -    |
-| colStyle         | Col 样式                                              | `React.CSSProperties`                            |    -    |
-| dataSource       | 数据源                                                | `any`                                            |    -    |
-| disabled         | 是否禁用表单项，`disabled`会传给子组件                | `boolean` \| `() => boolean`                     | `false` |
-| remoteDataSource | 远程数据源                                            | `() => Promise<any>` \| `boolean`                |    -    |
-| render           | 是否渲染                                              | `(props: FormItemProps) => boolean` \| `boolean` | `true`  |
-| span             | `FormItem`占据的栅格数量，传`null`时没有`Col`组件包裹 | `ColProps['span']` \| `null`                     |  `24`   |
+#### CustomDependencies
+
+| 字段名  | 说明             | 类型                                | 默认值 |
+| :------ | :--------------- | :---------------------------------- | :----: |
+| visible | 控制表单项的显隐 | [DependencyValue](#DependencyValue) |   -    |
+
+#### DependencyValue
+
+| 字段名       | 说明   | 类型                            | 默认值 |
+| :----------- | :----- | :------------------------------ | :----: |
+| defaultValue | 默认值 | any                             |   -    |
+| condition    | 默认值 | [ConditionItem](#ConditionItem) |   -    |
+
+#### ConditionItem
+
+| 字段名        | 说明               | 类型                  | 默认值 |
+| :------------ | :----------------- | :-------------------- | :----: |
+| formCondition | 默认值             | Record<string, any>[] |   -    |
+| result        | 对应的情况所取的值 | any                   |   -    |
+
+| 字段名             | 说明                                                  | 类型                                             | 默认值  |
+| :----------------- | :---------------------------------------------------- | :----------------------------------------------- | :-----: |
+| colClassName       | col 的 className 属性                                 | `string`                                         |    -    |
+| colStyle           | Col 样式                                              | `React.CSSProperties`                            |    -    |
+| dataSource         | 数据源                                                | `any`                                            |    -    |
+| disabled           | 是否禁用表单项，`disabled`会传给子组件                | `boolean` \| `() => boolean`                     | `false` |
+| remoteDataSource   | 远程数据源                                            | `() => Promise<any>` \| `boolean`                |    -    |
+| render             | 是否渲染                                              | `(props: FormItemProps) => boolean` \| `boolean` | `true`  |
+| span               | `FormItem`占据的栅格数量，传`null`时没有`Col`组件包裹 | `ColProps['span']` \| `null`                     |  `24`   |
+| customDependencies | 自定义表单依赖项，可根据表单特定的值展示不同状态      | [CustomDependencies](#CustomDependencies)        |    -    |
 
 除此以外，透传[Col](https://ant.design/components/grid-cn/#Col)的 `offset` `push` `pull` `order` `flex` 属性。  
 以及，[Form.Item](https://ant.design/components/form-cn/#Form.Item)的其他属性。

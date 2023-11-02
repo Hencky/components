@@ -3,12 +3,12 @@ import { Form, Col } from 'antd';
 import { ColProps } from 'antd/lib/col';
 import { FormItemProps as AFormItemProps } from 'antd/lib/form';
 import { isBooleanProp, isFunction } from '../_util';
-import useDependency, { Dependency } from './hooks/useDependency';
-import { FormInstance } from 'antd/es/form/Form';
+import { getDependenciesFromCondition, useDependency, UseDependencyProps } from './hooks';
 
 export interface FormItemProps<Values = any>
   extends AFormItemProps<Values>,
-    Pick<ColProps, 'offset' | 'push' | 'pull' | 'order' | 'flex'> {
+    Pick<ColProps, 'offset' | 'push' | 'pull' | 'order' | 'flex'>,
+    UseDependencyProps {
   /** 扩展null属性 */
   span?: ColProps['span'] | null;
   /** 是否渲染 */
@@ -17,10 +17,6 @@ export interface FormItemProps<Values = any>
   colStyle?: React.CSSProperties;
   /** Col的ClassName属性 */
   colClassName?: string;
-  /** 表单间的值依赖关系 */
-  deps?: Dependency;
-  /** form实例 */
-  form?: FormInstance;
   // ===== 传给子组件 =====
   /** 远程数据源 */
   remoteDataSource?: () => Promise<any[]>;
@@ -30,7 +26,7 @@ export interface FormItemProps<Values = any>
   disabled?: boolean | (() => boolean);
 }
 
-export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>) {
+export function FormItemContent<Values>(props: PropsWithChildren<FormItemProps<Values>>) {
   const {
     span,
     offset,
@@ -45,9 +41,9 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
     disabled,
     remoteDataSource,
     dataSource: propDataSource,
-    deps,
+    customDependencies,
     children,
-    form,
+    dependencies = [],
     ...formItemProps
   } = props;
   const colProps = { span: span!, offset, push, pull, order, flex };
@@ -55,9 +51,7 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
   const [dataSource, setDataSource] = useState<any[]>();
 
   const { visible, options } = useDependency({
-    form,
-    children,
-    deps,
+    customDependencies,
   });
 
   useEffect(() => {
@@ -81,8 +75,7 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
   if (!isBooleanProp(render, props)) return null;
 
   const finalDisabled = isBooleanProp(disabled, props, false);
-  if (!visible && deps) return null;
-
+  if (!visible && customDependencies) return null;
   const ele = (
     <Form.Item {...formItemProps} style={style}>
       {isFunction(children)
@@ -111,3 +104,19 @@ FormItem.defaultProps = {
   style: {},
   disabled: false,
 };
+
+export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>) {
+  const { customDependencies, dependencies = [] } = props;
+
+  const finalDeps = [...getDependenciesFromCondition(customDependencies), ...dependencies];
+
+  if (customDependencies) {
+    return (
+      <Form.Item noStyle dependencies={finalDeps}>
+        {() => <FormItemContent {...props} />}
+      </Form.Item>
+    );
+  }
+
+  return <FormItemContent {...props} />;
+}

@@ -16,6 +16,7 @@ const Demo = () => {
       >
         提交
       </Button>
+      <span style={{ marginLeft: 12 }}>选择 男性/浙江女性 展示隐藏的表单</span>
       <Form
         onValuesChange={(_, values) => {
           console.log('values', values);
@@ -62,41 +63,32 @@ const Demo = () => {
             }}
           />
 
-          <FormItem dependencies={['sex', 'address']}>
-            {() => (
-              <FormItem
-                {...{
-                  dependencies: ['sex'],
-                  form,
-                  deps: {
-                    visible: {
-                      defaultValue: true,
-                      condition: [
-                        {
-                          formCondition: { sex: 'male', address: 'beijing' },
-                          result: false,
-                        },
-                        {
-                          formCondition: { sex: 'female', address: 'beijing' },
-                          result: true,
-                        },
-                      ],
+          <FormItem
+            {...{
+              customDependencies: {
+                visible: {
+                  defaultValue: false,
+                  condition: [
+                    {
+                      // 男性 浙江女性 展示
+                      formCondition: [{ sex: 'male' }, { sex: 'female', address: 'zhejiang' }],
+                      result: true,
                     },
-                  },
-                  name: 'sex11',
-                  label: '北京女性',
-                  dataSource: [
-                    { label: '男', value: 'male' },
-                    { label: '女', value: 'female' },
-                    { label: '保密', value: 'other' },
                   ],
-                  labelCol: { span: 4 },
-                  rules: [{ required: true, message: '请选择' }],
-                  children: <Select placeholder="请选择" allowClear />,
-                }}
-              />
-            )}
-          </FormItem>
+                },
+              },
+              name: 'hidden',
+              label: '隐藏的表单',
+              dataSource: [
+                { label: '男', value: 'male' },
+                { label: '女', value: 'female' },
+                { label: '保密', value: 'other' },
+              ],
+              labelCol: { span: 4 },
+              rules: [{ required: true, message: '请选择' }],
+              children: <Select placeholder="请选择" allowClear />,
+            }}
+          />
         </Row>
       </Form>
     </Card>

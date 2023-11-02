@@ -1,55 +1,109 @@
-import { FormInstance } from 'antd';
-import React, { ReactChild, useEffect, useState } from 'react';
+import { Form, FormItemProps } from 'antd';
+import { isEqual as isEqualFromLodash } from 'lodash';
+import React from 'react';
 
 type PartialDependencyKey = 'visible' | 'options';
 
 type DependencyValue = {
   defaultValue: any;
-  condition: {
-    formCondition: Record<string, any>;
-    result: any;
-  }[];
+  condition: ConditionItem[];
 };
 
-export type Dependency = Partial<Record<PartialDependencyKey, DependencyValue>>;
+export type ConditionItem = {
+  formCondition: Record<string, any>[];
+  result: DependencyValue['defaultValue'];
+};
 
-interface Props {
-  deps?: Dependency;
-  form?: FormInstance;
-  children?: any;
+export type CustomDependencies = Partial<Record<PartialDependencyKey, DependencyValue>>;
+
+export interface UseDependencyProps {
+  customDependencies?: CustomDependencies;
 }
 
-const useDependency = ({ deps, form, children }: Props) => {
-  const [returnValue, setReturnValue] = useState<any>({});
+// 获取数组item的类型
+type ElementType<T> = T extends (infer U)[] ? U : never;
 
-  const getResult = (deps?: Dependency) => {
-    if (!deps) return;
-    const res = { ...returnValue };
+export const getDependenciesFromCondition = (
+  customDependencies?: CustomDependencies
+): Required<FormItemProps>['dependencies'] => {
+  const resDepsSet = new Set<ElementType<Required<FormItemProps>['dependencies']>>();
 
-    for (let key in deps) {
-      const { condition, defaultValue } = deps[key] as DependencyValue;
-      condition.some((item) => {
-        const { formCondition, result } = item;
+  if (!customDependencies) return Array.from(resDepsSet);
 
-        const isEqual = !Object.keys(formCondition).some((formConditionKey) => {
-          let formResKey = formConditionKey.startsWith('[') ? JSON.parse(formConditionKey) : formConditionKey;
-          // 判断相等 TODO: 考虑对象情况
-          return form?.getFieldValue(formResKey) !== formCondition[formConditionKey];
+  Object.keys(customDependencies).forEach((customKey) => {
+    const { defaultValue = '', condition = [] } = customDependencies[customKey as PartialDependencyKey] || {};
+    condition.forEach((conditionItem) => {
+      const { formCondition, result } = conditionItem;
+      formCondition.forEach((formConditionItem) => {
+        Object.keys(formConditionItem).forEach((formConditionItemKey) => {
+          resDepsSet.add(formConditionItemKey);
         });
-
-        res[key] = isEqual ? result : defaultValue;
-
-        return isEqual;
       });
+    });
+  });
+
+  return Array.from(resDepsSet);
+};
+
+export const useDependency = ({
+  customDependencies,
+}: UseDependencyProps): Partial<Record<PartialDependencyKey, DependencyValue['defaultValue']>> => {
+  const form = Form.useFormInstance();
+
+  const getConditionResByKey = (
+    customKey: PartialDependencyKey,
+    condition: ConditionItem[],
+    defaultValue: DependencyValue['defaultValue']
+  ) => {
+    for (let conditionI = 0; conditionI < condition.length; conditionI++) {
+      let isEqual = false;
+      const { formCondition, result } = condition[conditionI];
+      for (let formConditionI = 0; formConditionI < formCondition.length; formConditionI++) {
+        const formConditionItem = formCondition[formConditionI];
+        // formConditionItem { sex: 'male', address: 'beijing' }
+        const formConditionKeys = Object.keys(formConditionItem);
+        for (let formConditionKeysI = 0; formConditionKeysI < formConditionKeys.length; formConditionKeysI++) {
+          // const formValue = form.getFieldValue();
+          const formKey = formConditionKeys[formConditionKeysI];
+          let finalFormKey = formKey.startsWith('[') ? JSON.parse(formKey) : formKey;
+
+          isEqual = isEqualFromLodash(form?.getFieldValue(finalFormKey), formConditionItem[finalFormKey]);
+
+          if (!isEqual) {
+            break;
+          }
+        }
+
+        if (isEqual) {
+          return { [customKey]: result };
+        }
+      }
     }
-    setReturnValue(res);
+    return {
+      [customKey]: defaultValue,
+    };
   };
 
-  useEffect(() => {
-    getResult(deps);
-  }, [children]);
+  const getResult = (customDependencies?: CustomDependencies) => {
+    const res = {};
+
+    if (!customDependencies) return res;
+
+    const customKeys = Object.keys(customDependencies);
+
+    for (let customKeysI = 0; customKeysI < customKeys.length; customKeysI++) {
+      const customKey = customKeys[customKeysI] as PartialDependencyKey;
+
+      const { defaultValue = '', condition = [] } = customDependencies[customKey as PartialDependencyKey] || {};
+
+      const conditionRes = getConditionResByKey(customKey, condition, defaultValue);
+      Object.assign(res, conditionRes);
+    }
+
+    return res;
+  };
+
+  const returnValue = getResult(customDependencies);
 
   return returnValue;
 };
-
-export default useDependency;
