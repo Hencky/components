@@ -105,7 +105,7 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
 
   const itemElement = (
     <Form.Item {...formItemProps} style={style}>
-      {isFunction(children)
+      {!formItemProps.name || isFunction(children)
         ? children
         : React.cloneElement(children as React.ReactElement, {
             disabled: finalDisabled,
