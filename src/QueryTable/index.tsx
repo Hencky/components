@@ -1,37 +1,30 @@
 import React, {
-  useState,
   useRef,
+  useState,
   forwardRef,
   useImperativeHandle,
-  type PropsWithChildren,
   type ReactElement,
   type ForwardedRef,
+  type PropsWithChildren,
 } from 'react';
-import cls from 'classnames';
 import { Form } from 'antd';
-import { QueryForm, type QueryFormProps } from '../QueryForm';
-import { Table, type TableProps, type TableInstance, type ColumnType } from '../Table';
-import { ButtonActions, type ButtonActionProps } from '../Actions';
-import { ModalForm, type ModalFormInstance } from '../ModalForm';
-import type { FormInstance } from 'antd/lib/form';
+import cls from 'classnames';
 import { usePrefix } from '../_hooks';
 import { ConfigProvider } from '../ConfigProvider';
+import { QueryForm, type QueryFormProps } from '../QueryForm';
+import { ModalForm, type ModalFormInstance } from '../ModalForm';
+import { OperatorActions, type QueryTableActionType } from './OperatorActions';
+import { Table, type TableProps, type TableInstance, type ColumnType } from '../Table';
+import { type QueryTableInstance } from './interface';
 
 import './index.less';
 
-export interface QueryTableInstance<RecordType = any, Values = any> {
-  form: FormInstance<Values>;
-  table: TableInstance<RecordType>;
-  modal: ModalFormInstance;
-}
+export * from './OperatorActions';
+export * from './interface';
 
 export type QueryTableContext<RecordType = any> = QueryTableInstance<RecordType>;
 
 export type OutsideTableType = 'remoteDataSource' | 'columns' | 'rowKey' | 'rowSelection';
-
-export interface QueryTableActions<RecordType = any> extends Omit<ButtonActionProps, 'onClick'> {
-  onClick: (e: React.MouseEvent<HTMLButtonElement>, ctx: QueryTableContext<RecordType>) => void;
-}
 
 export type QueryTableColumnRenderContext<RecordType = any> = {
   value: RecordType;
@@ -48,8 +41,8 @@ export interface QueryTableProps<RecordType extends Record<string, any> = any, S
     Pick<TableProps, Exclude<OutsideTableType, 'columns'>> {
   columns: QueryTableColumnType<RecordType>[];
   tableProps?: Omit<TableProps<RecordType>, OutsideTableType>;
-  leftActions?: QueryTableActions<RecordType>[];
-  actions?: QueryTableActions<RecordType>[];
+  leftActions?: QueryTableActionType[];
+  actions?: QueryTableActionType[];
   formProps?: Omit<QueryFormProps<SearchValues>, 'fields' | 'initialValues' | 'showFieldsLength'>;
 }
 
@@ -120,22 +113,8 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
   };
 
   // ===== 操作按钮渲染，改写onClick，支持form和table实例 =====
-  // TODO: 目前仅支持ButtonAction，后续如有需要，根据actionType支持其他类型
+  // TODO: TS中未体现
   const renderActions = () => {
-    const getActions = (actions: QueryTableActions[] = []): ButtonActionProps[] => {
-      return actions?.map((item) => {
-        return {
-          ...item,
-          onClick: (e) => {
-            return item.onClick(e, getQueryTableInstance());
-          },
-        };
-      });
-    };
-
-    const leftAcionRender = <ButtonActions actions={getActions(leftActions)} />;
-    const rightActionRender = <ButtonActions actions={getActions(actions)} />;
-
     return (
       <div
         className={cls({
@@ -143,8 +122,12 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
           [prefix + '-actions-empty']: !leftActions && !actions,
         })}
       >
-        <div>{leftAcionRender}</div>
-        <div>{rightActionRender}</div>
+        <div>
+          <OperatorActions actions={leftActions} getCtx={getQueryTableInstance} />
+        </div>
+        <div>
+          <OperatorActions actions={actions} getCtx={getQueryTableInstance} />
+        </div>
       </div>
     );
   };

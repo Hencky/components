@@ -2,7 +2,7 @@ import React from 'react';
 import {
   QueryTable,
   TextActions,
-  QueryTableActions,
+  QueryTableActionType,
   QueryTableColumnType,
   FormGroup,
   QueryTableColumnRenderContext,
@@ -23,7 +23,7 @@ const ModalForm = () => {
   return <FormGroup fields={fields} />;
 };
 
-const actions: QueryTableActions[] = [
+const actions: QueryTableActionType[] = [
   {
     children: '批量操作',
     type: 'primary',

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import {
   QueryTable,
   TextActions,
@@ -6,9 +6,8 @@ import {
   QueryTableColumnType,
   FormGroup,
   QueryTableColumnRenderContext,
-  QueryTableInstance,
 } from 'lucky-bird-ui';
-import { Input, message } from 'antd';
+import { Input, message, Button } from 'antd';
 import { remoteDataSource, columns, type RecordType } from '../../Table/demos/config';
 
 const fields = [
@@ -24,47 +23,47 @@ const ModalForm = () => {
   return <FormGroup fields={fields} />;
 };
 
+const actions: QueryTableActionType[] = [
+  {
+    actionType: 'button',
+    children: '刷新',
+    type: 'primary',
+    onClick: (e, ctx) => {
+      ctx.table.refresh()?.then(() => {
+        message.success('新建成功');
+      });
+    },
+  },
+  {
+    actionType: 'text',
+    children: '新增',
+    type: 'primary',
+    onClick: (e, ctx) => {
+      ctx.modal.open({
+        title: '新建',
+        children: <ModalForm />,
+        onOk() {
+          ctx.modal.close();
+          ctx.table.refresh();
+        },
+      });
+    },
+  },
+  {
+    actionType: 'dropdownbutton',
+    children: <Button type="primary">划入展开菜单</Button>,
+    actions: [
+      {
+        children: 'a',
+        type: 'text',
+        block: true,
+        onClick: () => {},
+      },
+    ],
+  },
+];
+
 const Demo = () => {
-  const ref = useRef<QueryTableInstance>();
-
-  const actions: QueryTableActionType[] = [
-    {
-      children: '导出',
-      type: 'primary',
-      disabled: () => {
-        const { table } = ref.current || {};
-        if (!table) return true;
-        return !table.getSelectedRows()?.length;
-      },
-      onClick: (e, ctx) => {
-        console.log('选中行', ctx.table.getSelectedRowKeys());
-      },
-    },
-    {
-      children: '刷新',
-      type: 'primary',
-      onClick: (e, ctx) => {
-        ctx.table.refresh()?.then(() => {
-          message.success('新建成功');
-        });
-      },
-    },
-    {
-      children: '新增',
-      type: 'primary',
-      onClick: (e, ctx) => {
-        ctx.modal.open({
-          title: '新建',
-          children: <ModalForm />,
-          onOk() {
-            ctx.modal.close();
-            ctx.table.refresh();
-          },
-        });
-      },
-    },
-  ];
-
   const getOperatorActions = (ctx: QueryTableColumnRenderContext) => {
     return [
       {
@@ -111,11 +110,8 @@ const Demo = () => {
 
   return (
     <QueryTable
-      // @ts-expect-error
-      ref={ref}
       fields={fields.map((item) => ({ ...item, rules: [] }))}
       columns={cols}
-      rowSelection
       // leftActions={actions}
       actions={actions}
       remoteDataSource={remoteDataSource}

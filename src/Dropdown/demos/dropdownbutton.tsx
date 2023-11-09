@@ -27,6 +27,15 @@ const actions: DropdownButtonProps['actions'] = [
       });
     },
   },
+
+  {
+    children: '隐藏按钮',
+    block: true,
+    danger: true,
+    type: 'text',
+    render: false,
+    onClick: (e) => {},
+  },
   {
     children: '删除',
     block: true,
