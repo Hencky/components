@@ -17,6 +17,14 @@ export const ConfigContext = React.createContext<IConfigContext>({
 });
 
 export const ConfigProvider = (props) => {
-  const { children } = props;
-  return <AConfigProvider locale={zhCN}>{children}</AConfigProvider>;
+  const { children, prefixCls } = props;
+  return (
+    <AConfigProvider locale={zhCN} prefixCls={prefixCls}>
+      {children}
+    </AConfigProvider>
+  );
+};
+
+ConfigProvider.config = (props) => {
+  AConfigProvider.config(props);
 };

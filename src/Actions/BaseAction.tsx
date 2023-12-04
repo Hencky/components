@@ -1,5 +1,6 @@
 import React from 'react';
 import { Space } from 'antd';
+import { ConfigProvider } from '../ConfigProvider';
 import { RopeContainer } from '../RopeContainer';
 import type { RopeContainerProps } from '../RopeContainer';
 
@@ -32,13 +33,15 @@ export const BaseActions = (props: BaseActionsProps) => {
   const { actions, component: Component, ...rest } = props;
 
   return (
-    <Space {...rest}>
-      {actions.map((item, index) => {
-        if (React.isValidElement(item)) {
-          return React.cloneElement(item, { key: item.key ?? index });
-        }
-        return <Component key={index} {...item} />;
-      })}
-    </Space>
+    <ConfigProvider>
+      <Space {...rest}>
+        {actions.map((item, index) => {
+          if (React.isValidElement(item)) {
+            return React.cloneElement(item, { key: item.key ?? index });
+          }
+          return <Component key={index} {...item} />;
+        })}
+      </Space>
+    </ConfigProvider>
   );
 };
