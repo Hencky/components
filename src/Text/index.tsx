@@ -3,6 +3,7 @@ import cls from 'classnames';
 import { Typography, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { ParagraphProps as AParagraphProps } from 'antd/lib/typography/Paragraph';
+import { ConfigProvider } from '../ConfigProvider';
 import { usePrefix } from '../_hooks';
 
 import './index.less';
@@ -24,24 +25,26 @@ export const Text: React.FC<TextProps> = (props) => {
   const prefix = usePrefix('text');
 
   return (
-    <Spin spinning={loading} indicator={<LoadingOutlined />}>
-      <Paragraph
-        className={cls(className, {
-          [prefix]: true,
-          [prefix + '-type-title']: type === 'title',
-          [prefix + '-type-text']: type === 'text',
-          [prefix + '-type-description']: type === 'description',
-          [prefix + '-type-primary']: type === 'primary',
-        })}
-        ellipsis={typeof ellipsis === 'boolean' ? { rows } : { rows, ...ellipsis }}
-        title={children}
-        type={type as AParagraphProps['type']}
-        style={{ marginBottom: 0, ...style }}
-        {...restProps}
-      >
-        {children}
-      </Paragraph>
-    </Spin>
+    <ConfigProvider>
+      <Spin spinning={loading} indicator={<LoadingOutlined />}>
+        <Paragraph
+          className={cls(className, {
+            [prefix]: true,
+            [prefix + '-type-title']: type === 'title',
+            [prefix + '-type-text']: type === 'text',
+            [prefix + '-type-description']: type === 'description',
+            [prefix + '-type-primary']: type === 'primary',
+          })}
+          ellipsis={typeof ellipsis === 'boolean' ? { rows } : { rows, ...ellipsis }}
+          title={children}
+          type={type as AParagraphProps['type']}
+          style={{ marginBottom: 0, ...style }}
+          {...restProps}
+        >
+          {children}
+        </Paragraph>
+      </Spin>
+    </ConfigProvider>
   );
 };
 
