@@ -76,7 +76,6 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
 
   const save = async (id) => {
     const row = await form.validateFields();
-    debugger;
     const newData = [...dataSource];
     const index = newData.findIndex((item) => id === item.id);
     if (index > -1) {
@@ -110,6 +109,8 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
             {
               key: 'operator',
               title: '操作',
+              fixed: 'right',
+              width: 120,
               render: (_, record) => {
                 return (
                   <TextActions
