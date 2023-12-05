@@ -25,7 +25,7 @@ export interface EditableTableInstance<T = any> {
 export interface EditableTableProps<T = any> extends Omit<TableProps<T>, 'value' | 'onChange' | 'columns'> {
   value?: ColumnDataWithId<T>[];
   onChange?: (value?: ColumnDataWithId<T>[]) => void;
-  columns: (ColumnType<T> & { editFormItemProps?: FormItemProps; editRender: () => React.ReactNode })[];
+  columns: (ColumnType<T> & { editFormItemProps?: FormItemProps; editNode?: React.ReactNode })[];
 }
 
 function IEditableTable<RecordType extends Record<string, any> = any>(
@@ -49,8 +49,9 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
         record,
         title: col.title,
         name: col.key,
+        formItemProps: col.editFormItemProps,
         editing: isEditing(record),
-        editRender: col.editRender,
+        editNode: col.editNode,
       }),
     };
   });
@@ -75,7 +76,7 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
 
   const save = async (id) => {
     const row = await form.validateFields();
-
+    debugger;
     const newData = [...dataSource];
     const index = newData.findIndex((item) => id === item.id);
     if (index > -1) {
@@ -129,9 +130,9 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
                         type: 'primary',
                         render: editingKey === record.id,
                         onClick: async () => {
+                          await save(record.id);
                           isAddRef.current = false;
                           setEditingKey('');
-                          await save(record.id);
                           form.resetFields();
                         },
                       },

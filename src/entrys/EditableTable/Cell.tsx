@@ -5,18 +5,18 @@ export interface EditableTableCellProps {
   editing: boolean;
   index: number;
   name: string;
-  editRender?: () => React.ReactNode;
-  formProps?: FormItemProps;
+  editNode?: React.ReactNode;
+  formItemProps?: FormItemProps;
 }
 
 export const EditableTableCell: React.FC<EditableTableCellProps> = (props) => {
-  const { editing, children, name, editRender, formProps, ...restProps } = props;
+  const { editing, children, name, editNode, formItemProps, ...restProps } = props;
 
   return (
     <td {...restProps}>
-      {editing && editRender ? (
-        <FormItem name={name} style={{ marginBottom: 0 }} {...formProps}>
-          {editRender()}
+      {editing && editNode ? (
+        <FormItem name={name} style={{ marginBottom: 0 }} {...formItemProps}>
+          {editNode}
         </FormItem>
       ) : (
         children
