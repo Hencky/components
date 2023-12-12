@@ -16,8 +16,6 @@ import { type FormItemProps } from '../../FormItem';
 
 const { useForm } = Form;
 
-export type ColumnDataWithId<T> = T & { id: string };
-
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface EditableQueryTableInstance<T extends Record<string, any> = any> extends QueryTableInstance<T> {}
 

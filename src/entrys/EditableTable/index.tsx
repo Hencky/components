@@ -173,6 +173,7 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
           children: '新增',
           type: 'primary',
           block: true,
+          ghost: true,
           onClick: () => {
             if (editingKey) return;
             isAddRef.current = true;
