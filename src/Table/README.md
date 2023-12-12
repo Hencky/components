@@ -108,7 +108,7 @@ export interface ColumnType<RecordType> extends Omit<AColumnType<RecordType>, 'r
 }
 
 export interface TableProps<RecordType = any>
-  extends Omit<ATableProps<RecordType>, 'dataSoruce' | 'loading' | 'rowSelection' | 'columns'> {
+  extends Omit<ATableProps<RecordType>, 'dataSource' | 'loading' | 'rowSelection' | 'columns'> {
   /** 远程数据源 */
   remoteDataSource?: (params: RequestParams) => Promise<RequestResult<RecordType>>;
   /** 默认分页配置 */

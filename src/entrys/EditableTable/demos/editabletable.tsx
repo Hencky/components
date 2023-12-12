@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Button, Input, InputNumber } from 'antd';
 
-import { EditableTable, type EditableTableInstance } from 'lucky-bird-ui';
+import { EditableTable, type EditableQueryTableInstance } from 'lucky-bird-ui';
 
 const columns = [
   {
@@ -26,7 +26,7 @@ const Demo = () => {
     console.log('value', value);
   };
 
-  const ref = useRef<EditableTableInstance>();
+  const ref = useRef<EditableQueryTableInstance>();
 
   return (
     <div>

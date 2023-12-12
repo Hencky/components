@@ -47,11 +47,12 @@ export const OperatorActions: React.FC<OperatorActionsProps> = (props) => {
   if (!actions) return null;
 
   const getActions = (actions: QueryTableActionType[] = []) => {
-    return actions.map((item) => {
+    return actions.map((item, idx) => {
       const { actionType = 'button', ...restProps } = item;
 
       // @ts-expect-error
       return createElement(Actions[actionType], {
+        key: idx,
         ...restProps,
         onClick: (e) => {
           // @ts-expect-error

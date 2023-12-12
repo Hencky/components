@@ -23,6 +23,8 @@ export interface TableInstance<RecordType = any> {
   setSelectedRows: (rows: RecordType[]) => void;
   /** 获取数据源 */
   getDataSource: () => RecordType[];
+  /** 设置数据源 */
+  setDataSource: (dataSource: RecordType[]) => void;
   /** 获取分页配置 */
   getPagination: () => Pagination;
   /** 设置分页配置 */
@@ -41,7 +43,7 @@ export interface ColumnType<RecordType> extends Omit<AColumnType<RecordType>, 'r
 }
 
 export interface TableProps<RecordType extends Record<string, any> = any>
-  extends Omit<ATableProps<RecordType>, 'dataSoruce' | 'loading' | 'rowSelection' | 'columns'> {
+  extends Omit<ATableProps<RecordType>, 'dataSource' | 'loading' | 'rowSelection' | 'columns'> {
   /** 远程数据源 */
   remoteDataSource?: (params: RequestParams) => Promise<RequestResult<RecordType>>;
   /** 默认分页配置 */
@@ -71,7 +73,7 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   const { onShowSizeChange, ...restPaginationProps } = pagination || {};
 
   const [loading, setLoading] = useState(false);
-  const [dataSoruce, setDataSource] = useState<RecordType[]>([]);
+  const [dataSource, setDataSource] = useState<RecordType[]>([]);
   // const [selectedRows, setSelectedRows] = useState<RecordType[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
   const [, forceUpdate] = useState({});
@@ -81,6 +83,9 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   const sorterRef = useRef<SorterParams>(null);
   const isShowSizeChangeRef = useRef(false);
   const selectedRowsRef = useRef<RecordType[]>([]);
+  const dataSourceRef = useRef<RecordType[]>([]);
+
+  setRef(dataSourceRef, dataSource);
 
   const noPagination = pagination === false;
 
@@ -139,7 +144,8 @@ function BasicTable<RecordType extends Record<string, any> = any>(
     },
     getSelectedRowKeys: () => selectedRowKeys,
     // setSelectedRowKeys,
-    getDataSource: () => dataSoruce,
+    getDataSource: () => dataSourceRef.current,
+    setDataSource,
     setPagination: (pagination) => {
       setRef(paginationRef, pagination);
       forceUpdate({});
@@ -229,7 +235,7 @@ function BasicTable<RecordType extends Record<string, any> = any>(
       rowSelection={rowSelection ? internalRowSelection : undefined}
       onChange={onTableChange}
       loading={loading}
-      dataSource={dataSoruce}
+      dataSource={dataSource}
     />
   );
 }
