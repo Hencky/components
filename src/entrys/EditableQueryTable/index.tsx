@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { Form } from 'antd';
 import { uniqueId } from 'lodash';
-import { QueryTable, type QueryTableProps, type QueryTableColumnType, QueryTableInstance } from '../../QueryTable';
+import { QueryTable, type QueryTableProps, type QueryTableColumnType, type QueryTableInstance } from '../../QueryTable';
 import { EditableTableCell } from '../EditableTable/Cell';
 import { TextActions } from '../../Actions';
 import { type FormItemProps } from '../../FormItem';
@@ -21,16 +21,20 @@ export interface EditableQueryTableInstance<T extends Record<string, any> = any>
 
 export interface EditableQueryTableProps<T extends Record<string, any> = any>
   extends Omit<QueryTableProps<T>, 'value' | 'onChange' | 'columns'> {
-  columns: (QueryTableColumnType<T> & { editFormItemProps?: FormItemProps; editNode?: React.ReactNode })[];
+  columns: (QueryTableColumnType<T> & {
+    editFormItemProps?: FormItemProps;
+    editNode?: React.ReactNode;
+  })[];
   onDelete?: (id: string | number) => void;
   onSave?: (data: { id?: string | number } & T) => void;
+  onChange?: (value: T[]) => void;
 }
 
 function IEditableQueryTable<RecordType extends Record<string, any> = any>(
   props: PropsWithChildren<EditableQueryTableProps<RecordType>>,
   ref: ForwardedRef<EditableQueryTableInstance<RecordType>>
 ) {
-  const { columns = [], onSave, onDelete, ...restProps } = props;
+  const { onChange, columns = [], rowSelection, onSave, onDelete, ...restProps } = props;
 
   const [form] = useForm();
   const [editingKey, setEditingKey] = useState('');
@@ -72,6 +76,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
   };
 
   const add = () => {
+    if (editingKey) return;
     isAddRef.current = true;
     const dataSouce = querytableRef.current?.table.getDataSource() || [];
     memoDataSource.current = [...dataSouce];
@@ -89,6 +94,16 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
           bordered: true,
           components: { body: { cell: EditableTableCell } },
         }}
+        rowSelection={
+          rowSelection
+            ? {
+                ...rowSelection,
+                onSelect: (selectedRow, _, selectedRows) => {
+                  onChange?.(selectedRows);
+                },
+              }
+            : false
+        }
         actions={[
           {
             children: '新增',
@@ -131,6 +146,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
                           isAddRef.current = false;
                           setEditingKey('');
                           form.resetFields();
+                          querytableRef.current?.table.refresh();
                         },
                       },
                       {

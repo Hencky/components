@@ -156,7 +156,7 @@ function BasicTable<RecordType extends Record<string, any> = any>(
     forceUpdate: () => forceUpdate({}),
   });
 
-  useImperativeHandle(ref, getTableInstance);
+  useImperativeHandle(ref, getTableInstance, [dataSource, loading]);
 
   useEffect(() => {
     if (requestOnMount === false) return;

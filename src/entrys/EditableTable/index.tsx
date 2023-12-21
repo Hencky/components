@@ -25,7 +25,10 @@ export interface EditableTableInstance<T = any> {
 export interface EditableTableProps<T = any> extends Omit<TableProps<T>, 'value' | 'onChange' | 'columns'> {
   value?: ColumnDataWithId<T>[];
   onChange?: (value?: ColumnDataWithId<T>[]) => void;
-  columns: (ColumnType<T> & { editFormItemProps?: FormItemProps; editNode?: React.ReactNode })[];
+  columns: (ColumnType<T> & {
+    editFormItemProps?: FormItemProps;
+    editNode?: React.ReactNode;
+  })[];
 }
 
 function IEditableTable<RecordType extends Record<string, any> = any>(
@@ -67,7 +70,7 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
         onChange?.(newValue);
       },
     }),
-    []
+    [dataSource]
   );
 
   const emitValue = () => {
@@ -82,8 +85,7 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
       const item = newData[index];
       newData.splice(index, 1, { ...item, ...row });
       setDataSource(newData);
-      setEditingKey('');
-      emitValue();
+      onChange?.(newData);
     }
   };
 
@@ -190,5 +192,7 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
 export const EditableTable = forwardRef<EditableTableInstance, EditableTableProps>(IEditableTable) as <
   RecordType extends Record<string, any> = any
 >(
-  props: PropsWithChildren<EditableTableProps<RecordType>> & { ref?: React.Ref<EditableTableInstance<RecordType>> }
+  props: PropsWithChildren<EditableTableProps<RecordType>> & {
+    ref?: React.Ref<EditableTableInstance<RecordType>>;
+  }
 ) => ReactElement;
