@@ -8,7 +8,7 @@ const columns = [
     dataIndex: 'name',
     key: 'name',
     title: 'name',
-    editNode: <Input size="small" />,
+    renderEditNode: () => <Input size="small" />,
     editFormItemProps: {
       rules: [{ required: true, message: '请输入name' }],
     },
@@ -17,7 +17,7 @@ const columns = [
     dataIndex: 'age',
     key: 'age',
     title: 'age',
-    editNode: <InputNumber size="small" />,
+    renderEditNode: () => <InputNumber size="small" />,
   },
 ];
 

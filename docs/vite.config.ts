@@ -65,14 +65,26 @@ module.exports = {
     }),
   ],
   resolve: {
-    alias: {
-      'lucky-bird-ui': path.join(__dirname, '../src'),
-    },
+    alias: [
+      {
+        find: /^~/,
+        replacement: '',
+      },
+      {
+        find: '@',
+        replacement: path.resolve(__dirname, './src'),
+      },
+      {
+        find: 'lucky-bird-ui',
+        replacement: path.join(__dirname, '../src'),
+      },
+    ],
   },
   css: {
     preprocessorOptions: {
       less: {
         additionalData: `@import '${variablePath}';`,
+        javascriptEnabled: true,
       },
     },
   },

@@ -37,10 +37,16 @@ export interface ModalFormInstance {
   close: (e?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
 
-const IModalForm: React.ForwardRefRenderFunction<ModalFormInstance> = (_, ref) => {
+export interface ModalFormProps {
+  form?: FormInstance;
+}
+
+const IModalForm: React.ForwardRefRenderFunction<ModalFormInstance, ModalFormProps> = (props, ref) => {
+  const { form: propsForm } = props;
+
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [form] = useForm();
+  const [form] = propsForm ? [propsForm] : useForm();
 
   const propsRef = useRef<ModalFormProps>();
 
