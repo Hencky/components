@@ -76,7 +76,6 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
     ref,
     () => ({
       ...(querytableRef.current! || {}),
-      add: (values) => {},
     }),
     []
   );
@@ -107,6 +106,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
     <Form component="div" form={form}>
       <QueryTable
         rowKey={'id'}
+        // @ts-expect-error
         ref={querytableRef}
         tableProps={{
           bordered: true,
@@ -116,6 +116,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
         rowSelection={
           rowSelection
             ? {
+                // @ts-expect-error
                 ...rowSelection,
                 onSelect: (selectedRow, _, selectedRows) => {
                   onChange?.(selectedRows);
@@ -146,6 +147,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
               ]
         }
         {...restProps}
+        // @ts-expect-error
         columns={
           enableOperator
             ? ([

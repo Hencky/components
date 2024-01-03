@@ -102,7 +102,12 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
     return columns.map((column) => {
       const finalRender = column.render
         ? ({ value, record, index }) => {
-            return column.render!({ value, record, index, ...getQueryTableInstance() });
+            return column.render!({
+              value,
+              record,
+              index,
+              ...getQueryTableInstance(),
+            });
           }
         : undefined;
       return {
@@ -165,6 +170,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
           {...tableProps}
         />
 
+        {/* @ts-expect-error */}
         <ModalForm ref={modalRef} />
       </div>
     </ConfigProvider>
@@ -174,5 +180,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
 export const QueryTable = forwardRef<QueryTableInstance, QueryTableProps>(BaseQueryTable) as <
   RecordType extends Record<string, any> = any
 >(
-  props: PropsWithChildren<QueryTableProps<RecordType>> & { ref?: React.Ref<QueryTableInstance<RecordType>> }
+  props: PropsWithChildren<QueryTableProps<RecordType>> & {
+    ref?: React.Ref<QueryTableInstance<RecordType>>;
+  }
 ) => ReactElement;

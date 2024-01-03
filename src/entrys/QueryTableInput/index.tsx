@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { QueryTable, type QueryTableInstance, type QueryTableProps } from '../../QueryTable';
 
 export interface QueryTableInputProps extends Omit<QueryTableProps, 'remoteDataSource' | 'rowKey'> {
-  onChange?: (val?: string) => void;
-  value?: string;
+  onChange?: (val?: string | string[]) => void;
+  value?: string | string[];
   rowKey?: string;
   disabled?: boolean;
   rowSelectionType?: 'radio' | 'checkbox';
@@ -23,7 +23,7 @@ export const QueryTableInput: React.FC<QueryTableInputProps> = (props) => {
     if (isSingleMode) {
       ref.current?.table.setSelectedRows(value ? [value] : []);
     } else {
-      ref.current?.table.setSelectedRows(value || []);
+      ref.current?.table.setSelectedRows((value as string[]) || []);
     }
   }, [value, handleChangeRef.current, isSingleMode]);
 

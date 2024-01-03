@@ -112,6 +112,7 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
         {...restProps}
         dataSource={dataSource}
         components={{ body: { cell: EditableTableCell } }}
+        // @ts-expect-error
         columns={
           disabled
             ? mergedColumns

@@ -6,5 +6,7 @@ export default {
     prettier: true,
   },
   extractCSS: false,
-  lessInBabelMode: true,
+  lessInBabelMode: {
+    javascriptEnabled: true,
+  },
 };

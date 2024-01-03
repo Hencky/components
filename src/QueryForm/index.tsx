@@ -20,11 +20,14 @@ export interface QueryFormProps<Values = any> extends Omit<FormProps<Values>, 'f
   /** 默认展开，默认false */
   defaultExpand?: boolean;
   /** 点击查询时的回调函数 */
-  onSubmit: (values: any) => Promise<void> | undefined;
+  onSubmit?: (values: any) => Promise<void> | undefined;
   /** 点击重置时的回调函数 */
   onReset?: () => void;
   /** 是否显示分割线， 默认true */
   showDivider?: boolean;
+
+  resetActionProps?: Omit<ButtonActionProps, 'onClick'>;
+  queryActionProps?: Omit<ButtonActionProps, 'onClick'>;
 }
 
 export const QueryForm: <Values = any>(props: React.PropsWithChildren<QueryFormProps<Values>>) => React.ReactElement = (
@@ -40,6 +43,8 @@ export const QueryForm: <Values = any>(props: React.PropsWithChildren<QueryFormP
     showFieldsLength = 3,
     defaultExpand = false,
     showDivider = true,
+    resetActionProps,
+    queryActionProps,
     ...formProps
   } = props;
 
@@ -60,7 +65,7 @@ export const QueryForm: <Values = any>(props: React.PropsWithChildren<QueryFormP
   const handleSearch = async () => {
     try {
       const values = await form.validateFields();
-      return await onSubmit(values);
+      return await onSubmit?.(values);
     } catch {
       return;
     }
@@ -105,12 +110,14 @@ export const QueryForm: <Values = any>(props: React.PropsWithChildren<QueryFormP
   const actions: ButtonActionProps[] = [
     {
       children: '重置',
+      ...resetActionProps,
       render: !isSingleSearch,
       onClick: handleReset,
     },
     {
       children: '查询',
       type: 'primary',
+      ...queryActionProps,
       onClick: handleSearch,
     },
   ];
