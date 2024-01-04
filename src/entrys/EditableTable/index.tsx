@@ -12,9 +12,10 @@ import { isEqual, uniqueId } from 'lodash';
 import { Table, Form } from 'antd';
 import { EditableTableCell } from './Cell';
 import { TextActions, ButtonAction } from '../../Actions';
-import { type TableProps, type ColumnType } from 'antd/lib/table';
+import { type TableProps } from 'antd/lib/table';
 import { type FormItemProps } from '../../FormItem';
 import { FormInstance } from 'antd/es/form';
+import type { ColumnType } from '../../Table';
 
 const { useForm } = Form;
 
@@ -32,7 +33,7 @@ export interface EditableTableProps<T = any> extends Omit<TableProps<T>, 'value'
     renderEditNode?: (form: FormInstance) => React.ReactNode;
   })[];
   disabled?: boolean;
-
+  /** 限制长度 */
   max?: number;
 }
 
@@ -55,16 +56,23 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
 
   const isEditing = (record) => record.id === editingKey;
 
-  const mergedColumns = columns.map((col) => {
+  const mergedColumns = columns.map((column) => {
+    const finalRender = column?.render
+      ? // @ts-expect-error  column.render无table实例属性
+        (value, record, index) => column.render!({ value, record, index })
+      : undefined;
+
     return {
-      ...col,
+      dataIndex: column.key,
+      ...column,
+      render: finalRender,
       onCell: (record) => ({
         record,
-        title: col.title,
-        name: col.key,
-        formItemProps: col.editFormItemProps,
+        title: column.title,
+        name: column.key,
+        formItemProps: column.editFormItemProps,
         editing: isEditing(record),
-        renderEditNode: col.renderEditNode,
+        renderEditNode: column.renderEditNode,
       }),
     };
   });
