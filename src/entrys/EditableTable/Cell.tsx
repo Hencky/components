@@ -10,10 +10,11 @@ export interface EditableTableCellProps {
   name: string;
   renderEditNode?: (form: FormInstance) => React.ReactNode;
   formItemProps?: FormItemProps;
+  title: React.ReactNode;
 }
 
 export const EditableTableCell: React.FC<EditableTableCellProps> = (props) => {
-  const { editing, children, name, renderEditNode, formItemProps, ...restProps } = props;
+  const { editing, children, name, renderEditNode, formItemProps, title, ...restProps } = props;
 
   const form = useFormInstance();
 
