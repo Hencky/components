@@ -103,6 +103,18 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
 
   const finalDisabled = isBooleanProp(disabled, props, false);
 
+  const renderColWrapper = (ele) => {
+    if (span !== null) {
+      return (
+        <Col {...colProps} className={colClassName} style={colStyle}>
+          {ele}
+        </Col>
+      );
+    }
+
+    return ele;
+  };
+
   const itemElement = (
     <Form.Item {...formItemProps} style={style}>
       {!formItemProps.name || isFunction(children)
@@ -114,15 +126,13 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
     </Form.Item>
   );
 
-  let ele = itemElement;
-
   if (dependency) {
     const { visible, deps, options } = dependency as Deps;
 
     const { condition: visibleCondition } = (visible || {}) as SingleDepCondition<boolean>;
     const { condition: optionCondition, result: optionResult } = (options || {}) as SingleDepCondition<any[]>;
 
-    ele = (
+    return (
       <Form.Item dependencies={deps} noStyle>
         {(form) => {
           const isMatched = (condition) =>
@@ -136,11 +146,11 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
           }
 
           if (visible && isMatched(visibleCondition)) {
-            return itemElement;
+            return renderColWrapper(itemElement);
           }
 
           if (!visible) {
-            return itemElement;
+            return renderColWrapper(itemElement);
           }
 
           return null;
@@ -149,15 +159,7 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
     );
   }
 
-  if (span !== null) {
-    return (
-      <Col {...colProps} className={colClassName} style={colStyle}>
-        {ele}
-      </Col>
-    );
-  }
-
-  return ele;
+  return renderColWrapper(itemElement);
 }
 
 FormItem.defaultProps = {
