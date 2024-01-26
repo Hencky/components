@@ -7,6 +7,14 @@
   padding: 24px;
   background-color: #fff;
 
+  &-nofields {
+    padding-top: 0;
+
+    > .@{querytable-prefix-cls}-actions {
+      padding-top: 0 !important;
+    }
+  }
+
   &-actions {
     display: flex !important;
     justify-content: space-between;

@@ -27,7 +27,8 @@ export type QueryTableActionType<RecordType = any> =
   | ActionType<'button', ButtonActionProps, RecordType>
   | ActionType<'text', TextActionProps, RecordType>
   | ActionType<'icon', IconActionProps, RecordType>
-  | ({ actionType: 'dropdownbutton' } & DropdownButtonProps);
+  | ({ actionType: 'dropdownbutton' } & DropdownButtonProps)
+  | { actionType: 'children'; children: React.ReactNode };
 
 const Actions = {
   button: ButtonAction,
@@ -49,6 +50,10 @@ export const OperatorActions: React.FC<OperatorActionsProps> = (props) => {
   const getActions = (actions: QueryTableActionType[] = []) => {
     return actions.map((item, idx) => {
       const { actionType = 'button', ...restProps } = item;
+
+      if (actionType === 'children') {
+        return item.children;
+      }
 
       // @ts-expect-error
       return createElement(Actions[actionType], {
