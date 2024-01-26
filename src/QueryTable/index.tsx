@@ -10,7 +10,6 @@ import React, {
 import { Form } from 'antd';
 import cls from 'classnames';
 import { usePrefix } from '../_hooks';
-import { ConfigProvider } from '../ConfigProvider';
 import { QueryForm, type QueryFormProps } from '../QueryForm';
 import { ModalForm, type ModalFormInstance } from '../ModalForm';
 import { OperatorActions, type QueryTableActionType } from './OperatorActions';
@@ -145,35 +144,33 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
     : undefined;
 
   return (
-    <ConfigProvider>
-      <div className={prefix}>
-        {!!showFieldsLength && (
-          <QueryForm<SeachValues>
-            form={form}
-            fields={fields}
-            onReset={onReset}
-            onSubmit={onSubmit}
-            {...formProps}
-            showFieldsLength={showFieldsLength}
-            initialValues={initialValues}
-          />
-        )}
-
-        {renderActions()}
-
-        <Table
-          ref={tableRef}
-          rowKey={rowKey}
-          columns={renderColumns()}
-          rowSelection={finalRowSelection}
-          remoteDataSource={remoteDataSource}
-          {...tableProps}
+    <div className={prefix}>
+      {!!showFieldsLength && (
+        <QueryForm<SeachValues>
+          form={form}
+          fields={fields}
+          onReset={onReset}
+          onSubmit={onSubmit}
+          {...formProps}
+          showFieldsLength={showFieldsLength}
+          initialValues={initialValues}
         />
+      )}
 
-        {/* @ts-expect-error */}
-        <ModalForm ref={modalRef} />
-      </div>
-    </ConfigProvider>
+      {renderActions()}
+
+      <Table
+        ref={tableRef}
+        rowKey={rowKey}
+        columns={renderColumns()}
+        rowSelection={finalRowSelection}
+        remoteDataSource={remoteDataSource}
+        {...tableProps}
+      />
+
+      {/* @ts-expect-error */}
+      <ModalForm ref={modalRef} />
+    </div>
   );
 }
 

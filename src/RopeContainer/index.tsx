@@ -1,6 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { Tooltip, Popconfirm } from 'antd';
-import { ConfigProvider } from '../ConfigProvider';
 import { isPromise } from '../_util';
 
 export interface RopeContainerProps {
@@ -135,7 +134,7 @@ export const RopeContainer: React.FC<RopeContainerProps> = (props) => {
   ele = renderPopconfirmElement(ele);
   ele = renderContainerElement(ele);
 
-  return <ConfigProvider>{ele}</ConfigProvider>;
+  return ele;
 };
 
 RopeContainer.defaultProps = {

@@ -13,5 +13,4 @@ export * from './ModalForm';
 export * from './QueryTable';
 export * from './LineWrapper';
 export * from './entrys/Rule';
-export * from './ConfigProvider';
 export * from './ToggleOpenButton';
