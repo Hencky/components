@@ -35,13 +35,22 @@ export interface FormItemProps<Values = any>
 
   // ===== 传给子组件 =====
   /** 远程数据源 */
+  /**
+   * @deprecated remoteOptions
+   */
   remoteDataSource?: () => Promise<any[]>;
   remoteOptions?: () => Promise<any[]>;
 
   /** 数据源 */
+  /**
+   * @deprecated remoteOptions
+   */
   dataSource?: any[];
   options?: any[];
   /** 数据源名称，比如 treeSelect 是 treeData */
+  /**
+   * @deprecated remoteOptions
+   */
   dataSourceKey?: string;
   optionsKey?: string;
   optionsPropName?: string;
