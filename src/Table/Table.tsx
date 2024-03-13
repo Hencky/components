@@ -70,11 +70,10 @@ function BasicTable<RecordType extends Record<string, any> = any>(
     requestOnMount,
     ...restTableProps
   } = props;
-  const { onShowSizeChange, ...restPaginationProps } = pagination || {};
 
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState<RecordType[]>([]);
-  // const [selectedRows, setSelectedRows] = useState<RecordType[]>([]);
+  const [selectedRows, setSelectedRows] = useState<RecordType[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
   const [, forceUpdate] = useState({});
 
@@ -82,10 +81,6 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   const filterRef = useRef<FilterParams>(null);
   const sorterRef = useRef<SorterParams>(null);
   const isShowSizeChangeRef = useRef(false);
-  const selectedRowsRef = useRef<RecordType[]>([]);
-  const dataSourceRef = useRef<RecordType[]>([]);
-
-  setRef(dataSourceRef, dataSource);
 
   const noPagination = pagination === false;
 
@@ -127,8 +122,7 @@ function BasicTable<RecordType extends Record<string, any> = any>(
     setRef(filterRef, null);
     setRef(sorterRef, null);
     setSelectedRowKeys([]);
-    // setSelectedRows([]);
-    setRef(selectedRowsRef, []);
+    setSelectedRows([]);
     refreshTable();
   };
 
@@ -136,15 +130,15 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   const getTableInstance = () => ({
     refresh: refreshTable,
     reset,
-    getSelectedRows: () => selectedRowsRef.current,
+    getSelectedRows: () => selectedRows,
     setSelectedRows: (selectedRows) => {
-      setRef(selectedRowsRef, selectedRows);
+      setSelectedRows(selectedRows);
       const selectedRowKeys = selectedRows.map((record) => record[rowKey as string]);
       setSelectedRowKeys(selectedRowKeys);
     },
     getSelectedRowKeys: () => selectedRowKeys,
-    // setSelectedRowKeys,
-    getDataSource: () => dataSourceRef.current,
+    setSelectedRowKeys,
+    getDataSource: () => dataSource,
     setDataSource,
     setPagination: (pagination) => {
       setRef(paginationRef, pagination);
@@ -156,7 +150,7 @@ function BasicTable<RecordType extends Record<string, any> = any>(
     forceUpdate: () => forceUpdate({}),
   });
 
-  useImperativeHandle(ref, getTableInstance, [dataSource, loading]);
+  useImperativeHandle(ref, getTableInstance, [refreshTable, dataSource, selectedRows, selectedRowKeys, loading]);
 
   useEffect(() => {
     if (requestOnMount === false) return;
@@ -180,28 +174,29 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   };
 
   // ===== 表格变化 =====
-  const onTableChange: ATableProps<RecordType>['onChange'] = (pagination, filters, sorter, datasource) => {
+  const onTableChange: ATableProps<RecordType>['onChange'] = (pagination, filters, sorter, ...args) => {
     const { current, pageSize, total } = pagination;
     const { field, order } = sorter as SorterResult<RecordType>;
-
-    setRef(paginationRef, { current: isShowSizeChangeRef.current ? 1 : current, size: pageSize, total });
+    setRef(paginationRef, { current: isShowSizeChangeRef.current ? 1 : current!, size: pageSize!, total: total! });
     setRef(sorterRef, field ? { field, order } : null);
     setRef(isShowSizeChangeRef, false);
 
-    props.onChange?.(pagination, filters, sorter, datasource);
+    props.onChange?.(pagination, filters, sorter, ...args);
 
     refreshTable();
   };
 
   // ===== 选中行变化 =====
   const onRowSelectionChange = (currentSelectedRowKeys, currentSelectedRows) => {
-    setRef(selectedRowsRef, currentSelectedRows);
+    setSelectedRows(currentSelectedRows);
     setSelectedRowKeys(currentSelectedRowKeys);
     // @ts-expect-error
     (rowSelection as TableRowSelection<RecordType>)?.onChange?.(currentSelectedRowKeys, currentSelectedRows);
   };
 
   // ===== pagination.size变化，调整current为1 =====
+  const { onShowSizeChange, ...restPaginationProps } = pagination || {};
+
   const handleShowSizeChange = (current, size) => {
     setRef(isShowSizeChangeRef, true);
     onShowSizeChange?.(current, size);
