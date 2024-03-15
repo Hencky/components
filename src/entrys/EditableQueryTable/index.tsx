@@ -224,6 +224,7 @@ export const EditableQueryTable = forwardRef<EditableQueryTableInstance, Editabl
   IEditableQueryTable
 ) as <RecordType extends Record<string, any> = any>(
   props: PropsWithChildren<EditableQueryTableProps<RecordType>> & {
+    // @ts-ignore
     ref?: React.Ref<EditableQueryTableInstance<RecordType>>;
   }
 ) => ReactElement;

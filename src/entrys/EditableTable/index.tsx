@@ -191,6 +191,7 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
         {...restProps}
         dataSource={dataSource}
         components={{ body: { cell: EditableTableCell } }}
+        // @ts-ignore
         columns={
           disabled
             ? mergedColumns
@@ -284,6 +285,7 @@ export const EditableTable = forwardRef<EditableTableInstance, EditableTableProp
   RecordType extends Record<string, any> = any
 >(
   props: PropsWithChildren<EditableTableProps<RecordType>> & {
+    // @ts-ignore
     ref?: React.Ref<EditableTableInstance<RecordType>>;
   }
 ) => ReactElement;

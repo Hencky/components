@@ -26,6 +26,7 @@ export const TimePicker: React.FC<TimePickerProps> = (props) => {
 
   let finalValue = value;
   if (value) {
+    // @ts-ignore
     finalValue = moment(value, valueFormat === true ? format : undefined);
   }
 

@@ -52,6 +52,7 @@ export const OperatorActions: React.FC<OperatorActionsProps> = (props) => {
       const { actionType = 'button', ...restProps } = item;
 
       if (actionType === 'children') {
+        // @ts-ignore
         return item.children;
       }
 
