@@ -43,6 +43,8 @@ export interface QueryTableProps<RecordType extends Record<string, any> = any, S
   leftActions?: QueryTableActionType[];
   actions?: QueryTableActionType[];
   formProps?: Omit<QueryFormProps<SearchValues>, 'fields' | 'initialValues' | 'showFieldsLength'>;
+  style?: React.CSSProperties;
+  className?: string;
 }
 
 function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValues = any>(
@@ -62,6 +64,8 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
     formProps = {},
     leftActions,
     actions,
+    className,
+    style,
   } = props;
 
   const [form] = Form.useForm();
@@ -144,7 +148,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
     : undefined;
 
   return (
-    <div className={prefix}>
+    <div className={cls(prefix, className)} style={style}>
       {!!showFieldsLength && (
         <QueryForm<SeachValues>
           form={form}
