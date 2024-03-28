@@ -7,10 +7,11 @@ import type { ButtonActionProps } from '../Actions';
 
 export interface DropdownButtonProps extends Omit<DropDownProps, 'overlay' | 'visible' | 'onVisibleChange'> {
   actions: ButtonActionProps[];
+  render?: boolean;
 }
 
 export const DropdownButton: React.FC<DropdownButtonProps> = (props) => {
-  const { actions, children, ...rest } = props;
+  const { actions, children, render = true, ...rest } = props;
   const [visible, setVisible] = useState(false);
   const canHideOverlayRef = useRef(true);
   const loadingRef = useRef(false);
@@ -60,6 +61,8 @@ export const DropdownButton: React.FC<DropdownButtonProps> = (props) => {
     setVisible(visible);
   };
 
+  if (!render) return null;
+
   if (actions.every((item) => item.render === false)) {
     return null;
   }
@@ -67,8 +70,8 @@ export const DropdownButton: React.FC<DropdownButtonProps> = (props) => {
   return (
     <Dropdown
       overlay={menu}
-      visible={visible}
-      onVisibleChange={debounce(onVisibleChange, 100)}
+      open={visible}
+      onOpenChange={debounce(onVisibleChange, 100)}
       overlayStyle={{ zIndex: 1000 }}
       {...rest}
     >
