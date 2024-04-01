@@ -39,10 +39,11 @@ const actions: QueryTableActionType[] = [
     children: '新增',
     type: 'primary',
     onClick: (e, ctx) => {
-      ctx.modal.open({
+      return ctx.modal.open({
         title: '新建',
         children: <ModalForm />,
-        onOk() {
+        onOk(e, { form, values }) {
+          console.log('values', values, form.getFieldsValue());
           ctx.modal.close();
           ctx.table.refresh();
         },
@@ -69,11 +70,12 @@ const Demo = () => {
       {
         children: '编辑',
         onClick: () => {
-          ctx.modal.open({
+          return ctx.modal.open({
             title: '编辑',
             initialValues: ctx.record,
             children: <ModalForm />,
-            onOk() {
+            onOk(e, { form, values }) {
+              console.log('values', values, form.getFieldsValue());
               ctx.modal.close();
               ctx.table.refresh();
             },

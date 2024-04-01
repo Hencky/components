@@ -3,6 +3,7 @@ export * from './entrys';
 export * from './Text';
 export * from './Tree';
 export * from './Form';
+export * from './Modal';
 export * from './Table';
 export * from './Actions';
 export * from './Dropdown';

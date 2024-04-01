@@ -3,7 +3,7 @@ import { Modal as AModal } from 'antd';
 import { isPromise, setRef } from '../_util';
 import type { ModalProps as AModalProps } from 'antd/lib/modal';
 
-export type ExcludeModalType = 'title' | 'width' | 'children' | 'onOk' | 'onCancel' | 'confirmLoading';
+type ExcludeModalType = 'title' | 'width' | 'children' | 'onOk' | 'onCancel' | 'confirmLoading';
 
 export interface ModalProps extends Pick<AModalProps, ExcludeModalType> {
   modalProps?: Omit<AModalProps, ExcludeModalType | 'visible'>;
@@ -20,35 +20,55 @@ const IModal: React.ForwardRefRenderFunction<ModalInstance> = (_, ref) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
 
   const propsRef = useRef<ModalProps>();
+  const promiseRef = useRef<{ resolve: (r: any) => void; reject: (r: any) => void }>();
 
   const onClose = (e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
     propsRef.current?.onCancel?.(e!);
     setVisible(false);
+    const { reject } = promiseRef.current!;
+    reject('');
   };
 
-  useImperativeHandle(ref, () => {
-    return {
-      open: (props) => {
-        setRef(propsRef, props);
-        const { onOpen } = props!;
-        onOpen?.();
-        setVisible(true);
-      },
-      close: onClose,
-    };
-  });
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        open: (props) => {
+          return new Promise((resolve, reject) => {
+            promiseRef.current = { resolve, reject };
+            setRef(propsRef, props);
+            const { onOpen } = props!;
+            onOpen?.();
+            setVisible(true);
+          });
+        },
+        close: onClose,
+      };
+    },
+    [visible]
+  );
 
   const { modalProps, title, children, width, onOk } = propsRef.current || {};
 
+  // ==== 确定按钮回调，返回promise按钮自动进入loading =====
   const handleOk = (e) => {
     setConfirmLoading(true);
+    const { resolve, reject } = promiseRef.current!;
     const cb = onOk?.(e);
     if (isPromise(cb)) {
-      (cb as unknown as Promise<any>).then(() => {
-        setConfirmLoading(false);
-      });
+      return (cb as unknown as Promise<any>)
+        .then((data) => {
+          setConfirmLoading(false);
+          resolve(data);
+          setVisible(false);
+        })
+        .catch((e) => {
+          reject(e);
+        });
     } else {
       setConfirmLoading(false);
+      setVisible(false);
+      return resolve(cb);
     }
   };
 
