@@ -124,14 +124,30 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
     return ele;
   };
 
+  const renderChildren = (children) => {
+    const { dependencies } = formItemProps;
+
+    // ===== 增加dependencies值 =====
+    if (isFunction(children)) {
+      return (form) => {
+        const depValues = dependencies ? dependencies.map((depName) => form.getFieldValue(depName)) : undefined;
+        return children(form, depValues);
+      };
+    }
+
+    if (!formItemProps.name) {
+      return children;
+    }
+
+    return React.cloneElement(children as React.ReactElement, {
+      disabled: finalDisabled,
+      ...(dataSource ? { [finalOptionsPropName]: dataSource } : {}),
+    });
+  };
+
   const itemElement = (
     <Form.Item {...formItemProps} style={style}>
-      {!formItemProps.name || isFunction(children)
-        ? children
-        : React.cloneElement(children as React.ReactElement, {
-            disabled: finalDisabled,
-            ...(dataSource ? { [finalOptionsPropName]: dataSource } : {}),
-          })}
+      {renderChildren(children)}
     </Form.Item>
   );
 
