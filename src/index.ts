@@ -1,3 +1,5 @@
+import './style/index.less';
+
 export * from './entrys';
 
 export * from './Text';
