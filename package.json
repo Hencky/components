@@ -2,7 +2,7 @@
   "name": "lucky-bird-ui",
   "description": "基于antd封装的组件",
   "author": "Hencky",
-  "version": "1.6.8",
+  "version": "1.6.9",
   "main": "es/index.js",
   "module": "es/index.js",
   "types": "es/index.d.ts",
@@ -13,6 +13,7 @@
   "scripts": {
     "dev": "SHOW_ALL_COMPONENT_DEMOS=true vite serve docs",
     "compile": "father-build",
+    "compile:watch": "father-build --watch",
     "build": "rm -rf docs/dist && vite build docs",
     "build:preview": "rm -rf docs/dist && vite build docs && serve -s docs/dist",
     "deploy": "bash deploy.sh",
