@@ -110,7 +110,7 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
 
   if (!isBooleanProp(render, props)) return null;
 
-  const finalDisabled = isBooleanProp(disabled, props, false);
+  const finalDisabled = isBooleanProp(disabled, props);
 
   const renderColWrapper = (ele) => {
     if (span !== null) {
