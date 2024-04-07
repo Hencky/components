@@ -36,7 +36,7 @@ export interface ModalFormProps extends Omit<ModalProps, ExcludeModalType> {
     footerRender?: (ctx: ModalFormContext) => ReactNode;
   };
 
-  children: ReactElement;
+  children?: ReactElement;
 
   /** 表单初始值 */
   initialValues?: Record<string, any>;

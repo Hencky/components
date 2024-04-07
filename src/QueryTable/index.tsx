@@ -172,7 +172,6 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
         {...tableProps}
       />
 
-      {/* @ts-expect-error */}
       <ModalForm ref={modalRef} />
     </div>
   );
