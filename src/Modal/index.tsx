@@ -64,6 +64,9 @@ const IModal: React.ForwardRefRenderFunction<ModalInstance> = (_, ref) => {
         })
         .catch((e) => {
           reject(e);
+        })
+        .finally(() => {
+          setConfirmLoading(false);
         });
     } else {
       setConfirmLoading(false);
