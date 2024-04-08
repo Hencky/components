@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import cls from 'classnames';
-import { Tree as ATree, Input } from 'antd';
+import { Tree as ATree, Input, Spin } from 'antd';
 import { Text } from '../Text';
 import { usePrefix } from '../_hooks';
 import type { SearchProps } from 'antd/lib/input';
@@ -21,6 +21,8 @@ export interface TreeProps extends ATreeProps<DataNode> {
   searchProps?: SearchProps;
   /** 显示搜索 */
   showSearch?: boolean;
+  /** 加载状态 */
+  loading?: boolean;
   /** 操作按钮渲染 */
   operatorRender?: (data: DataNode) => React.ReactElement;
   /** 鼠标划入时才显示操作按钮，默认true */
@@ -64,11 +66,12 @@ const generateList = (data: DataNode[]) => {
 
 export const Tree: React.FC<TreeProps> = (props) => {
   const {
+    loading = false,
     searchProps,
-    showSearch,
+    showSearch = true,
     treeData,
     operatorRender,
-    showOperatorOnHover,
+    showOperatorOnHover = true,
     extraRender,
     defaultExpandAll,
     treeNodeTitleStyle,
@@ -175,7 +178,7 @@ export const Tree: React.FC<TreeProps> = (props) => {
   );
 
   return (
-    <div>
+    <Spin spinning={loading}>
       {showSearch && (
         <div className={prefix + '-search'}>
           <Search style={{ marginBottom: 8 }} onChange={onSearch} allowClear {...searchProps} />
@@ -195,13 +198,6 @@ export const Tree: React.FC<TreeProps> = (props) => {
           return titleRender(nodeData, searchValueRef.current);
         }}
       />
-    </div>
+    </Spin>
   );
-};
-
-Tree.defaultProps = {
-  searchProps: {},
-  showSearch: true,
-  treeData: [],
-  showOperatorOnHover: true,
 };
