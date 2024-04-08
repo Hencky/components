@@ -48,7 +48,9 @@ export const RopeContainer: React.FC<RopeContainerProps> = (props) => {
         .then(() => {
           setLoading(false);
         })
-        .catch(() => {
+        .catch((e) => {
+          // eslint-disable-next-line no-console
+          console.error(e);
           setLoading(false);
         });
     } else {
