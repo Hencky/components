@@ -66,7 +66,9 @@ export const QueryForm: <Values = any>(props: React.PropsWithChildren<QueryFormP
     try {
       const values = await form.validateFields();
       return await onSubmit?.(values);
-    } catch {
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
       return;
     }
   };

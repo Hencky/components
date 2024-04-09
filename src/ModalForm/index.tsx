@@ -82,7 +82,10 @@ export const IModalForm: ForwardRefRenderFunction<ModalFormInstance, ModalFormPr
 
           return modalRef.current?.open({
             ...restParams,
-            onCancel: (e) => onCancel?.(e, getModalFormContext()),
+            onCancel: (e) => {
+              form.resetFields();
+              return onCancel?.(e, getModalFormContext());
+            },
             onOk: async (e) => {
               // ===== 增加表单校验逻辑 =====
               await form.validateFields();

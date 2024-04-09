@@ -86,6 +86,8 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
       const row = await form.validateFields();
       await onSave?.({ ...row, id: isAddRef.current ? undefined : id });
     } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
       throw new Error('e');
     } finally {
       querytableRef.current?.table.setLoading(false);

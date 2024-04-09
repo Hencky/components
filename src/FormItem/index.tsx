@@ -97,7 +97,9 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
       .then((data) => {
         setDataSource(data);
       })
-      .catch(() => {
+      .catch((e) => {
+        // eslint-disable-next-line no-console
+        console.error(e);
         setDataSource([]);
       });
   }, [finalRemoteOptions]);

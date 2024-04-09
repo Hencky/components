@@ -108,7 +108,9 @@ function BasicTable<RecordType extends Record<string, any> = any>(
         setRef(filterRef, { ...filterRef.current, ...extraRefreshParams });
         setDataSource(records);
       })
-      .catch(() => {
+      .catch((e) => {
+        // eslint-disable-next-line no-console
+        console.error(e);
         setDataSource([]);
       })
       .finally(() => {

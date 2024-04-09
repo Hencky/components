@@ -63,7 +63,12 @@ const IModal: React.ForwardRefRenderFunction<ModalInstance> = (_, ref) => {
           setVisible(false);
         })
         .catch((e) => {
-          reject(e);
+          // eslint-disable-next-line no-console
+          console.error(e);
+          // ===== 弹框中表单校验错误，不抛出错误，以防loading动画错误停止 =====
+          if (!e.errorFields) {
+            reject(e);
+          }
         })
         .finally(() => {
           setConfirmLoading(false);
