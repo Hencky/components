@@ -1,9 +1,9 @@
 import React, { useState, forwardRef, useEffect, useRef, useImperativeHandle } from 'react';
-import { ForwardedRef, ReactElement, PropsWithChildren } from 'react';
+import type { ForwardedRef, ReactElement, PropsWithChildren } from 'react';
 import { Table as ATable } from 'antd';
 import type { TableProps as ATableProps, ColumnsType as AColumnsType, ColumnType as AColumnType } from 'antd/lib/table';
 import type { Key, SorterResult, TableRowSelection } from 'antd/lib/table/interface';
-import { FilterParams, Pagination, RequestParams, RequestResult, SorterParams } from './interface';
+import type { FilterParams, Pagination, RequestParams, RequestResult, SorterParams } from './interface';
 import { setRef } from '../_util';
 
 const DEFAULT_PAGINATION = { size: 10, current: 1, total: 0 } as const;
@@ -91,8 +91,7 @@ function BasicTable<RecordType extends Record<string, any> = any>(
 
     setLoading(true);
     return remoteDataSource({
-      current,
-      size,
+      ...(noPagination ? {} : { current, size }),
       ...(filterRef.current || {}),
       ...(sorterRef.current === null ? {} : { sorter: sorterRef.current }),
       ...(extraRefreshParams || {}),

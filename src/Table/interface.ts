@@ -23,9 +23,9 @@ export type FilterParams = Record<string, any>;
  */
 export type Pagination = {
   /** 当前页 */
-  current: number;
+  current?: number;
   /** 分页大小 */
-  size: number;
+  size?: number;
   /** 总条数 */
   total: number;
 };
