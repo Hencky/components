@@ -15,7 +15,7 @@ import { setRef } from '../_util';
 
 const { useForm } = Form;
 
-export type ExcludeModalType = 'onOk' | 'onCancel' | 'modalProps' | 'children';
+export type ExcludeModalType = 'onOk' | 'onCancel' | 'modalProps' | 'children' | 'confirmLoading';
 
 export interface ModalFormContext {
   form: FormInstance;
@@ -32,7 +32,7 @@ export interface ModalFormProps extends Omit<ModalProps, ExcludeModalType> {
   /** 表单属性 */
   formProps?: Omit<FormProps, 'form' | 'initialValues'>;
   /** Modal的其他属性 */
-  modalProps?: Omit<AModalProps, ExcludeModalType | 'onOk' | 'onCancel'> & {
+  modalProps?: Omit<AModalProps, Exclude<ExcludeModalType, 'confirmLoading'> | 'onOk' | 'onCancel'> & {
     footerRender?: (ctx: ModalFormContext) => ReactNode;
   };
 

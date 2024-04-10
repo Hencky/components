@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import cls from 'classnames';
-import { Tree as ATree, Input, Spin } from 'antd';
+import { Tree as ATree, Input, Spin, Empty } from 'antd';
 import { Text } from '../Text';
 import { usePrefix } from '../_hooks';
 import type { SearchProps } from 'antd/lib/input';
@@ -185,19 +185,23 @@ export const Tree: React.FC<TreeProps> = (props) => {
           {extraRender && <div className={prefix + '-extra'}>{extraRender()}</div>}
         </div>
       )}
-      <ATree
-        key={treeKey}
-        blockNode
-        {...restProps}
-        treeData={treeData}
-        onExpand={onExpand}
-        defaultExpandAll={defaultExpandAll}
-        {...(defaultExpandAll && !searchValueRef.current ? {} : { expandedKeys })}
-        autoExpandParent={autoExpandParent}
-        titleRender={(nodeData) => {
-          return titleRender(nodeData, searchValueRef.current);
-        }}
-      />
+      {treeData?.length ? (
+        <ATree
+          key={treeKey}
+          blockNode
+          {...restProps}
+          treeData={treeData}
+          onExpand={onExpand}
+          defaultExpandAll={defaultExpandAll}
+          {...(defaultExpandAll && !searchValueRef.current ? {} : { expandedKeys })}
+          autoExpandParent={autoExpandParent}
+          titleRender={(nodeData) => {
+            return titleRender(nodeData, searchValueRef.current);
+          }}
+        />
+      ) : (
+        <Empty />
+      )}
     </Spin>
   );
 };
