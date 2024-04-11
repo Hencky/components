@@ -60,7 +60,6 @@ const IModal: React.ForwardRefRenderFunction<ModalInstance> = (_, ref) => {
         .then((data) => {
           setConfirmLoading(false);
           resolve(data);
-          setVisible(false);
         })
         .catch((e) => {
           // eslint-disable-next-line no-console

@@ -73,13 +73,13 @@ function BasicTable<RecordType extends Record<string, any> = any>(
 
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState<RecordType[]>([]);
-  const [selectedRows, setSelectedRows] = useState<RecordType[]>([]);
-  const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
   const [, forceUpdate] = useState({});
 
   const paginationRef = useRef<Pagination>(defaultPagination);
   const filterRef = useRef<FilterParams>(null);
   const sorterRef = useRef<SorterParams>(null);
+  const selectedRowsRef = useRef<RecordType[]>([]);
+  const selectedRowKeysRef = useRef<Key[]>([]);
   const isShowSizeChangeRef = useRef(false);
 
   const noPagination = pagination === false;
@@ -122,8 +122,8 @@ function BasicTable<RecordType extends Record<string, any> = any>(
     setRef(paginationRef, defaultPagination);
     setRef(filterRef, null);
     setRef(sorterRef, null);
-    setSelectedRowKeys([]);
-    setSelectedRows([]);
+    setRef(selectedRowsRef, []);
+    setRef(selectedRowKeysRef, []);
     refreshTable();
   };
 
@@ -131,14 +131,13 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   const getTableInstance = () => ({
     refresh: refreshTable,
     reset,
-    getSelectedRows: () => selectedRows,
+    getSelectedRows: () => selectedRowsRef.current,
     setSelectedRows: (selectedRows) => {
-      setSelectedRows(selectedRows);
+      setRef(selectedRowsRef, selectedRows);
       const selectedRowKeys = selectedRows.map((record) => record[rowKey as string]);
-      setSelectedRowKeys(selectedRowKeys);
+      setRef(selectedRowKeysRef, selectedRowKeys);
     },
-    getSelectedRowKeys: () => selectedRowKeys,
-    setSelectedRowKeys,
+    getSelectedRowKeys: () => selectedRowKeysRef.current,
     getDataSource: () => dataSource,
     setDataSource,
     setPagination: (pagination) => {
@@ -151,7 +150,13 @@ function BasicTable<RecordType extends Record<string, any> = any>(
     forceUpdate: () => forceUpdate({}),
   });
 
-  useImperativeHandle(ref, getTableInstance, [refreshTable, dataSource, selectedRows, selectedRowKeys, loading]);
+  useImperativeHandle(ref, getTableInstance, [
+    refreshTable,
+    dataSource,
+    selectedRowsRef.current,
+    selectedRowKeysRef.current,
+    loading,
+  ]);
 
   useEffect(() => {
     if (requestOnMount === false) return;
@@ -188,11 +193,10 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   };
 
   // ===== 选中行变化 =====
-  const onRowSelectionChange = (currentSelectedRowKeys, currentSelectedRows) => {
-    setSelectedRows(currentSelectedRows);
-    setSelectedRowKeys(currentSelectedRowKeys);
-    // @ts-expect-error
-    (rowSelection as TableRowSelection<RecordType>)?.onChange?.(currentSelectedRowKeys, currentSelectedRows);
+  const onRowSelectionChange = (currentSelectedRowKeys, currentSelectedRows, info) => {
+    setRef(selectedRowsRef, currentSelectedRows);
+    setRef(selectedRowKeysRef, currentSelectedRowKeys);
+    (rowSelection as TableRowSelection<RecordType>)?.onChange?.(currentSelectedRowKeys, currentSelectedRows, info);
   };
 
   // ===== pagination.size变化，调整current为1 =====
@@ -205,7 +209,7 @@ function BasicTable<RecordType extends Record<string, any> = any>(
 
   const internalRowSelection = {
     ...(typeof rowSelection === 'boolean' ? {} : rowSelection),
-    selectedRowKeys,
+    selectedRowKeys: selectedRowKeysRef.current,
     onChange: onRowSelectionChange,
   };
 

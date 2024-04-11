@@ -97,7 +97,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
     modal: modalRef.current!,
   });
 
-  useImperativeHandle(ref, getQueryTableInstance);
+  useImperativeHandle(ref, getQueryTableInstance, [tableRef.current, modalRef.current]);
 
   // ===== 改写columns，render支持form和table实例，省略dataIndex配置 =====
   // TODO: 暂不支持children属性
