@@ -36,7 +36,7 @@ export const QueryForm: <Values = any>(props: React.PropsWithChildren<QueryFormP
   const prefix = usePrefix('queryform');
 
   const {
-    fields,
+    fields: allFields,
     form = Form.useForm()[0],
     onReset,
     onSubmit,
@@ -51,6 +51,7 @@ export const QueryForm: <Values = any>(props: React.PropsWithChildren<QueryFormP
   const [isOpen, setIsOpen] = useState(defaultExpand);
 
   const colLen = showFieldsLength + 1;
+  const fields = allFields.filter((i) => i.render !== false);
 
   const needCollapse = fields.length > showFieldsLength;
   const isSingleSearch = fields.length === 1;
