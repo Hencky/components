@@ -1,6 +1,6 @@
 @import '../style/index.less';
 
-@queryform-prefix-cls: ~'@{ui-prefix}-queryform';
+@queryform-prefix-cls: ~'@{ant-prefix}-queryform';
 
 .@{queryform-prefix-cls} {
   &-divider {
@@ -16,11 +16,11 @@
 
   &-field {
     &-open {
-      display: unset;
+      display: unset !important;
     }
 
     &-over {
-      display: none;
+      display: none !important;
     }
   }
 }

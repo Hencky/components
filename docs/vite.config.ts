@@ -76,7 +76,7 @@ module.exports = {
       },
       {
         find: 'lucky-bird-ui',
-        replacement: path.join(__dirname, '../src'),
+        replacement: path.join(__dirname, '../es'),
       },
     ],
   },

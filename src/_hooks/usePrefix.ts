@@ -1,9 +1,12 @@
-import { useCtx } from './useCtx';
+import { useContext } from 'react';
+import { ConfigProvider } from 'antd';
 
-export const usePrefix: (suffixCls?: string, customizePrefixCls?: string) => string = (
-  suffixCls,
-  customizePrefixCls
+export const usePrefix = (
+  tag?: string,
+  props?: {
+    prefixCls?: string;
+  }
 ) => {
-  const ctx = useCtx();
-  return ctx.getPrefixCls(suffixCls, customizePrefixCls);
+  const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
+  return getPrefixCls(tag, props?.prefixCls);
 };

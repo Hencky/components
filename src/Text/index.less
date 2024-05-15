@@ -1,6 +1,6 @@
 @import '../style/index.less';
 
-@text-prefix-cls: ~'@{ui-prefix}-text';
+@text-prefix-cls: ~'@{ant-prefix}-text';
 
 .@{text-prefix-cls} {
   font-size: 14px;
@@ -8,22 +8,22 @@
   &-type {
     &-title {
       font-size: 16px;
-      color: @text-primary-color;
+      color: @text-primary-color !important;
     }
 
     &-primary {
       font-size: 14px;
-      color: @primary-color;
+      color: @primary-color !important;
     }
 
     &-text {
       font-size: 14px;
-      color: @text-basic-color;
+      color: @text-basic-color !important;
     }
 
     &-description {
       font-size: 14px;
-      color: @text-shallow-color;
+      color: @text-shallow-color !important;
     }
   }
 }
