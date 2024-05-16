@@ -35,7 +35,7 @@ export const BaseIcon: React.FC<BaseIconProps> = (props) => {
     ...restProps
   } = props;
 
-  const prefix = usePrefix('icon');
+  const prefix = usePrefix('base-icon');
 
   const loadingCls = cls({
     [`${prefix}-icon-loading`]: loading,
