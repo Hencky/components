@@ -40,6 +40,8 @@ export interface TableInstance<RecordType = any> {
 export interface ColumnType<RecordType> extends Omit<AColumnType<RecordType>, 'render' | 'key'> {
   render?: (ctx: { value: RecordType; index: number; table: TableInstance; record: RecordType }) => ReactElement;
   key?: string;
+  /** 列显示状态，为false时隐藏列 */
+  visible?: boolean;
 }
 
 export interface TableProps<RecordType extends Record<string, any> = any>
@@ -166,17 +168,19 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   // ===== 改写columns，render支持form和table实例，省略dataIndex配置 =====
   // TODO: 暂不支持children属性
   const renderColumns = (): AColumnsType<RecordType> => {
-    return columns.map((column) => {
-      const finalRender = column?.render
-        ? (value, record, index) => column.render!({ value, record, index, table: getTableInstance() })
-        : undefined;
+    return columns
+      .filter((column) => column.visible !== false)
+      .map((column) => {
+        const finalRender = column?.render
+          ? (value, record, index) => column.render!({ value, record, index, table: getTableInstance() })
+          : undefined;
 
-      return {
-        dataIndex: column.key,
-        ...column,
-        render: finalRender,
-      };
-    });
+        return {
+          dataIndex: column.key,
+          ...column,
+          render: finalRender,
+        };
+      });
   };
 
   // ===== 表格变化 =====
