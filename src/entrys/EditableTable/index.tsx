@@ -114,9 +114,8 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
         const newValue = [...dataSource, { ...values, [rowKey]: id }];
         if (onSave) {
           await onSave(values);
-        } else {
-          setDataSource(newValue);
         }
+        setDataSource(newValue);
         onChange?.(newValue);
       },
     }),
@@ -133,9 +132,8 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
       newData.splice(index, 1, { ...item, ...row });
       if (onSave) {
         await onSave(row, record);
-      } else {
-        setDataSource(newData);
       }
+      setDataSource(newData);
       onChange?.(newData);
     }
   };
@@ -146,9 +144,8 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
     newData.splice(index, 1);
     if (onDelete && !__self) {
       await onDelete(id);
-    } else {
-      setDataSource(newData);
     }
+    setDataSource(newData);
     onChange?.(newData);
   };
 
