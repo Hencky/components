@@ -1,48 +1,20 @@
 import React, { useState, forwardRef, useEffect, useRef, useImperativeHandle } from 'react';
 import type { ForwardedRef, ReactElement, PropsWithChildren } from 'react';
 import { Table as ATable } from 'antd';
-import type { TableProps as ATableProps, ColumnsType as AColumnsType, ColumnType as AColumnType } from 'antd/lib/table';
+import type { TableProps as ATableProps } from 'antd/lib/table';
 import type { Key, SorterResult, TableRowSelection } from 'antd/lib/table/interface';
-import type { FilterParams, Pagination, RequestParams, RequestResult, SorterParams } from './interface';
-import { setRef } from '../_util';
+import type {
+  FilterParams,
+  Pagination,
+  RequestParams,
+  RequestResult,
+  SorterParams,
+  ColumnType,
+  TableInstance,
+} from './interface';
+import { setRef, renderColumns } from '../_util';
 
 const DEFAULT_PAGINATION = { size: 10, current: 1, total: 0 } as const;
-
-export interface TableInstance<RecordType = any> {
-  /** 刷新表格 */
-  refresh: (extraRefreshParams?: Record<string, any>) => Promise<void> | undefined;
-  /** 重置表格到初始状态 */
-  reset: () => void;
-  /** 获取表格选中行数据 */
-  getSelectedRowKeys: () => Key[];
-  /** 设置表格选中行数据 */
-  // setSelectedRowKeys: (rows: Key[]) => void;
-  /** 获取表格选中行数据 */
-  getSelectedRows: () => RecordType[];
-  /** 设置表格选中行数据 */
-  setSelectedRows: (rows: RecordType[]) => void;
-  /** 获取数据源 */
-  getDataSource: () => RecordType[];
-  /** 设置数据源 */
-  setDataSource: (dataSource: RecordType[]) => void;
-  /** 获取分页配置 */
-  getPagination: () => Pagination;
-  /** 设置分页配置 */
-  setPagination: (pagination: Pagination) => void;
-  /** 获取表格loading状态 */
-  getLoading: () => boolean;
-  /** 设置表格loading状态 */
-  setLoading: (loading: boolean) => void;
-  /** 强制刷新表格 */
-  forceUpdate: () => void;
-}
-
-export interface ColumnType<RecordType> extends Omit<AColumnType<RecordType>, 'render' | 'key'> {
-  render?: (ctx: { value: RecordType; index: number; table: TableInstance; record: RecordType }) => ReactElement;
-  key?: string;
-  /** 列显示状态，为false时隐藏列 */
-  visible?: boolean;
-}
 
 export interface TableProps<RecordType extends Record<string, any> = any>
   extends Omit<ATableProps<RecordType>, 'dataSource' | 'loading' | 'rowSelection' | 'columns'> {
@@ -165,24 +137,6 @@ function BasicTable<RecordType extends Record<string, any> = any>(
     refreshTable();
   }, []);
 
-  // ===== 改写columns，render支持form和table实例，省略dataIndex配置 =====
-  // TODO: 暂不支持children属性
-  const renderColumns = (): AColumnsType<RecordType> => {
-    return columns
-      .filter((column) => column.visible !== false)
-      .map((column) => {
-        const finalRender = column?.render
-          ? (value, record, index) => column.render!({ value, record, index, table: getTableInstance() })
-          : undefined;
-
-        return {
-          dataIndex: column.key,
-          ...column,
-          render: finalRender,
-        };
-      });
-  };
-
   // ===== 表格变化 =====
   const onTableChange: ATableProps<RecordType>['onChange'] = (pagination, filters, sorter, ...args) => {
     const { current, pageSize, total } = pagination;
@@ -221,7 +175,8 @@ function BasicTable<RecordType extends Record<string, any> = any>(
     <ATable<RecordType>
       bordered
       rowKey={rowKey}
-      columns={renderColumns()}
+      // ===== 改写columns，render支持form和table实例，省略dataIndex配置 =====
+      columns={renderColumns(columns, { table: getTableInstance() })}
       {...restTableProps}
       pagination={
         noPagination

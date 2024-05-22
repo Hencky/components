@@ -2,7 +2,7 @@
   "name": "lucky-bird-ui",
   "description": "基于antd封装的组件",
   "author": "Hencky",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "main": "es/index.js",
   "module": "es/index.js",
   "types": "es/index.d.ts",

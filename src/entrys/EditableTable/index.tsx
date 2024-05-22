@@ -14,7 +14,11 @@ import { EditableTableCell } from './Cell';
 import { RequiredTitle } from '../../RequiredTitle';
 import { TextActions, ButtonAction } from '../../Actions';
 import type { ColumnType, TableProps } from 'antd/lib/table';
-import type { FormInstance, FormItemProps, RuleObject } from 'antd/lib/form';
+import type { RuleObject } from 'antd/lib/form';
+import { renderColumns } from '../../_util';
+import type { EditableTableColumnType, EditableTableAddPosition } from './interface';
+
+export * from './interface';
 
 const { useForm } = Form;
 
@@ -24,16 +28,10 @@ export interface EditableTableInstance<T = any> {
   add: (values: T) => void;
 }
 
-export type EditableTableAddPosition = 'top' | 'bottom';
-
 export interface EditableTableProps<T = any> extends Omit<TableProps<T>, 'value' | 'onChange' | 'columns' | 'rowKey'> {
   value?: T[];
   onChange?: (value?: T[]) => void;
-  columns: (ColumnType<T> & {
-    editFormItemProps?: FormItemProps;
-    renderEditNode?: (ctx: { form: FormInstance; record: T; index: number }) => React.ReactNode;
-    render?: (ctx: { value: any; record: T; index: number }) => React.ReactNode;
-  })[];
+  columns: EditableTableColumnType<T>[];
   disabled?: boolean;
   /** 限制长度 */
   max?: number;
@@ -89,17 +87,12 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
 
   const isEditing = (record) => record[rowKey] === editingKey;
 
-  const mergedColumns = columns.map((column) => {
-    const finalRender = column.render ? (value, record, index) => column.render!({ value, record, index }) : undefined;
-
+  const mergedColumns = renderColumns<RecordType>(columns, {}, (column) => {
     const { editFormItemProps: { rules = [] } = {} } = column;
     const required = rules.find((rule) => (rule as RuleObject).required);
 
     return {
-      dataIndex: column.key,
-      ...column,
       title: required && !disabled ? <RequiredTitle>{column.title}</RequiredTitle> : column.title,
-      render: finalRender,
       onCell: (record, index) => ({
         record,
         title: column.title,
