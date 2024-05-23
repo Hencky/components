@@ -11,7 +11,7 @@ import { Form } from 'antd';
 import { uniqueId } from 'lodash';
 import { QueryTable, type QueryTableProps, type QueryTableColumnType, type QueryTableInstance } from '../../QueryTable';
 import { EditableTableCell } from '../EditableTable/Cell';
-import { TextActions } from '../../Actions';
+import { TextActionProps, TextActions } from '../../Actions';
 import { type FormItemProps } from '../../FormItem';
 import { FormInstance } from 'antd/es/form';
 
@@ -31,6 +31,7 @@ export interface EditableQueryTableProps<T extends Record<string, any> = any>
   onChange?: (value: T[]) => void;
   disabled?: boolean;
   enableOperator?: boolean;
+  operators?: TextActionProps[];
 }
 
 function IEditableQueryTable<RecordType extends Record<string, any> = any>(
@@ -45,6 +46,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
     onDelete,
     disabled,
     enableOperator = true,
+    operators = [],
     ...restProps
   } = props;
 
@@ -209,6 +211,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
                               querytableRef.current?.table.refresh();
                             },
                           },
+                          ...operators,
                         ]}
                       />
                     );
