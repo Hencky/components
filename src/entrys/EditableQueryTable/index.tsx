@@ -32,6 +32,7 @@ export interface EditableQueryTableProps<T extends Record<string, any> = any>
   disabled?: boolean;
   enableOperator?: boolean;
   operators?: TextActionProps[];
+  operatorProps?: QueryTableColumnType<T>;
 }
 
 function IEditableQueryTable<RecordType extends Record<string, any> = any>(
@@ -47,6 +48,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
     disabled,
     enableOperator = true,
     operators = [],
+    operatorProps = {},
     ...restProps
   } = props;
 
@@ -161,6 +163,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
                   title: '操作',
                   fixed: 'right',
                   width: 120,
+                  ...operatorProps,
                   render: ({ record }) => {
                     return (
                       <TextActions
