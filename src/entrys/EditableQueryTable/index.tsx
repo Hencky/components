@@ -10,9 +10,11 @@ import React, {
 import { Form } from 'antd';
 import { uniqueId } from 'lodash';
 import { QueryTable, type QueryTableProps, type QueryTableColumnType, type QueryTableInstance } from '../../QueryTable';
+import type { RuleObject } from 'antd/lib/form';
 import { EditableTableCell } from '../EditableTable/Cell';
 import { TextActionProps, TextActions } from '../../Actions';
 import { type FormItemProps } from '../../FormItem';
+import { RequiredTitle } from '../../RequiredTitle';
 import { FormInstance } from 'antd/es/form';
 
 const { useForm } = Form;
@@ -73,8 +75,12 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
   const enableEdit = !!editingKey;
 
   const mergedColumns = columns.map((col) => {
+    const { editFormItemProps: { rules = [] } = {} } = col;
+    const required = rules.find((rule) => (rule as RuleObject).required);
+
     return {
       ...col,
+      title: required && !disabled ? <RequiredTitle>{col.title}</RequiredTitle> : col.title,
       onCell: (record) => ({
         record,
         title: col.title,
