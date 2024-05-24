@@ -1,12 +1,18 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { Tooltip, Popconfirm } from 'antd';
+import { ModalConfirm, type ModalConfirmProps } from './ModalConfirm';
+import { isString } from 'lodash';
 import { isPromise } from '../_util';
+
+export * from './ModalConfirm';
 
 export interface RopeContainerProps {
   /** Tooltip的title，推荐string类型 */
   tooltip?: string;
   /** PopConfirm的title，推荐string类型 */
   confirm?: string;
+  /** Modal弹框确认 */
+  modalConfirm?: string | ModalConfirmProps;
   /** 是否禁用 */
   disabled?: (() => boolean) | boolean;
   /** 是否渲染 */
@@ -22,7 +28,18 @@ export interface RopeContainerProps {
 }
 
 export const RopeContainer: React.FC<RopeContainerProps> = (props) => {
-  const { disabled: propDisabled, tooltip, confirm, onClick, children, render, container, onStatusChange } = props;
+  const {
+    disabled: propDisabled,
+    tooltip,
+    confirm,
+    modalConfirm,
+    onClick,
+    children,
+    render,
+    container,
+    onStatusChange,
+  } = props;
+
   const [loading, setLoading] = useState(false);
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [popconfirmVisible, setPopconfirmVisible] = useState(false);
@@ -116,6 +133,21 @@ export const RopeContainer: React.FC<RopeContainerProps> = (props) => {
     );
   };
 
+  const renderModalConfirmElement = (element: React.ReactElement) => {
+    if (disabled || !modalConfirm) {
+      return element;
+    }
+
+    return React.createElement(
+      ModalConfirm,
+      {
+        ...(isString(modalConfirm) ? { content: modalConfirm } : modalConfirm),
+        onOk: onClickInternal,
+      },
+      element
+    );
+  };
+
   const renderContainerElement = (element: React.ReactElement) => {
     if (!container) return element;
 
@@ -134,6 +166,7 @@ export const RopeContainer: React.FC<RopeContainerProps> = (props) => {
   let ele = renderTriggerElement();
   ele = renderTooltipElement(ele);
   ele = renderPopconfirmElement(ele);
+  ele = renderModalConfirmElement(ele);
   ele = renderContainerElement(ele);
 
   return ele;

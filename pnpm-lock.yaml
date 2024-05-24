@@ -6,6 +6,7 @@ specifiers:
   '@commitlint/config-conventional': ^16.2.4
   '@mdx-js/mdx': ^1.6.22
   '@mdx-js/react': ^1.6.22
+  '@types/lodash': ^4.17.4
   '@types/node': ^14.14.37
   '@types/react': ^17.0.3
   '@types/react-dom': ^17.0.2
@@ -63,6 +64,7 @@ devDependencies:
   '@commitlint/config-conventional': registry.npmmirror.com/@commitlint/config-conventional/16.2.4
   '@mdx-js/mdx': registry.npmmirror.com/@mdx-js/mdx/1.6.22
   '@mdx-js/react': registry.npmmirror.com/@mdx-js/react/1.6.22_react@17.0.2
+  '@types/lodash': 4.17.4
   '@types/node': registry.npmmirror.com/@types/node/14.18.33
   '@types/react': 17.0.74
   '@types/react-dom': registry.npmmirror.com/@types/react-dom/17.0.18
@@ -144,6 +146,11 @@ packages:
       { integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg== }
     dependencies:
       '@types/node': 14.18.33
+    dev: true
+
+  /@types/lodash/4.17.4:
+    resolution:
+      { integrity: sha512-wYCP26ZLxaT3R39kiN2+HcJ4kTd3U1waI/cY7ivWYqFP6pW3ZNpvi6Wd6PHZx7T/t8z0vlkXMg3QYLa7DZ/IJQ== }
     dev: true
 
   /@types/node/14.18.33:
@@ -808,7 +815,8 @@ packages:
     optional: true
 
   /image-size/0.5.5:
-    resolution: { integrity: sha1-Cd/Uq50g4p6xw+gLiZA3jfnjy5w= }
+    resolution:
+      { integrity: sha512-6TDAlDPZxUFCv+fuOkIoXT/V/f3Qbq8e37p+YOiYrUv3v9cc3/6x78VdfPgFVaB9dZYeLUfKgHRebpkm/oP2VQ== }
     engines: { node: '>=0.10.0' }
     hasBin: true
     requiresBuild: true
@@ -1220,7 +1228,8 @@ packages:
     optional: true
 
   /uglify-to-browserify/1.0.2:
-    resolution: { integrity: sha1-bgkk1r2mta/jSeOabWMoUKD4grc= }
+    resolution:
+      { integrity: sha512-vb2s1lYx2xBtUgy+ta+b2J/GLVUR+wmpINwHePmPRhOsIVCG2wDzKJ0n14GslH1BifsqVzSOwQhRaCAsZ/nI4Q== }
     requiresBuild: true
     dev: true
     optional: true
