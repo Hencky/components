@@ -6,12 +6,14 @@ import type { RopeContainerProps } from '../RopeContainer';
 export type BaseActionProps = RopeContainerProps;
 
 export const BaseAction = (props: React.PropsWithChildren<BaseActionProps>) => {
-  const { tooltip, confirm, container, disabled, render, onClick, children, onStatusChange, ...rest } = props;
+  const { tooltip, confirm, modalConfirm, container, disabled, render, onClick, children, onStatusChange, ...rest } =
+    props;
 
   return (
     <RopeContainer
       tooltip={tooltip}
       confirm={confirm}
+      modalConfirm={modalConfirm}
       disabled={disabled}
       onClick={onClick}
       render={render}
