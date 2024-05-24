@@ -79,7 +79,7 @@ export const RopeContainer: React.FC<RopeContainerProps> = (props) => {
     if (disabled) {
       return React.cloneElement(children, { disabled, loading });
     }
-    if (confirm) {
+    if (confirm || modalConfirm) {
       return React.cloneElement(children, { loading });
     }
     return React.cloneElement(children, { onClick: onClickInternal, loading });
