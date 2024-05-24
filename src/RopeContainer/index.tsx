@@ -1,10 +1,8 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { Tooltip, Popconfirm } from 'antd';
-import { ModalConfirm, type ModalConfirmProps } from './ModalConfirm';
+import { ModalConfirm, type ModalConfirmProps } from '../ModalConfirm';
 import { isString } from 'lodash';
 import { isPromise } from '../_util';
-
-export * from './ModalConfirm';
 
 export interface RopeContainerProps {
   /** Tooltip的title，推荐string类型 */

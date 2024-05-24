@@ -17,5 +17,6 @@ export * from './QueryTable';
 export * from './PageFooter';
 export * from './LineWrapper';
 export * from './entrys/Rule';
+export * from './ModalConfirm';
 export * from './RopeContainer';
 export * from './ToggleOpenButton';

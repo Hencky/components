@@ -8,7 +8,7 @@ export interface ModalConfirmProps extends ModalFuncProps {
 }
 
 export const ModalConfirm: React.FC<ModalConfirmProps> = (props) => {
-  const { children, type = 'warning', onClick, ...restProps } = props;
+  const { children, type = 'confirm', onClick, ...restProps } = props;
 
   // @ts-expect-error
   return React.cloneElement(children, {
