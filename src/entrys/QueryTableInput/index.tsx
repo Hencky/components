@@ -70,7 +70,10 @@ export const QueryTableInput: React.FC<QueryTableInputProps> = (props) => {
         onSelect: (selectedRow, _, selectedRows) => {
           handleSelect(isSingleMode ? selectedRow : selectedRows);
         },
-        hideSelectAll: true,
+        onSelectAll: (_, selectedRows) => {
+          handleSelect(selectedRows);
+        },
+        hideSelectAll: false,
         getCheckboxProps: () => ({ disabled }),
       }}
     />
