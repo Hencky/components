@@ -10,12 +10,10 @@ import React, {
 import { Form } from 'antd';
 import { uniqueId } from 'lodash';
 import { QueryTable, type QueryTableProps, type QueryTableColumnType, type QueryTableInstance } from '../../QueryTable';
-import type { RuleObject } from 'antd/lib/form';
 import { EditableTableCell } from '../EditableTable/Cell';
 import { TextActionProps, TextActions } from '../../Actions';
-import { type FormItemProps } from '../../FormItem';
-import { RequiredTitle } from '../../RequiredTitle';
-import { FormInstance } from 'antd/es/form';
+import type { EditableTableColumnType } from '../EditableTable';
+import { getColumns } from '../EditableTable/utils';
 
 const { useForm } = Form;
 
@@ -24,10 +22,7 @@ export interface EditableQueryTableInstance<T extends Record<string, any> = any>
 
 export interface EditableQueryTableProps<T extends Record<string, any> = any>
   extends Omit<QueryTableProps<T>, 'value' | 'onChange' | 'columns'> {
-  columns: (QueryTableColumnType<T> & {
-    editFormItemProps?: FormItemProps;
-    renderEditNode?: (form: FormInstance) => React.ReactNode;
-  })[];
+  columns: EditableTableColumnType<T>[];
   onDelete?: (id: string | number) => void;
   onSave?: (data: { id?: string | number } & T) => void;
   onChange?: (value: T[]) => void;
@@ -61,6 +56,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
     formProps,
     renderEditOperator,
     renderDeleteOperator,
+    rowKey = 'id',
     ...restProps
   } = props;
 
@@ -71,26 +67,9 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
   const isAddRef = useRef(false);
   const memoDataSource = useRef<RecordType[]>();
 
-  const isEditing = (record) => record.id === editingKey;
   const enableEdit = !!editingKey;
 
-  const mergedColumns = columns.map((col) => {
-    const { editFormItemProps: { rules = [] } = {} } = col;
-    const required = rules.find((rule) => (rule as RuleObject).required);
-
-    return {
-      ...col,
-      title: required && !disabled ? <RequiredTitle>{col.title}</RequiredTitle> : col.title,
-      onCell: (record) => ({
-        record,
-        title: col.title,
-        name: col.key,
-        formItemProps: col.editFormItemProps,
-        editing: isEditing(record),
-        renderEditNode: col.renderEditNode,
-      }),
-    };
-  });
+  const mergedColumns = getColumns(columns, { disabled, rowKey, editingKey });
 
   useImperativeHandle(
     ref,
@@ -127,7 +106,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
   return (
     <Form component="div" form={form}>
       <QueryTable
-        rowKey={'id'}
+        rowKey={rowKey}
         // @ts-expect-error
         ref={querytableRef}
         tableProps={{

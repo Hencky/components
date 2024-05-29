@@ -11,12 +11,10 @@ import React, {
 import { isEqual, uniqueId } from 'lodash';
 import { Table, Form } from 'antd';
 import { EditableTableCell } from './Cell';
-import { RequiredTitle } from '../../RequiredTitle';
 import { TextActions, ButtonAction } from '../../Actions';
 import type { ColumnType, TableProps } from 'antd/lib/table';
-import type { RuleObject } from 'antd/lib/form';
-import { renderColumns } from '../../_util';
 import type { EditableTableColumnType, EditableTableAddPosition } from './interface';
+import { getColumns } from './utils';
 
 export * from './interface';
 
@@ -85,25 +83,7 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
 
   const isAddRef = useRef(false);
 
-  const isEditing = (record) => record[rowKey] === editingKey;
-
-  const mergedColumns = renderColumns<RecordType>(columns, {}, (column) => {
-    const { editFormItemProps: { rules = [] } = {} } = column;
-    const required = rules.find((rule) => (rule as RuleObject).required);
-
-    return {
-      title: required && !disabled ? <RequiredTitle>{column.title}</RequiredTitle> : column.title,
-      onCell: (record, index) => ({
-        record,
-        title: column.title,
-        name: column.key,
-        formItemProps: column.editFormItemProps,
-        editing: isEditing(record),
-        renderEditNode: column.renderEditNode ? (form) => column.renderEditNode!({ record, index, form }) : undefined,
-        ...column.onCell?.(record, index),
-      }),
-    };
-  });
+  const mergedColumns = getColumns(columns, { rowKey, editingKey, disabled });
 
   useImperativeHandle(
     ref,
