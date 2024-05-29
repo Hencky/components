@@ -14,6 +14,7 @@ import { EditableTableCell } from '../EditableTable/Cell';
 import { TextActionProps, TextActions } from '../../Actions';
 import type { EditableTableColumnType } from '../EditableTable';
 import { getColumns } from '../EditableTable/utils';
+import { EDITABLETABLE_ID_PREFIX } from '../EditableTable';
 
 const { useForm } = Form;
 
@@ -98,8 +99,8 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
     isAddRef.current = true;
     const dataSouce = querytableRef.current?.table.getDataSource() || [];
     memoDataSource.current = [...dataSouce];
-    const newId = uniqueId('__self__add_click__');
-    querytableRef.current?.table.setDataSource([{ id: newId }, ...dataSouce]);
+    const newId = uniqueId(EDITABLETABLE_ID_PREFIX);
+    querytableRef.current?.table.setDataSource([{ id: newId, _new: true }, ...dataSouce]);
     setEditingKey(newId);
   };
 

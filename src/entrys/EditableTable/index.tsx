@@ -91,7 +91,7 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
       add: async (values) => {
         if (editingKey) return;
         const id = uniqueId(EDITABLETABLE_ID_PREFIX);
-        const newValue = [...dataSource, { ...values, [rowKey]: id }];
+        const newValue = [...dataSource, { ...values, _new: true, [rowKey]: id }];
         if (onSave) {
           await onSave(values);
         }
@@ -147,7 +147,7 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
               if (editingKey) return;
               isAddRef.current = true;
               const id: string = uniqueId(EDITABLETABLE_ID_PREFIX);
-              setDataSource([{ [rowKey]: id } as RecordType, ...dataSource]);
+              setDataSource([{ [rowKey]: id, _new: true } as unknown as RecordType, ...dataSource]);
               setEditingKey(id);
             },
           }}
@@ -241,8 +241,8 @@ function IEditableTable<RecordType extends Record<string, any> = any>(
           onClick: () => {
             if (editingKey) return;
             isAddRef.current = true;
-            const id: string = uniqueId('_');
-            setDataSource([...dataSource, { id } as unknown as RecordType]);
+            const id: string = uniqueId(EDITABLETABLE_ID_PREFIX);
+            setDataSource([...dataSource, { [rowKey]: id, _new: true } as unknown as RecordType]);
             setEditingKey(id);
           },
         }}
