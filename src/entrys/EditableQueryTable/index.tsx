@@ -34,9 +34,9 @@ export interface EditableQueryTableProps<T extends Record<string, any> = any>
   /** 操作栏属性 */
   operatorProps?: QueryTableColumnType<T>;
   /** 渲染编辑按钮 */
-  renderEditOperator?: (data: T) => boolean;
+  editButtonRender?: (data: T) => boolean;
   /** 渲染删除按钮 */
-  renderDeleteOperator?: (data: T) => boolean;
+  deleteButtonRender?: (data: T) => boolean;
 }
 
 function IEditableQueryTable<RecordType extends Record<string, any> = any>(
@@ -55,8 +55,8 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
     operatorProps = {},
     tableProps,
     formProps,
-    renderEditOperator,
-    renderDeleteOperator,
+    editButtonRender,
+    deleteButtonRender,
     rowKey = 'id',
     ...restProps
   } = props;
@@ -169,8 +169,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
                           {
                             children: '编辑',
                             type: 'primary',
-                            render:
-                              editingKey !== record.id && (renderEditOperator ? renderEditOperator(record) : true),
+                            render: editingKey !== record.id && (editButtonRender ? editButtonRender(record) : true),
                             disabled: enableEdit && editingKey !== record.id,
                             onClick: () => {
                               isAddRef.current = false;
@@ -207,7 +206,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
                             children: '删除',
                             type: 'primary',
                             confirm: '确认删除?',
-                            render: !editingKey && (renderDeleteOperator ? renderDeleteOperator(record) : true),
+                            render: !editingKey && (deleteButtonRender ? deleteButtonRender(record) : true),
                             onClick: async () => {
                               await onDelete?.(record.id);
                               querytableRef.current?.table.refresh();
