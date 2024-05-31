@@ -10,6 +10,7 @@ import React, {
 import { Form } from 'antd';
 import cls from 'classnames';
 import { usePrefix } from '../_hooks';
+import { isEmptyActions } from '../_util';
 import { QueryForm, type QueryFormProps } from '../QueryForm';
 import { ModalForm, type ModalFormInstance } from '../ModalForm';
 import { OperatorActions, type QueryTableActionType } from './OperatorActions';
@@ -120,6 +121,12 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
     });
   };
 
+  const showAction = () => {
+    if (!isEmptyActions(actions)) return true;
+    if (!isEmptyActions(leftActions)) return true;
+    return false;
+  };
+
   // ===== 操作按钮渲染，改写onClick，支持form和table实例 =====
   // TODO: TS中未体现
   const renderActions = () => {
@@ -127,7 +134,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
       <div
         className={cls({
           [prefix + '-actions']: true,
-          [prefix + '-actions-empty']: !leftActions && !actions,
+          [prefix + '-actions-empty']: !showAction(),
         })}
       >
         <div>

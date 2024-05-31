@@ -5,3 +5,7 @@ export const isPromise = (obj: any): boolean => {
 export const isFunction = (obj: any): boolean => {
   return typeof obj === 'function';
 };
+
+export const isEmptyActions = (actions) => {
+  return !(actions && actions.filter((i) => i.render !== false).length);
+};

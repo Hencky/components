@@ -8,6 +8,7 @@ import {
   type IconActionProps,
   type ButtonActionProps,
 } from '../Actions';
+import { isEmptyActions } from '../_util';
 import { DropdownButton, type DropdownButtonProps } from '../Dropdown';
 import { type QueryTableInstance } from './interface';
 
@@ -27,8 +28,8 @@ export type QueryTableActionType<RecordType = any> =
   | ActionType<'button', ButtonActionProps, RecordType>
   | ActionType<'text', TextActionProps, RecordType>
   | ActionType<'icon', IconActionProps, RecordType>
-  | ({ actionType: 'dropdownbutton' } & DropdownButtonProps)
-  | { actionType: 'children'; children: React.ReactNode };
+  | ({ actionType: 'dropdownbutton'; render?: boolean } & DropdownButtonProps)
+  | { actionType: 'children'; render?: boolean; children: React.ReactNode };
 
 const Actions = {
   button: ButtonAction,
@@ -45,7 +46,7 @@ export interface OperatorActionsProps {
 export const OperatorActions: React.FC<OperatorActionsProps> = (props) => {
   const { actions, getCtx } = props;
 
-  if (!actions) return null;
+  if (isEmptyActions(actions)) return null;
 
   const getActions = (actions: QueryTableActionType[] = []) => {
     return actions.map((item, idx) => {
