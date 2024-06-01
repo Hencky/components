@@ -70,14 +70,25 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
 
   const enableEdit = !!editingKey;
 
-  const mergedColumns = getColumns(columns, { disabled, rowKey, editingKey });
+  const mergedColumns = getColumns(columns, { disabled, rowKey, editingKey, baseRender: true });
+
+  const add = () => {
+    if (editingKey) return;
+    isAddRef.current = true;
+    const dataSouce = querytableRef.current?.tableRef.current!.getDataSource() || [];
+    memoDataSource.current = [...dataSouce];
+    const newId = uniqueId(EDITABLETABLE_ID_PREFIX);
+    querytableRef.current?.table.setDataSource([{ id: newId, _new: true }, ...dataSouce]);
+    setEditingKey(newId);
+  };
 
   useImperativeHandle(
     ref,
     () => ({
       ...(querytableRef.current! || {}),
+      add,
     }),
-    []
+    [querytableRef.current]
   );
 
   const save = async (id) => {
@@ -92,16 +103,6 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
     } finally {
       querytableRef.current?.table.setLoading(false);
     }
-  };
-
-  const add = () => {
-    if (editingKey) return;
-    isAddRef.current = true;
-    const dataSouce = querytableRef.current?.table.getDataSource() || [];
-    memoDataSource.current = [...dataSouce];
-    const newId = uniqueId(EDITABLETABLE_ID_PREFIX);
-    querytableRef.current?.table.setDataSource([{ id: newId, _new: true }, ...dataSouce]);
-    setEditingKey(newId);
   };
 
   return (

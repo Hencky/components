@@ -2,7 +2,7 @@ import { RequiredTitle } from '../../RequiredTitle';
 import { renderColumns } from '../../_util';
 
 export const getColumns = (columns, options) => {
-  const { rowKey, editingKey, disabled } = options;
+  const { rowKey, editingKey, disabled, baseRender } = options;
   const isEditing = (record) => record[rowKey] === editingKey;
 
   const mergedColumns = renderColumns(columns, {}, (column) => {
@@ -21,6 +21,7 @@ export const getColumns = (columns, options) => {
         renderEditNode: column.renderEditNode ? (form) => column.renderEditNode!({ record, index, form }) : undefined,
         ...column.onCell?.(record, index),
       }),
+      ...(baseRender ? { render: column.render } : {}),
     };
   });
 

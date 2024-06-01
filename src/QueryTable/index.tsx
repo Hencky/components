@@ -96,6 +96,8 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
     form,
     table: tableRef.current!,
     modal: modalRef.current!,
+    // TODO: 防止拿不到dataSource，link EditableQueryTable
+    tableRef,
   });
 
   useImperativeHandle(ref, getQueryTableInstance, [tableRef.current, modalRef.current]);
