@@ -17,7 +17,7 @@ export const getColumns = (columns, options) => {
         name: column.key,
         formItemProps: column.editFormItemProps,
         editing: isEditing(record),
-        editable: column.editable ? column.editable(record) : undefined,
+        editable: column.editable ? column.editable(record, index) : undefined,
         renderEditNode: column.renderEditNode ? (form) => column.renderEditNode!({ record, index, form }) : undefined,
         ...column.onCell?.(record, index),
       }),

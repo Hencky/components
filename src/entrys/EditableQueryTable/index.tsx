@@ -11,7 +11,7 @@ import { Form } from 'antd';
 import { uniqueId } from 'lodash';
 import { QueryTable, type QueryTableProps, type QueryTableColumnType, type QueryTableInstance } from '../../QueryTable';
 import { EditableTableCell } from '../EditableTable/Cell';
-import { TextActionProps, TextActions } from '../../Actions';
+import { ButtonActionProps, TextActionProps, TextActions } from '../../Actions';
 import type { EditableTableColumnType } from '../EditableTable';
 import { getColumns } from '../EditableTable/utils';
 import { EDITABLETABLE_ID_PREFIX } from '../EditableTable';
@@ -30,13 +30,17 @@ export interface EditableQueryTableProps<T extends Record<string, any> = any>
   disabled?: boolean;
   enableOperator?: boolean;
   /** 操作栏额外操作按钮 */
-  operators?: TextActionProps[];
+  renderOperators?: (
+    ctx: { value: any; record: T; index: number } & Pick<QueryTableInstance, 'table' | 'modal'>
+  ) => TextActionProps[];
   /** 操作栏属性 */
   operatorProps?: QueryTableColumnType<T>;
   /** 渲染编辑按钮 */
   editButtonRender?: (data: T) => boolean;
   /** 渲染删除按钮 */
   deleteButtonRender?: (data: T) => boolean;
+  /** 新增按钮属性 */
+  addButtonProps?: Omit<ButtonActionProps, 'onClick' | 'disabled'>;
 }
 
 function IEditableQueryTable<RecordType extends Record<string, any> = any>(
@@ -51,12 +55,13 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
     onDelete,
     disabled,
     enableOperator = true,
-    operators = [],
+    renderOperators,
     operatorProps = {},
     tableProps,
     formProps,
     editButtonRender,
     deleteButtonRender,
+    addButtonProps,
     rowKey = 'id',
     ...restProps
   } = props;
@@ -68,7 +73,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
   const isAddRef = useRef(false);
   const memoDataSource = useRef<RecordType[]>();
 
-  const enableEdit = !!editingKey;
+  const enableEdit = !!editingKey || disabled;
 
   const mergedColumns = getColumns(columns, { disabled, rowKey, editingKey, baseRender: true });
 
@@ -96,6 +101,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
     try {
       const row = await form.validateFields();
       await onSave?.({ ...row, id: isAddRef.current ? undefined : id });
+      querytableRef.current?.table.refresh();
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
@@ -104,6 +110,8 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
       querytableRef.current?.table.setLoading(false);
     }
   };
+
+  const { pagination } = tableProps || {};
 
   return (
     <Form component="div" form={form}>
@@ -115,7 +123,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
           bordered: true,
           ...tableProps,
           components: { body: { cell: EditableTableCell } },
-          pagination: { disabled: enableEdit },
+          pagination: pagination === false ? false : { disabled: enableEdit, ...pagination },
         }}
         rowSelection={
           rowSelection
@@ -144,6 +152,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
                 {
                   children: '新增',
                   type: 'primary',
+                  ...addButtonProps,
                   disabled: enableEdit,
                   onClick: () => {
                     add();
@@ -154,7 +163,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
         {...restProps}
         // @ts-expect-error
         columns={
-          enableOperator
+          enableOperator && !disabled
             ? ([
                 ...mergedColumns,
                 {
@@ -163,7 +172,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
                   fixed: 'right',
                   width: 120,
                   ...operatorProps,
-                  render: ({ record }) => {
+                  render: ({ record, modal, table, index, value }) => {
                     return (
                       <TextActions
                         actions={[
@@ -213,7 +222,10 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
                               querytableRef.current?.table.refresh();
                             },
                           },
-                          ...operators,
+                          ...(renderOperators && !editingKey
+                            ? /* eslint-disable-next-line no-unsafe-optional-chaining */
+                              renderOperators?.({ record, modal, table, index, value })
+                            : []),
                         ]}
                       />
                     );

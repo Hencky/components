@@ -8,5 +8,5 @@ export type EditableTableColumnType<T> = ColumnType<T> & {
   renderEditNode?: (ctx: { form: FormInstance; record: T; index: number }) => React.ReactNode;
   render?: (ctx: { value: any; record: T; index: number }) => React.ReactNode;
   children?: EditableTableColumnType<T>[];
-  editable?: (record: T) => boolean;
+  editable?: (record: T, index: number) => boolean;
 };
