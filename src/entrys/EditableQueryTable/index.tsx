@@ -25,7 +25,7 @@ export interface EditableQueryTableProps<T extends Record<string, any> = any>
   extends Omit<QueryTableProps<T>, 'value' | 'onChange' | 'columns'> {
   columns: EditableTableColumnType<T>[];
   onDelete?: (id: string | number) => void;
-  onSave?: (data: { id?: string | number } & T) => void;
+  onSave?: (data: { id?: string | number } & T, record: T) => void;
   onChange?: (value: T[]) => void;
   disabled?: boolean;
   enableOperator?: boolean;
@@ -96,12 +96,11 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
     [querytableRef.current]
   );
 
-  const save = async (id) => {
+  const save = async (id, record) => {
     querytableRef.current?.table.setLoading(true);
     try {
       const row = await form.validateFields();
-      await onSave?.({ ...row, id: isAddRef.current ? undefined : id });
-      querytableRef.current?.table.refresh();
+      await onSave?.({ ...row, id: isAddRef.current ? undefined : id }, record);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
@@ -192,7 +191,7 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
                             type: 'primary',
                             render: editingKey === record.id,
                             onClick: async () => {
-                              await save(record.id);
+                              await save(record.id, record);
                               isAddRef.current = false;
                               setEditingKey('');
                               form.resetFields();
