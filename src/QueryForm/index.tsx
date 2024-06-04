@@ -26,6 +26,9 @@ export interface QueryFormProps<Values = any> extends Omit<FormProps<Values>, 'f
   /** 是否显示分割线， 默认true */
   showDivider?: boolean;
 
+  /** 只有一个字段时，单一展示 */
+  allowSingleSearch?: boolean;
+
   resetActionProps?: Omit<ButtonActionProps, 'onClick'>;
   queryActionProps?: Omit<ButtonActionProps, 'onClick'>;
 }
@@ -40,6 +43,7 @@ export const QueryForm: <Values = any>(props: React.PropsWithChildren<QueryFormP
     form = Form.useForm()[0],
     onReset,
     onSubmit,
+    allowSingleSearch = true,
     showFieldsLength = 3,
     defaultExpand = false,
     showDivider = true,
@@ -54,7 +58,7 @@ export const QueryForm: <Values = any>(props: React.PropsWithChildren<QueryFormP
   const fields = allFields.filter((i) => i.render !== false);
 
   const needCollapse = fields.length > showFieldsLength;
-  const isSingleSearch = fields.length === 1;
+  const isSingleSearch = allowSingleSearch && fields.length === 1;
 
   // ===== 重置 =====
   const handleReset = useCallback(async () => {
