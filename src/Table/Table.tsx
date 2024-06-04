@@ -189,6 +189,9 @@ function BasicTable<RecordType extends Record<string, any> = any>(
               current: paginationRef.current.current,
               total: paginationRef.current.total,
               onShowSizeChange: handleShowSizeChange,
+              showTotal(total) {
+                return `共 ${total} 条`;
+              },
             }
       }
       rowSelection={rowSelection ? internalRowSelection : undefined}
