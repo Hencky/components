@@ -84,11 +84,13 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
   const onSubmit = (values) => {
     const currentPagination = tableRef.current!.getPagination();
     tableRef.current!.setPagination({ ...currentPagination, current: 1 });
+    formProps.onSubmit?.(values);
     return tableRef.current!.refresh(values);
   };
 
   // ===== 重置 =====
   const onReset = () => {
+    formProps.onReset?.();
     return tableRef.current!.reset();
   };
 
