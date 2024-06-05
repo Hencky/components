@@ -10,16 +10,17 @@ import React, {
 import { Form } from 'antd';
 import { uniqueId } from 'lodash';
 import { QueryTable, type QueryTableProps, type QueryTableColumnType, type QueryTableInstance } from '../../QueryTable';
-import { EditableTableCell } from '../EditableTable/Cell';
 import { ButtonActionProps, TextActionProps, TextActions } from '../../Actions';
-import type { EditableTableColumnType } from '../EditableTable';
 import { getColumns } from '../EditableTable/utils';
+import { EditableTableCell } from '../EditableTable/Cell';
 import { EDITABLETABLE_ID_PREFIX } from '../EditableTable';
+import type { EditableTableColumnType } from '../EditableTable';
 
 const { useForm } = Form;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface EditableQueryTableInstance<T extends Record<string, any> = any> extends QueryTableInstance<T> {}
+export interface EditableQueryTableInstance<T extends Record<string, any> = any> extends QueryTableInstance<T> {
+  add: (initialValue?: Record<string, any>) => void;
+}
 
 export interface EditableQueryTableProps<T extends Record<string, any> = any>
   extends Omit<QueryTableProps<T>, 'value' | 'onChange' | 'columns'> {
@@ -77,13 +78,13 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
 
   const mergedColumns = getColumns(columns, { disabled, rowKey, editingKey, baseRender: true });
 
-  const add = () => {
+  const add: EditableQueryTableInstance<RecordType>['add'] = (initialValue?) => {
     if (editingKey) return;
     isAddRef.current = true;
     const dataSouce = querytableRef.current?.tableRef.current!.getDataSource() || [];
     memoDataSource.current = [...dataSouce];
     const newId = uniqueId(EDITABLETABLE_ID_PREFIX);
-    querytableRef.current?.table.setDataSource([{ id: newId, _new: true }, ...dataSouce]);
+    querytableRef.current?.table.setDataSource([{ id: newId, ...initialValue, _new: true }, ...dataSouce]);
     setEditingKey(newId);
   };
 
