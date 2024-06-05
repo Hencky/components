@@ -84,7 +84,10 @@ function IEditableQueryTable<RecordType extends Record<string, any> = any>(
     const dataSouce = querytableRef.current?.tableRef.current!.getDataSource() || [];
     memoDataSource.current = [...dataSouce];
     const newId = uniqueId(EDITABLETABLE_ID_PREFIX);
-    querytableRef.current?.table.setDataSource([{ id: newId, ...initialValue, _new: true }, ...dataSouce]);
+    querytableRef.current?.table.setDataSource([{ id: newId, _new: true }, ...dataSouce]);
+    if (initialValue) {
+      form.setFieldsValue(initialValue);
+    }
     setEditingKey(newId);
   };
 
