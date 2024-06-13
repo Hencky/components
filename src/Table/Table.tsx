@@ -1,5 +1,6 @@
 import React, { useState, forwardRef, useEffect, useRef, useImperativeHandle } from 'react';
 import type { ForwardedRef, ReactElement, PropsWithChildren } from 'react';
+import cls from 'classnames';
 import { Table as ATable } from 'antd';
 import type { TableProps as ATableProps } from 'antd/lib/table';
 import type { Key, SorterResult, TableRowSelection } from 'antd/lib/table/interface';
@@ -12,7 +13,10 @@ import type {
   ColumnType,
   TableInstance,
 } from './interface';
+import { usePrefix } from '../_hooks';
 import { setRef, renderColumns } from '../_util';
+
+import './table.less';
 
 const DEFAULT_PAGINATION = { size: 10, current: 1, total: 0 } as const;
 
@@ -37,6 +41,7 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   const {
     rowKey = 'id',
     columns = [],
+    className,
     remoteDataSource,
     pagination,
     rowSelection,
@@ -44,6 +49,8 @@ function BasicTable<RecordType extends Record<string, any> = any>(
     requestOnMount,
     ...restTableProps
   } = props;
+
+  const prefix = usePrefix('base-table');
 
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState<RecordType[]>([]);
@@ -173,7 +180,8 @@ function BasicTable<RecordType extends Record<string, any> = any>(
 
   return (
     <ATable<RecordType>
-      bordered
+      className={cls(prefix, className)}
+      bordered={false}
       rowKey={rowKey}
       // ===== 改写columns，render支持form和table实例，省略dataIndex配置 =====
       columns={renderColumns(columns, { table: getTableInstance() })}

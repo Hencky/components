@@ -46,7 +46,7 @@ export const QueryForm: <Values = any>(props: React.PropsWithChildren<QueryFormP
     allowSingleSearch = true,
     showFieldsLength = 3,
     defaultExpand = false,
-    showDivider = true,
+    showDivider = false,
     resetActionProps,
     queryActionProps,
     ...formProps

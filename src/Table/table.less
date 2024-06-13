@@ -1,0 +1,17 @@
+@import '../style/index.less';
+
+@table-prefix-cls: ~'@{ant-prefix}-base-table';
+
+.@{table-prefix-cls} {
+  thead > tr > th {
+    background: #f3f3f3;
+  }
+
+  tbody > tr:nth-child(odd) {
+    background: #fafafa;
+  }
+
+  tbody > tr:nth-child(odd) > td {
+    background: #fafafa;
+  }
+}
