@@ -28,6 +28,7 @@ export const columns: ColumnType<RecordType>[] = [
   {
     key: 'senderName',
     title: '发送人',
+    tooltip: '提示',
   },
   {
     key: 'recipientName',

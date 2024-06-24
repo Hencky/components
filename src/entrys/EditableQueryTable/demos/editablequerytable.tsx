@@ -10,6 +10,7 @@ const columns = [
     dataIndex: 'name',
     key: 'name',
     title: 'name',
+    tooltip: '提示',
     renderEditNode: () => <Input size="small" />,
     editFormItemProps: {
       rules: [{ required: true, message: '请输入name' }],

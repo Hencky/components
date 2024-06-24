@@ -88,4 +88,5 @@ export interface ColumnType<RecordType> extends Omit<AColumnType<RecordType>, 'r
   /** 列显示状态，为false时隐藏列 */
   visible?: boolean;
   children?: ColumnType<RecordType>[];
+  tooltip?: string;
 }
