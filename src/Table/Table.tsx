@@ -99,13 +99,13 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   };
 
   // ===== 表格重置 =====
-  const reset = () => {
+  const reset = (initialValues) => {
     setRef(paginationRef, defaultPagination);
-    setRef(filterRef, null);
+    setRef(filterRef, initialValues);
     setRef(sorterRef, null);
     setRef(selectedRowsRef, []);
     setRef(selectedRowKeysRef, []);
-    refreshTable();
+    refreshTable(initialValues);
   };
 
   // ===== 表格实例 =====

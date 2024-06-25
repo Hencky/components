@@ -6,11 +6,12 @@ import React, {
   type ReactElement,
   type ForwardedRef,
   type PropsWithChildren,
+  useEffect,
 } from 'react';
 import { Form } from 'antd';
 import cls from 'classnames';
 import { usePrefix } from '../_hooks';
-import { isEmptyActions } from '../_util';
+import { isEmptyActions, setRef } from '../_util';
 import { QueryForm, type QueryFormProps } from '../QueryForm';
 import { ModalForm, type ModalFormInstance } from '../ModalForm';
 import { OperatorActions, type QueryTableActionType } from './OperatorActions';
@@ -75,6 +76,8 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
   const tableRef = useRef<TableInstance>(null);
   const modalRef = useRef<ModalFormInstance>(null);
 
+  const initialValuesRef = useRef();
+
   // ===== 刷新，用于更新action组件 =====
   const forceUpdate = () => {
     update({});
@@ -91,7 +94,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
   // ===== 重置 =====
   const onReset = () => {
     formProps.onReset?.();
-    return tableRef.current!.reset();
+    return tableRef.current!.reset(initialValuesRef.current);
   };
 
   const getQueryTableInstance = () => ({
@@ -158,6 +161,12 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
       }
     : undefined;
 
+  useEffect(() => {
+    const initialValues = form.getFieldsValue();
+    setRef(initialValuesRef, initialValues);
+    tableRef.current?.refresh(initialValues);
+  }, []);
+
   return (
     <div className={cls(prefix, className)} style={style}>
       {!!showFieldsLength && (
@@ -181,6 +190,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
         rowSelection={finalRowSelection}
         remoteDataSource={remoteDataSource}
         {...tableProps}
+        requestOnMount={false}
       />
 
       <ModalForm ref={modalRef} />

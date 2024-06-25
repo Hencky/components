@@ -57,7 +57,7 @@ export interface TableInstance<RecordType = any> {
   /** 刷新表格 */
   refresh: (extraRefreshParams?: Record<string, any>) => Promise<void> | undefined;
   /** 重置表格到初始状态 */
-  reset: () => void;
+  reset: (initialValues?: Record<string, any>) => void;
   /** 获取表格选中行数据 */
   getSelectedRowKeys: () => Key[];
   /** 设置表格选中行数据 */
