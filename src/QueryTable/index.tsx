@@ -38,8 +38,9 @@ export interface QueryTableColumnType<RecordType> extends Omit<ColumnType<Record
 }
 
 export interface QueryTableProps<RecordType extends Record<string, any> = any, SearchValues = any>
-  extends Pick<QueryFormProps<SearchValues>, 'fields' | 'initialValues' | 'showFieldsLength'>,
+  extends Pick<QueryFormProps<SearchValues>, 'initialValues' | 'showFieldsLength'>,
     Pick<TableProps, Exclude<OutsideTableType, 'columns'>> {
+  fields?: QueryFormProps<SearchValues>['fields'];
   columns: QueryTableColumnType<RecordType>[];
   tableProps?: Omit<TableProps<RecordType>, OutsideTableType>;
   leftActions?: QueryTableActionType[];
@@ -55,7 +56,7 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
 ) {
   const prefix = usePrefix('querytable');
   const {
-    fields,
+    fields = [],
     initialValues,
     showFieldsLength = 3,
     rowKey,
@@ -108,7 +109,6 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
   useImperativeHandle(ref, getQueryTableInstance, [tableRef.current, modalRef.current]);
 
   // ===== 改写columns，render支持form和table实例，省略dataIndex配置 =====
-  // TODO: 暂不支持children属性
   const renderColumns = (): ColumnType<RecordType>[] => {
     return columns.map((column) => {
       const finalRender = column.render

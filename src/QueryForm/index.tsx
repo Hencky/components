@@ -143,6 +143,8 @@ export const QueryForm: <Values = any>(props: React.PropsWithChildren<QueryFormP
     return 0;
   }, [fields, isOpen, needCollapse, finalSpan]);
 
+  if (!fields?.length) return <div />;
+
   return (
     <div
       className={cls({
