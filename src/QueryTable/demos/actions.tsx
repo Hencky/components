@@ -114,7 +114,9 @@ const Demo = () => {
     <QueryTable
       fields={fields.map((item) => ({ ...item, rules: [] }))}
       columns={cols}
-      // leftActions={actions}
+      leftActions={() => {
+        return <div>abcdef</div>;
+      }}
       actions={actions}
       remoteDataSource={remoteDataSource}
     />

@@ -11,6 +11,7 @@ import {
 import { isEmptyActions } from '../_util';
 import { DropdownButton, type DropdownButtonProps } from '../Dropdown';
 import { type QueryTableInstance } from './interface';
+import { isFunction } from 'lodash';
 
 export type QueryTableContext<RecordType = any> = QueryTableInstance<RecordType>;
 
@@ -39,7 +40,7 @@ const Actions = {
 };
 
 export interface OperatorActionsProps {
-  actions?: QueryTableActionType[];
+  actions?: QueryTableActionType[] | ((ctx: QueryTableInstance) => React.ReactElement);
   getCtx: () => QueryTableInstance;
 }
 
@@ -47,6 +48,10 @@ export const OperatorActions: React.FC<OperatorActionsProps> = (props) => {
   const { actions, getCtx } = props;
 
   if (isEmptyActions(actions)) return null;
+
+  if (isFunction(actions)) {
+    return actions(getCtx()) as React.ReactElement;
+  }
 
   const getActions = (actions: QueryTableActionType[] = []) => {
     return actions.map((item, idx) => {

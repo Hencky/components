@@ -7,5 +7,6 @@ export const isFunction = (obj: any): boolean => {
 };
 
 export const isEmptyActions = (actions) => {
+  if (isFunction(actions)) return false;
   return !(actions && actions.filter((i) => i.render !== false).length);
 };

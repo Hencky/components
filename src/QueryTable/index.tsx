@@ -14,7 +14,7 @@ import { usePrefix } from '../_hooks';
 import { isEmptyActions, setRef } from '../_util';
 import { QueryForm, type QueryFormProps } from '../QueryForm';
 import { ModalForm, type ModalFormInstance } from '../ModalForm';
-import { OperatorActions, type QueryTableActionType } from './OperatorActions';
+import { OperatorActions, type OperatorActionsProps } from './OperatorActions';
 import { Table, type TableProps, type TableInstance, type ColumnType } from '../Table';
 import { type QueryTableInstance } from './interface';
 
@@ -43,8 +43,8 @@ export interface QueryTableProps<RecordType extends Record<string, any> = any, S
   fields?: QueryFormProps<SearchValues>['fields'];
   columns: QueryTableColumnType<RecordType>[];
   tableProps?: Omit<TableProps<RecordType>, OutsideTableType>;
-  leftActions?: QueryTableActionType[];
-  actions?: QueryTableActionType[];
+  leftActions?: OperatorActionsProps['actions'];
+  actions?: OperatorActionsProps['actions'];
   formProps?: Omit<QueryFormProps<SearchValues>, 'fields' | 'initialValues' | 'showFieldsLength'>;
   style?: React.CSSProperties;
   className?: string;
