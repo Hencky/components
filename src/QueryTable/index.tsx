@@ -173,9 +173,9 @@ function BaseQueryTable<RecordType extends Record<string, any> = any, SeachValue
         <QueryForm<SeachValues>
           form={form}
           fields={fields}
+          {...formProps}
           onReset={onReset}
           onSubmit={onSubmit}
-          {...formProps}
           showFieldsLength={showFieldsLength}
           initialValues={initialValues}
         />
