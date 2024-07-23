@@ -156,7 +156,8 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
   if (dependency) {
     const { visible, deps, options } = dependency as Deps;
 
-    const { condition: visibleCondition } = (visible || {}) as SingleDepCondition<boolean>;
+    const { condition: visibleCondition, result: visibleResult = true } = (visible ||
+      {}) as SingleDepCondition<boolean>;
     const { condition: optionCondition, result: optionResult } = (options || {}) as SingleDepCondition<any[]>;
 
     return (
@@ -172,7 +173,10 @@ export function FormItem<Values>(props: PropsWithChildren<FormItemProps<Values>>
             });
           }
 
-          if (visible && isMatched(visibleCondition)) {
+          if (
+            visible &&
+            ((isMatched(visibleCondition) && visibleResult) || (!isMatched(visibleCondition) && !visibleResult))
+          ) {
             return renderColWrapper(itemElement);
           }
 

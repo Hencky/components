@@ -12,7 +12,7 @@ const options = [
 const Demo = () => {
   const [form] = Form.useForm();
   return (
-    <Card>
+    <Card title="显示隐藏关联">
       <Form form={form}>
         <Row gutter={24}>
           <FormItem
@@ -42,6 +42,7 @@ const Demo = () => {
                 deps: ['first'],
                 visible: {
                   condition: [['1']],
+                  result: false,
                 },
               },
               children: (
