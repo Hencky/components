@@ -161,6 +161,7 @@ function BasicTable<RecordType extends Record<string, any> = any>(
   const onRowSelectionChange = (currentSelectedRowKeys, currentSelectedRows, info) => {
     setRef(selectedRowsRef, currentSelectedRows);
     setRef(selectedRowKeysRef, currentSelectedRowKeys);
+    forceUpdate({});
     (rowSelection as TableRowSelection<RecordType>)?.onChange?.(currentSelectedRowKeys, currentSelectedRows, info);
   };
 
